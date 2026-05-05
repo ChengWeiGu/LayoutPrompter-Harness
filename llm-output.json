@@ -1,0 +1,652 @@
+{
+    "screen_name": "test1",
+    "screen_size": {
+        "width": 800,
+        "height": 480
+    },
+    "screen_properties": {
+        "color": {
+            "a": "255",
+            "b": "80",
+            "g": "224",
+            "r": "32"
+        },
+        "border": {
+            "color": {
+                "a": "255",
+                "b": "40",
+                "g": "112",
+                "r": "15"
+            },
+            "width": "1"
+        }
+    },
+    "objects": [
+        {
+            "objectTypeName": "Lamp",
+            "name": "Lamp_david",
+            "outline": {
+                "galleryName": "System Lamp - Standard.flbx",
+                "index": 0,
+                "color": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "221",
+                    "r": "128"
+                }
+            },
+            "background": {
+                "color": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "255",
+                    "r": "255"
+                },
+                "radius": "20",
+                "border": {
+                    "color": {
+                        "a": "255",
+                        "b": "15",
+                        "g": "112",
+                        "r": "64"
+                    },
+                    "style": "4",
+                    "width": "8"
+                }
+            },
+            "label": {
+                "text": "0966552",
+                "fontStyle": "Calibri",
+                "fontSize": "10",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {
+                    "left": "3",
+                    "right": "3"
+                },
+                "blinking": 1000,
+                "scrolling": {
+                    "direction": "4",
+                    "repeated": "1",
+                    "speed": "5"
+                }
+            },
+            "profile": {
+                "x": "74",
+                "y": "70",
+                "width": "60",
+                "height": "60",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Lamp",
+            "name": "Lamp_good",
+            "outline": {
+                "galleryName": "System Lamp - Flat.flbx",
+                "index": 4,
+                "color": {
+                    "a": "255",
+                    "b": "100",
+                    "g": "102",
+                    "r": "251"
+                }
+            },
+            "background": {
+                "color": {
+                    "a": "255",
+                    "b": "224",
+                    "g": "80",
+                    "r": "32"
+                },
+                "radius": "5",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "4",
+                    "width": "2"
+                }
+            },
+            "label": {
+                "text": "My2ndLamp",
+                "fontStyle": "Calibri",
+                "fontSize": "14",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": "192",
+                "y": "70",
+                "width": "120",
+                "height": "60",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Button",
+            "name": "Button",
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 5,
+                "color": {
+                    "a": "255",
+                    "b": "128",
+                    "g": "179",
+                    "r": "255"
+                }
+            },
+            "background": {
+                "color": {
+                    "a": "255",
+                    "b": "15",
+                    "g": "112",
+                    "r": "64"
+                },
+                "radius": "5",
+                "border": {
+                    "color": {
+                        "a": "255",
+                        "b": "32",
+                        "g": "224",
+                        "r": "128"
+                    },
+                    "style": "4",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "text": "",
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": "350",
+                "y": "80",
+                "width": "100",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Switch",
+            "name": "Switch",
+            "outline": {
+                "galleryName": "System Switch - Flat.flbx",
+                "index": 5,
+                "color": {
+                    "a": "255",
+                    "b": "127",
+                    "g": "255",
+                    "r": "255"
+                }
+            },
+            "background": {
+                "color": {
+                    "a": "255",
+                    "b": "224",
+                    "g": "80",
+                    "r": "32"
+                },
+                "radius": "3",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "1",
+                    "width": "5"
+                }
+            },
+            "label": {
+                "text": "",
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": "490",
+                "y": "80",
+                "width": "116",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "OptionList",
+            "name": "Option List",
+            "style": 0,
+            "outline": {
+                "backgroundColor": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "239",
+                    "r": "222"
+                },
+                "selectionColor": {
+                    "a": "255"
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                }
+            },
+            "profile": {
+                "x": "646",
+                "y": "83",
+                "width": "100",
+                "height": "35",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Slider",
+            "name": "Slider",
+            "outline": {
+                "style": 0,
+                "direction": 1,
+                "blockStyle": 2,
+                "blockWidth": "30",
+                "blockColor": {
+                    "a": "255",
+                    "b": "127",
+                    "g": "170",
+                    "r": "255"
+                },
+                "frameColor": {
+                    "a": "255",
+                    "b": "145",
+                    "g": "216",
+                    "r": "240"
+                },
+                "backgroundColor": {
+                    "a": "255",
+                    "b": "80",
+                    "g": "224",
+                    "r": "32"
+                },
+                "slotColor": {
+                    "a": "255",
+                    "b": "15",
+                    "g": "112",
+                    "r": "64"
+                }
+            },
+            "profile": {
+                "x": "84",
+                "y": "165",
+                "width": "40",
+                "height": "150",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Numeric",
+            "name": "Numeric",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 3,
+                "color": {
+                    "a": "255",
+                    "b": "153",
+                    "g": "128",
+                    "r": "255"
+                }
+            },
+            "background": {
+                "color": {
+                    "a": "255",
+                    "b": "224",
+                    "g": "224",
+                    "r": "32"
+                },
+                "radius": "10",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "5",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {}
+            },
+            "profile": {
+                "x": "202",
+                "y": "220",
+                "width": "100",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "TextInput",
+            "name": "Text",
+            "outline": {
+                "galleryName": "System Input Box - Ribbon.flbx",
+                "index": 0,
+                "color": {}
+            },
+            "background": {
+                "color": {},
+                "radius": "0",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "5",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {}
+            },
+            "profile": {
+                "x": "350",
+                "y": "220",
+                "width": "100",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "DrawingRectangle",
+            "name": "Rectangle",
+            "frame": {
+                "frameColor": {
+                    "a": "255"
+                },
+                "frameWidth": 4,
+                "style": 0,
+                "frameRadius": "15"
+            },
+            "interior": {
+                "color": {
+                    "a": "255",
+                    "g": "255",
+                    "r": "255"
+                }
+            },
+            "profile": {
+                "x": "484",
+                "y": "205",
+                "width": "129",
+                "height": "70",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Text",
+            "name": "Text (2)",
+            "outline": {
+                "galleryName": "",
+                "index": 0,
+                "color": {}
+            },
+            "background": {
+                "color": {},
+                "radius": "0",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "5",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "text": "",
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": "631",
+                "y": "220",
+                "width": "130",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Button",
+            "name": "Button (2)",
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 0,
+                "color": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "221",
+                    "r": "128"
+                }
+            },
+            "background": {
+                "color": {},
+                "radius": "0",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "5",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "text": "",
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": "54",
+                "y": "355",
+                "width": "100",
+                "height": "50",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "DrawingRectangle",
+            "name": "Rectangle (2)",
+            "frame": {
+                "frameColor": {
+                    "a": "255"
+                },
+                "frameWidth": 1,
+                "style": 0,
+                "frameRadius": "0"
+            },
+            "interior": {
+                "color": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "255",
+                    "r": "255"
+                }
+            },
+            "profile": {
+                "x": "192",
+                "y": "355",
+                "width": "120",
+                "height": "50",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "OptionList",
+            "name": "Option List (2)",
+            "style": 1,
+            "outline": {
+                "backgroundColor": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "239",
+                    "r": "222"
+                },
+                "selectionColor": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "191",
+                    "r": "87"
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontItalic": "0",
+                "fontUnderline": "0",
+                "fontColor": {
+                    "a": "255"
+                }
+            },
+            "profile": {
+                "x": "350",
+                "y": "363",
+                "width": "100",
+                "height": "35",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "Numeric",
+            "name": "Numeric (2)",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 3,
+                "color": {
+                    "a": "255",
+                    "b": "255",
+                    "g": "221",
+                    "r": "128"
+                }
+            },
+            "background": {
+                "color": {},
+                "radius": "0",
+                "border": {
+                    "color": {
+                        "a": "255"
+                    },
+                    "style": "5",
+                    "width": "1"
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": "16",
+                "fontBold": "0",
+                "fontColor": {
+                    "a": "255"
+                },
+                "alignment": "4",
+                "padding": {}
+            },
+            "profile": {
+                "x": "498",
+                "y": "360",
+                "width": "100",
+                "height": "40",
+                "rotation": "0"
+            }
+        },
+        {
+            "objectTypeName": "DrawingRectangle",
+            "name": "recTest",
+            "frame": {
+                "frameColor": {
+                    "a": "255"
+                },
+                "frameWidth": 1,
+                "style": 0,
+                "frameRadius": "0"
+            },
+            "interior": {
+                "color": {
+                    "a": "255",
+                    "b": "216",
+                    "g": "145",
+                    "r": "240"
+                }
+            },
+            "profile": {
+                "x": "646",
+                "y": "355",
+                "width": "101",
+                "height": "50",
+                "rotation": "0"
+            }
+        }
+    ]
+}

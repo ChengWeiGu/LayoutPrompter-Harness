@@ -1,0 +1,448 @@
+{
+    "name": "Custom Widget",
+    "comment": "",
+    "properties": {
+        "general": {
+            "widgetType": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "UDINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "28771",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "widgetType"
+            }
+        },
+        "enableVisible": {
+            "visible": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "BOOL",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "1",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "visible"
+            },
+            "enabled": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "BOOL",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "1",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "enabled"
+            }
+        },
+        "profile": {
+            "pinned": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "BOOL",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "0",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "pinned"
+            },
+            "x": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "DINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "92",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "x"
+            },
+            "y": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "DINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "269",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "y"
+            },
+            "width": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "DINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "136",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "width"
+            },
+            "height": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "DINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "90",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "height"
+            },
+            "lockAspectRatio": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "BOOL",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "0",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "lockAspectRatio"
+            },
+            "rotation": {
+                "variable": {
+                    "name": "Property",
+                    "comment": "",
+                    "dataType": {
+                        "type": {
+                            "$value": "dtsDataType",
+                            "#enumType": 3
+                        },
+                        "reference": {
+                            "category": {
+                                "$value": "Elementary",
+                                "#enumType": 0
+                            },
+                            "descriptionSlashSeparated": {
+                                "$value": "DINT",
+                                "#dataType": 75
+                            },
+                            "#dataType": 4115
+                        },
+                        "#dataType": 4114
+                    },
+                    "arrayRanges": {
+                        "$elements": null,
+                        "#elementDataType": 4096
+                    },
+                    "#dataType": 4113
+                },
+                "value": {
+                    "value": "0",
+                    "#dataType": 4117
+                },
+                "bindingMediator": {
+                    "$value": null,
+                    "#dataType": 1
+                },
+                "dirty": false,
+                "name-id": "rotation"
+            }
+        },
+        "#schema": {
+            "general": {
+                "widgetType": 4112,
+                "#dataType": 195,
+                "#elementDataType": 192
+            },
+            "enableVisible": {
+                "visible": 4112,
+                "enabled": 4112,
+                "#dataType": 195,
+                "#elementDataType": 192
+            },
+            "profile": {
+                "pinned": 4112,
+                "x": 4112,
+                "y": 4112,
+                "width": 4112,
+                "height": 4112,
+                "lockAspectRatio": 4112,
+                "rotation": 4112,
+                "#dataType": 195,
+                "#elementDataType": 192
+            }
+        }
+    },
+    "events": {
+        "$elements": null,
+        "#elementDataType": 4096
+    },
+    "thingType": 28771,
+    "customModelReference": {
+        "type": {
+            "$value": "entity",
+            "#enumType": 3
+        },
+        "reference": {
+            "objectType": 8,
+            "objectName": "Custom Model (2)",
+            "#dataType": 4128
+        },
+        "#dataType": 4114
+    },
+    "script": {
+        "content": "",
+        "#dataType": 4148
+    },
+    "#dataType": 4147
+}
