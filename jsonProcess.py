@@ -1,4 +1,5 @@
 import os
+import copy
 import json
 
 
@@ -601,53 +602,6 @@ def decodeOthers(obj_json:dict) -> dict:
     return data
 
 
-"""LLM可以調用的工具-1"""
-def decodeScreenLayoutFromJSON(screen_name:str, filename:str = "blank.json") -> dict:
-    # open file
-    with open(filename, 'r', encoding='utf-8') as f:
-        project_json = json.load(f)
-        proj_header = project_json["header"]
-        
-    screen_names = getScreenNames(project_json)
-    screen_size = getProjectSize(project_json)
-    screen_idx = screen_names[screen_name]
-    _screens = project_json["body"]["dataSections"]["windowSection"]["screens"]["children"]["$elements"]
-    sc = _screens[screen_idx] # screen json
-    bg_widget = decodeScreenBG(sc)
-
-    strTables = project_json["body"]["dataSections"]["stringLibrarySection"]["stringTables"]["$elements"]
-    _objs = sc["data"]["rootLayer"]["subLayers"]["$elements"]
-    
-    objects = []
-    for _obj in _objs:
-        obj_type = getObjType(_obj)
-        if obj_type in ["Lamp","Button","Switch","Text"]:
-            objects.append(decodeGeneralObject(_obj, strTables))
-        elif obj_type == "OptionList":
-            objects.append(decodeOptionList(_obj))
-        elif obj_type == "Slider":
-            objects.append(decodeSlider(_obj))
-        elif obj_type in ["Numeric","TextInput"]:
-            objects.append(decodeInputObject(_obj))
-        elif obj_type == "DrawingRectangle":
-            objects.append(decodeRectangle(_obj))
-        else:
-            objects.append(decodeOthers(_obj))
-    
-    data = {
-        "screen_name":screen_name,
-        "screen_size":screen_size,
-        "screen_properties":bg_widget,
-        "objects":objects
-    }
-
-    # save file
-    # save_filename = f"pseudo-{screen_name}.json"
-    # with open(save_filename, 'w', encoding='utf-8') as f:
-    #     json.dump(data, f, ensure_ascii=False, indent=4)
-    
-    return data
-
 
 
 def encodeScreenBG(sc_json:dict, sc_pseudo_json:dict):
@@ -663,10 +617,11 @@ def encodeScreenBG(sc_json:dict, sc_pseudo_json:dict):
 
 
 """Descr
-- 對應 `decodeGeneralObject`
+- 對應 `decodeGeneralObject`, 共用物件: Lamp/Switch/Button/Text
 - 將修改後的 pseudo json 轉回原生 JSON 格式
 - one-to-one 的轉換
 - 只改物件第一個狀態對應的 stringLib | 新增第一個 stringTable 的 stringLib
+- [暫時忽略] 需要確保 Object Name 一致: obj → properties → general → task → value → statements → $elements
 """
 def encodeGeneralObject(obj_json:dict, stringLibTables:list, obj_pseudo_json:dict):
     """讀 Pseudo JSON"""
@@ -679,6 +634,11 @@ def encodeGeneralObject(obj_json:dict, stringLibTables:list, obj_pseudo_json:dic
     
     # Object ID
     obj_json["name"] = name
+    # Lamp/Switch Task 中的 ID 也要確保一致, 對於Button 等物件 element 是 null
+    # _taskVal = obj_json.get("properties",{}).get("general",{}).get("task",{}).get("value",{}).get("statements",{}).get("$elements",[])
+    # if not _taskVal: # 確保不是 null
+    #     for _task in _taskVal:
+    #         _task["methodReference"]["reference"]["objectName"] = name
     
     """Outline Section"""
     _outline = obj_json["properties"]["outline"]
@@ -960,6 +920,47 @@ def encodeOthers(obj_json:dict, obj_pseudo_json:dict):
     
 
 
+"""檢查LLM生成的 JSON 符合格式"""
+def isPseudoView(pseudo_json:dict) -> bool:
+    standard_format = {
+        "screen_name":"demo3",
+        "screen_size":{"width": 800, "height": 480},
+        "screen_properties":{
+            "color": {"a": "255", "b": "185", "g": "110", "r": "100"},
+            "border": {"color": {"a": "255"}, "style": "5"}
+        },
+        "objects":[]
+    }
+    
+    
+    if not isinstance(pseudo_json, dict):
+        print("[Fail] pseudo_json is not a dict")
+        return False
+    
+    """檢查第一層 Keys"""
+    standard_keys = set(standard_format.keys())
+    input_keys = set(pseudo_json.keys())
+    if input_keys != standard_keys:
+        missing_keys = standard_keys - input_keys
+        extra_keys = input_keys - standard_keys
+
+        if missing_keys:
+            print(f"[Fail] missing keys: {missing_keys}")
+
+        if extra_keys:
+            print(f"[Fail] extra keys: {extra_keys}")
+
+        return False
+    
+    """檢查 objects 是否為list"""
+    if not isinstance(pseudo_json["objects"], list):
+        print("[Fail] objects is not a list")
+        return False
+    
+    return True
+
+
+
 """
 _obj: 原始 JSON
 _strTables: string library table
@@ -1000,7 +1001,11 @@ def encodeScreenLayout2JSON(pseudo_json:dict, target_filename:str = "blank.json"
         _screens = _project_json["body"]["dataSections"]["windowSection"]["screens"]["children"]["$elements"]
         
         _sc = _screens[_screen_idx] # screen json
-        _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"] # obj list
+        _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"] # obj list, 空白視窗會是 null
+        if _objs is None:
+            _sc["data"]["rootLayer"]["subLayers"]["$elements"] = []
+            _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"]        
+        
         _obj_names = getObjNames(_objs)
         
         # override bg
@@ -1012,7 +1017,7 @@ def encodeScreenLayout2JSON(pseudo_json:dict, target_filename:str = "blank.json"
             obj_type = obj["objectTypeName"]
             # 若物件不存在則 insert
             if obj_name not in _obj_names:
-                _obj = ebx_object_default_json[obj_type] # 抓對應的原始物件
+                _obj = copy.deepcopy(ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                 autoencodeObj(_obj, _strTables, obj) # 更改該物件
                 _objs.insert(idx, _obj) # 插入該物件
             else:
@@ -1032,9 +1037,71 @@ def encodeScreenLayout2JSON(pseudo_json:dict, target_filename:str = "blank.json"
 
 
 
+"""LLM可以調用的工具1
+- 從 Project File 抽出 Screen View
+
+Args:
+- screen_name: screen name
+- filename: project 檔案名稱
+"""
+def decodeScreenLayoutFromJSON(screen_name:str, filename:str = "blank.json") -> dict:
+    # open file
+    with open(filename, 'r', encoding='utf-8') as f:
+        project_json = json.load(f)
+        proj_header = project_json["header"]
+        
+    screen_names = getScreenNames(project_json)
+    screen_size = getProjectSize(project_json)
+    screen_idx = screen_names[screen_name]
+    _screens = project_json["body"]["dataSections"]["windowSection"]["screens"]["children"]["$elements"]
+    sc = _screens[screen_idx] # screen json
+    bg_widget = decodeScreenBG(sc)
+
+    strTables = project_json["body"]["dataSections"]["stringLibrarySection"]["stringTables"]["$elements"]
+    _objs = sc["data"]["rootLayer"]["subLayers"]["$elements"] # _objs 為 null 當畫面為空時
+    
+    objects = []
+    
+    # 當畫面有物件時才進行decode
+    if _objs:
+        for _obj in _objs:
+            obj_type = getObjType(_obj)
+            if obj_type in ["Lamp","Button","Switch","Text"]:
+                objects.append(decodeGeneralObject(_obj, strTables))
+            elif obj_type == "OptionList":
+                objects.append(decodeOptionList(_obj))
+            elif obj_type == "Slider":
+                objects.append(decodeSlider(_obj))
+            elif obj_type in ["Numeric","TextInput"]:
+                objects.append(decodeInputObject(_obj))
+            elif obj_type == "DrawingRectangle":
+                objects.append(decodeRectangle(_obj))
+            else:
+                objects.append(decodeOthers(_obj))
+    
+    data = {
+        "screen_name":screen_name,
+        "screen_size":screen_size,
+        "screen_properties":bg_widget,
+        "objects":objects
+    }
+
+    # save file
+    # save_filename = f"pseudo-{screen_name}.json"
+    # with open(save_filename, 'w', encoding='utf-8') as f:
+    #     json.dump(data, f, ensure_ascii=False, indent=4)
+    
+    return data
+
+
+
 """LLM使用的工具2
 - 檔案到檔案的複寫
 - 必須先將LLM的美化結果先輸出一個檔案例如 llm-output.json
+
+Args:
+- source_filename: 來源檔案名稱
+- target_filename: 目標檔案名稱
 """
 def overrideScreenLayout2JSON(source_filename:str, target_filename:str):
     state = "[Override Success]"
@@ -1078,15 +1145,20 @@ def createNewObjects(widget_list:list, screen_name:str, target_filename:str = "b
         _screens = _project_json["body"]["dataSections"]["windowSection"]["screens"]["children"]["$elements"]
         
         _sc = _screens[_screen_idx] # screen json
-        _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"] # obj list
+        _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"] # obj list, 空白視窗會是 null
+        if _objs is None:
+            _sc["data"]["rootLayer"]["subLayers"]["$elements"] = []
+            _objs = _sc["data"]["rootLayer"]["subLayers"]["$elements"]
+        
         _obj_names = getObjNames(_objs)
+        
         # scan psuedo
         for idx, obj in enumerate(widget_list):
             obj_name = obj["name"]
             obj_type = obj["objectTypeName"]
-            # 若物件不存在則 insert
+            # 若物件不存在則 append
             if obj_name not in _obj_names:
-                _obj = ebx_object_default_json[obj_type] # 抓對應的原始物件
+                _obj = copy.deepcopy(ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                 autoencodeObj(_obj, _strTables, obj) # 更改該物件
                 _objs.append(_obj) # 插入該物件(加入到最後)
                 out += f"Create Object `{obj_name}` success\n"
@@ -1123,7 +1195,7 @@ if __name__ == "__main__":
         strTables = project_json["body"]["dataSections"]["stringLibrarySection"]["stringTables"]["$elements"]
         # print(strTables)
         
-        _objs = sc["data"]["rootLayer"]["subLayers"]["$elements"]
+        _objs = sc["data"]["rootLayer"]["subLayers"]["$elements"] # 空白畫面會是 null
         # _lamp = _objs[0]
         # _lamp2 = _objs[1]
     #     _btn = _objs[2]

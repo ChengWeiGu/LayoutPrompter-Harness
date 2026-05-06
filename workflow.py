@@ -18,7 +18,7 @@ temperature=0.7
 
 
 """read system prompt from CONFIG_PATH"""
-def read_sys_prompt(config_path: Path = CONFIG_PATH, section: str = "PROMPOT") -> str:
+def read_sys_prompt(config_path: Path = CONFIG_PATH, section: str = "PROMPT") -> str:
     parser = configparser.ConfigParser()
     parser.read(config_path, encoding="utf-8")
     _file=parser[section]["system_prompt_file"]
@@ -28,6 +28,38 @@ def read_sys_prompt(config_path: Path = CONFIG_PATH, section: str = "PROMPOT") -
     return _prompt
 
 DEFAULT_SYSTEM_PROMPT = read_sys_prompt()
+
+
+"""讀取圖片
+- Claude 預設吃 Byte
+"""
+def ReadImageByteData(image_path:str) -> dict:
+    ext = image_path.split(".")[-1].lower()
+    if ext not in ["png", "jpg", "jpeg"]:
+        return {
+                "role": "user", 
+                "content":[
+                        {
+                            "text": "System only accept image file with extenstion of png/jpg/jpeg."
+                        }
+                    ]
+                }
+
+    with open(image_path, "rb") as f:
+        image_bytes = f.read()
+        return {
+                "role": "user", 
+                "content":[
+                        {
+                            "image": {
+                                "format": ext,
+                                "source": {
+                                    "bytes": image_bytes #no base64 encoding required!
+                                }
+                            }
+                        }
+                    ]
+                }
 
 
 """工具檢測"""
@@ -57,8 +89,7 @@ def catch_tool_output(text:str) -> tuple:
                 return False ,f"[Fail] {source_filename} does not exist. please check"
             if not _is_trg_exist:
                 return False ,f"[Fail] {target_filename} does not exist. please check"
-            state = jsonProcess.overrideScreenLayout2JSON(**kwargs)
-            return True, state
+            return True, jsonProcess.overrideScreenLayout2JSON(**kwargs)
         elif tool_name == "createNewObjects":
             target_filename = kwargs["target_filename"]
             # 找尋file存不存在
@@ -67,6 +98,12 @@ def catch_tool_output(text:str) -> tuple:
                 return False ,f"[Fail] {target_filename} does not exist. please check"
             out = jsonProcess.createNewObjects(**kwargs)
             return True, out
+        elif tool_name == "ReadImageByteData":
+            image_path = kwargs["image_path"]
+            _is_trg_exist = os.path.exists(image_path)
+            if not _is_trg_exist:
+                return False, { "role": "user", "content":[{"text": "The image cannot be found, please check"}]}
+            return True, ReadImageByteData(image_path)
         else:
             return False, f"[Fail] This tool cannot be found, please check"
     return False, None
@@ -227,6 +264,15 @@ def main():
 
         messages = []
 
+        save_file_name = "llm-output.json"
+        save_msg = (
+                f"[Success] File has been saved to ./{save_file_name}\n"
+                "If you have not yet to update the original project file, please call tool_use with:\n"
+                "```tool_use\n"
+                "overrideScreenLayout2JSON:./llm-output.json,<target_filename>\n"
+                "```"
+            )
+        
         print("Bedrock Claude chat started.")
         print(f"Model: {model_id}")
         print("Type 'exit', 'quit', or Ctrl+C to leave.")
@@ -262,63 +308,38 @@ def main():
                 
                 # 新增LLM輸出
                 messages.append(build_assistant_message(assistant_reply))
-                # 工具偵測
-                _state, _tool_use_result = catch_tool_output(assistant_reply)
                 
-                if _state:
-                    messages.append(build_user_message(_tool_use_result))
+                """JSON 生成檢測
+                - 有 json 先存 json
+                - 要提醒 main agent 記得 call tool 更改 project → 確保 While Loop 可以中斷
+                """
+                _json_state, _json_str_output = catch_json_output(assistant_reply)
+                if _json_state:
+                    try:
+                        _json_output = json.loads(_json_str_output)
+                        # 確保是完整的 json
+                        if jsonProcess.isPseudoView(_json_output):
+                            with open(save_file_name, "w", encoding="utf-8") as f:
+                                json.dump(_json_output, f, ensure_ascii=False, indent=4)
+                            messages.append(build_user_message(save_msg))
+                            
+                    except json.JSONDecodeError as e:
+                        save_msg = f"[Fail] Invalid JSON output, cannot save file to `{save_file_name}`: {e}"
+                        print(save_msg)
+                        break
+                
+                """執行工具並回傳結果
+                - 工具執行必須在 json 之後
+                """
+                _tool_state, _tool_use_result = catch_tool_output(assistant_reply) # 這一步抓取工具並直接執行 return 執行結果
+                if _tool_state:
+                    # 檢查 result 格式, dict → 讀圖片
+                    if isinstance(_tool_use_result, dict):
+                        messages.append(_tool_use_result)
+                    else:
+                        messages.append(build_user_message(_tool_use_result))
                 else:
                     break
-            
-            # 抓取是否有json生成
-            _state, json_str_output = catch_json_output(assistant_reply)
-            # save json
-            if _state:
-                
-                save_file_name = "llm-output.json"
-
-                try:
-                    json_output = json.loads(json_str_output)
-
-                    with open(save_file_name, "w", encoding="utf-8") as f:
-                        json.dump(json_output, f, ensure_ascii=False, indent=4)
-
-                    save_msg = (
-                        f"[Success] File has been saved to ./{save_file_name}\n"
-                        "If you need to update the original file, call tool_use with:\n"
-                        "```tool_use\n"
-                        "overrideScreenLayout2JSON:./llm-output.json,<target_filename>\n"
-                        "```"
-                    )
-
-                    messages.append(build_user_message(save_msg))
-
-                    # 讓 LLM 知道 JSON 已經存好，並給它一次機會呼叫 override tool
-                    while True:
-                        print("\nAssistant: ", end="", flush=True)
-
-                        assistant_reply = stream_chat(
-                            client=client,
-                            model_id=model_id,
-                            messages=messages,
-                            system_prompt=DEFAULT_SYSTEM_PROMPT,
-                            max_tokens=max_tokens,
-                            temperature=temperature,
-                        )
-
-                        messages.append(build_assistant_message(assistant_reply))
-
-                        tool_state, tool_use_result = catch_tool_output(assistant_reply)
-
-                        if tool_state:
-                            messages.append(build_user_message(tool_use_result))
-                        else:
-                            break
-
-                except json.JSONDecodeError as e:
-                    fail_msg = f"[Fail] Invalid JSON output, cannot save file: {e}"
-                    print(fail_msg)
-                    messages.append(build_user_message(fail_msg))
             
             t_end = time.time()
             print(f"Task time: {t_end - t_start}s")
