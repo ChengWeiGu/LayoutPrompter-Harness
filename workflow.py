@@ -267,7 +267,7 @@ def main():
         save_file_name = "llm-output.json"
         save_msg = (
                 f"[Success] File has been saved to ./{save_file_name}\n"
-                "If you have not yet to update the original project file, please call tool_use with:\n"
+                "If the original project file has not been updated yet, please call tool_use with the following:\n"
                 "```tool_use\n"
                 "overrideScreenLayout2JSON:./llm-output.json,<target_filename>\n"
                 "```"
