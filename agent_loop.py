@@ -14,8 +14,8 @@ from botocore.exceptions import ClientError, BotoCoreError
 
 CONFIG_PATH = Path("./Config.ini")
 CONFIG_SECTION = "BEDROCK_EU"
-max_tokens=32768
-temperature=0.7
+max_tokens=65536
+temperature=0.5
 
 
 
@@ -89,7 +89,7 @@ def catch_tool_execute(text:str) -> dict:
             result = ebx_json_tools.overrideScreenLayout2JSON(**kwargs)
             return general_tools.build_user_message(result)
         
-        elif tool_name == "createNewObjects":
+        elif tool_name == "upsertObjects":
             target_filename = kwargs["target_filename"]
             
             # 找尋 file 存不存在
@@ -97,7 +97,7 @@ def catch_tool_execute(text:str) -> dict:
             if not _is_trg_exist:
                 return general_tools.build_user_message(f"[Fail] {target_filename} does not exist. please tell me to check")
             
-            result = ebx_json_tools.createNewObjects(**kwargs)
+            result = ebx_json_tools.upsertObjects(**kwargs)
             return general_tools.build_user_message(result)
         
         elif tool_name == "ReadImageByteData":

@@ -5269,14 +5269,15 @@ Custom Widget has another Object Name called `CompositeObject`.
     - after generating a complete json, our system will provide you where the local file is, so you are able to call this tool.
 
 **tool-3**
-- name and syntax: `createNewObjects(widget_list:list, screen_name:str, target_filename:str)`
+- name and syntax: `upsertObjects(widget_list:list, screen_name:str, target_filename:str)`
 - args:
-    - widget_list: list, a list of widgets (json list) that user wants to create
-    - screen_name: str, the screen name where you can place these new objects
+    - widget_list: list, a list of widgets (json list) that user wants to create and update on the screen
+    - screen_name: str, the screen name where you can place these new objects | update existing objects
     - target_filename: str, the project file that you want to edit
 - return: success | fail
 - description: 
     - this func enables you to create unique and new objects (except `Background Window`) without generating a whole page json at first.
+    - this func enables you update existing objects without generating a whole page json as well.
     - `widget_list` should contain jsons adhere to the format defined in `Widget JSON Descriptoins in EBX`
     - Be sure that all widget names you generate are unique on the screen
 

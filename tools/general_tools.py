@@ -34,7 +34,7 @@ def build_assistant_message(assistant_text: str) -> dict:
     }
     
     
-"""讀取圖片
+"""LLM使用工具4: 讀取圖片
 - Claude 預設吃 Byte
 """
 def ReadImageByteData(image_path:str) -> dict:

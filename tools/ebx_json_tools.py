@@ -1141,13 +1141,13 @@ def overrideScreenLayout2JSON(source_filename:str, target_filename:str):
 
 
 """LLM使用工具3
-- widget name 不能重複
+- widget name : 不重複 -> 新增; 重複 -> update
 
 Args:
 - objects: LLM 生成的 pseudo json list, 可以是部分物件
 - target_filename: project 檔案名稱
 """
-def createNewObjects(widget_list:list, screen_name:str, target_filename:str = "blank.json"):
+def upsertObjects(widget_list:list, screen_name:str, target_filename:str = "blank.json"):
     out = ""  
     with open(target_filename, 'r', encoding='utf-8') as f:
         _project_json = json.load(f)
@@ -1177,20 +1177,35 @@ def createNewObjects(widget_list:list, screen_name:str, target_filename:str = "b
         for idx, obj in enumerate(widget_list):
             obj_name = obj["name"]
             obj_type = obj["objectTypeName"]
-            # 若物件不存在則 append
+            # 若物件不存在則 append -> 畫面最上方
             if obj_name not in _obj_names:
                 _obj = copy.deepcopy(ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                 autoencodeObj(_obj, _strTables, obj) # 更改該物件
                 _objs.append(_obj) # 插入該物件(加入到最後)
                 out += f"Create Object `{obj_name}` success\n"
             else:
-                out += f"Create Object `{obj_name}` failed, the name already exist\n"
+                # 物件存在則找尋該物件並且 update
+                for _idx, _obj in enumerate(_objs):
+                    _name = _obj["name"]
+                    _type = getObjType(_obj)
+                    # 存在就 update
+                    if _name == obj_name and _type == obj_type:
+                        # 依照物件型態修改
+                        autoencodeObj(_obj, _strTables, obj)
+                        out += f"Update Object `{obj_name}` success\n"
+                        break
+                    elif _name == obj_name and _type != obj_type:
+                        out += f"Update Object `{obj_name}` failed. The type `{obj_type}` is incorrect\n"
+                        break
+                
     
     # save project json to original file
     with open(target_filename, 'w', encoding='utf-8') as f:
         json.dump(_project_json, f, ensure_ascii=False, indent=4)
     
     return out
+
+
 
 
 
