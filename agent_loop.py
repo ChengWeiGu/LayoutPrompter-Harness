@@ -15,7 +15,7 @@ from botocore.exceptions import ClientError, BotoCoreError
 CONFIG_PATH = Path("./Config.ini")
 CONFIG_SECTION = "BEDROCK_EU"
 max_tokens=65536
-temperature=0.5
+temperature=0.7
 
 
 
@@ -39,7 +39,7 @@ return:
 - dict, 執行結果, 為 claude user message 格式
 """
 def catch_tool_execute(text:str) -> dict:
-    pattern = r"```tool_use\s*\n(.*?)\n```"
+    pattern = r"```tool_call\s*\n(.*?)\n```"
     match = re.search(pattern, text, re.DOTALL)
     if match:
         content = match.group(1).strip()
@@ -48,14 +48,14 @@ def catch_tool_execute(text:str) -> dict:
             tool_name, raw_kwargs = content.split(":", 1) # maxsplit=1 代表只切第一個冒號
         except ValueError:
             return general_tools.build_user_message(
-                "[Fail] Invalid tool_use format. Expected: <tool_name>:<kwargs>"
+                "[Fail] Invalid tool_call format. Expected: <tool_name>:<kwargs>"
             )
         
         try:
             kwargs = json.loads(raw_kwargs)
         except json.JSONDecodeError as e:
             return general_tools.build_user_message(
-                f"[Fail] Invalid tool_use JSON arguments: {e}"
+                f"[Fail] Invalid tool_call JSON arguments: {e}"
             )        
         
         if tool_name == "decodeScreenLayoutFromJSON":
@@ -267,8 +267,8 @@ def main():
             
             save_msg = (
                     f"[System Info] latest complete json has been saved to {save_file_name}\n"
-                    "Immediately after that, if the original project file has not been updated yet, please call tool_use with the following:\n"
-                    "```tool_use\n"
+                    "Immediately after that, if the original project file has not been updated yet, please call tool_call with the following:\n"
+                    "```tool_call\n"
                     "overrideScreenLayout2JSON:{"
                     f"\"source_filename\":\"{save_file_name}\","
                     "\"target_filename\":\"<target_filename>\""
@@ -364,9 +364,9 @@ def main():
                 """
                 try:
                     # 抓取工具並直接執行 return 執行結果
-                    _tool_use_message = catch_tool_execute(assistant_reply) 
-                    if _tool_use_message:
-                        messages.append(_tool_use_message)
+                    _tool_call_message = catch_tool_execute(assistant_reply) 
+                    if _tool_call_message:
+                        messages.append(_tool_call_message)
                     else:
                         # 如果有 psuedo view 但沒有同時使用工具，再給一次使用工具的機會
                         if _has_psuedo_view:
