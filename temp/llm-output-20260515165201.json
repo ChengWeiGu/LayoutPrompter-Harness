@@ -1,0 +1,1169 @@
+{
+    "screen_name": "sc1",
+    "screen_size": {
+        "width": 1920,
+        "height": 1080
+    },
+    "screen_properties": {
+        "facecolor": "#6666bb",
+        "border": {
+            "style": 5,
+            "color": "#000000",
+            "width": 0
+        }
+    },
+    "objects": [
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Header BG",
+            "frame": {
+                "frameColor": "#ffffff",
+                "frameWidth": 2,
+                "style": 0,
+                "frameRadius": 0
+            },
+            "interior": {
+                "color": "#ffffff"
+            },
+            "profile": {
+                "x": 10,
+                "y": 8,
+                "width": 820,
+                "height": 80,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Logo Arrow",
+            "frame": {
+                "frameColor": "#3399ff",
+                "frameWidth": 2,
+                "style": 0,
+                "frameRadius": 0
+            },
+            "interior": {
+                "color": "#3399ff"
+            },
+            "profile": {
+                "x": 15,
+                "y": 13,
+                "width": 70,
+                "height": 70,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Company Name",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 0
+                }
+            },
+            "label": {
+                "text": "东莞市锐杰智能科技有限公司",
+                "fontStyle": "Calibri",
+                "fontSize": 32,
+                "fontBold": 1,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 95,
+                "y": 13,
+                "width": 730,
+                "height": 70,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Machine Status Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "机器设备状态",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 10,
+                "y": 105,
+                "width": 200,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "TextInput",
+            "name": "Machine Status Display",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ddff"
+            },
+            "background": {
+                "color": "#00ddff",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 1,
+                "fontColor": "#ff0000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 215,
+                "y": 105,
+                "width": 350,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Counter Group Left BG",
+            "frame": {
+                "frameColor": "#4444aa",
+                "frameWidth": 2,
+                "style": 1,
+                "frameRadius": 4
+            },
+            "interior": {
+                "color": "#00000000"
+            },
+            "profile": {
+                "x": 10,
+                "y": 170,
+                "width": 820,
+                "height": 230,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Single Discharge Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "单次放料计数",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 30,
+                "y": 195,
+                "width": 200,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "NumericInput",
+            "name": "Single Discharge Value",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ddff"
+            },
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 240,
+                "y": 195,
+                "width": 280,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Clear Single Discharge",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "清零",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 535,
+                "y": 195,
+                "width": 120,
+                "height": 50,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Total Discharge Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "总放料计数",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 30,
+                "y": 310,
+                "width": 200,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "NumericInput",
+            "name": "Total Discharge Value",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ddff"
+            },
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 240,
+                "y": 310,
+                "width": 280,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Clear Total Discharge",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "清零",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 535,
+                "y": 310,
+                "width": 120,
+                "height": 50,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Counter Group Right BG",
+            "frame": {
+                "frameColor": "#4444aa",
+                "frameWidth": 2,
+                "style": 1,
+                "frameRadius": 4
+            },
+            "interior": {
+                "color": "#00000000"
+            },
+            "profile": {
+                "x": 870,
+                "y": 170,
+                "width": 900,
+                "height": 230,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Box Stack Layer Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "料盒已堆叠层数",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 890,
+                "y": 195,
+                "width": 240,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "NumericInput",
+            "name": "Box Stack Layer Value",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ddff"
+            },
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 1145,
+                "y": 195,
+                "width": 300,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Clear Box Stack",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "清零",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1460,
+                "y": 195,
+                "width": 120,
+                "height": 50,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Product Stack Layer Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "产品已堆叠层数",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 890,
+                "y": 310,
+                "width": 240,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "NumericInput",
+            "name": "Product Stack Layer Value",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ddff"
+            },
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 1145,
+                "y": 310,
+                "width": 300,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Clear Product Stack",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "清零",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1460,
+                "y": 310,
+                "width": 120,
+                "height": 50,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Config Group BG",
+            "frame": {
+                "frameColor": "#4444aa",
+                "frameWidth": 2,
+                "style": 1,
+                "frameRadius": 4
+            },
+            "interior": {
+                "color": "#00000000"
+            },
+            "profile": {
+                "x": 10,
+                "y": 420,
+                "width": 820,
+                "height": 230,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Text",
+            "name": "Recipe Number Label",
+            "background": {
+                "color": "#ffffff",
+                "radius": 0,
+                "border": {
+                    "style": 0,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "配方编号",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 30,
+                "y": 440,
+                "width": 160,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "NumericInput",
+            "name": "Recipe Number Value",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#ffffff"
+            },
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 200,
+                "y": 440,
+                "width": 200,
+                "height": 50,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "TextInput",
+            "name": "Program Name Display",
+            "outline": {
+                "galleryName": "System Input Box - Flat.flbx",
+                "index": 1,
+                "color": "#00ccff"
+            },
+            "background": {
+                "color": "#00ccff",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 1,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {}
+            },
+            "profile": {
+                "x": 30,
+                "y": 520,
+                "width": 580,
+                "height": 60,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Tools Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "工具",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 625,
+                "y": 520,
+                "width": 150,
+                "height": 60,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "DrawingRectangle",
+            "name": "Program Group BG",
+            "frame": {
+                "frameColor": "#4444aa",
+                "frameWidth": 2,
+                "style": 1,
+                "frameRadius": 4
+            },
+            "interior": {
+                "color": "#00000000"
+            },
+            "profile": {
+                "x": 870,
+                "y": 420,
+                "width": 900,
+                "height": 230,
+                "rotation": 0
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Program Name Write Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "程序名称编写",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 890,
+                "y": 440,
+                "width": 400,
+                "height": 60,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#ffcc00"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Motor Origin Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "电机原点",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 890,
+                "y": 530,
+                "width": 280,
+                "height": 60,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#dddddd"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Motor Position Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "电机到位",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1190,
+                "y": 530,
+                "width": 280,
+                "height": 60,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 2,
+                "color": "#dddddd"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Start Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "启动",
+                "fontStyle": "Calibri",
+                "fontSize": 48,
+                "fontBold": 1,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 30,
+                "y": 830,
+                "width": 380,
+                "height": 180,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 1,
+                "color": "#00cc44"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Pause Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "暂停",
+                "fontStyle": "Calibri",
+                "fontSize": 48,
+                "fontBold": 1,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 650,
+                "y": 830,
+                "width": 380,
+                "height": 180,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 1,
+                "color": "#ee2222"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Return Origin Button",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "回原点",
+                "fontStyle": "Calibri",
+                "fontSize": 48,
+                "fontBold": 1,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1270,
+                "y": 830,
+                "width": 380,
+                "height": 180,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 1,
+                "color": "#ffcc00"
+            }
+        },
+        {
+            "objectType": "Switch",
+            "name": "Brake Switch",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "抱闸",
+                "fontStyle": "Calibri",
+                "fontSize": 20,
+                "fontBold": 1,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#000000",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1750,
+                "y": 8,
+                "width": 150,
+                "height": 90,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Switch - Flat.flbx",
+                "index": 4,
+                "color": "#00cc66"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Nav Initial Screen",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "初始界面",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#ffffff",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1690,
+                "y": 750,
+                "width": 210,
+                "height": 70,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 5,
+                "color": "#007744"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Nav Camera Data",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "相机数据",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#ffffff",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1690,
+                "y": 840,
+                "width": 210,
+                "height": 70,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 5,
+                "color": "#007744"
+            }
+        },
+        {
+            "objectType": "Button",
+            "name": "Nav IO Interface",
+            "background": {
+                "color": "#00000000",
+                "radius": 0,
+                "border": {
+                    "style": 5,
+                    "color": "#000000",
+                    "width": 1
+                }
+            },
+            "label": {
+                "text": "I/O界面",
+                "fontStyle": "Calibri",
+                "fontSize": 22,
+                "fontBold": 0,
+                "fontItalic": 0,
+                "fontUnderline": 0,
+                "fontColor": "#ffffff",
+                "alignment": 4,
+                "padding": {},
+                "blinking": 0,
+                "scrolling": {}
+            },
+            "profile": {
+                "x": 1690,
+                "y": 930,
+                "width": 210,
+                "height": 70,
+                "rotation": 0
+            },
+            "outline": {
+                "galleryName": "System Button - Flat.flbx",
+                "index": 5,
+                "color": "#007744"
+            }
+        }
+    ]
+}

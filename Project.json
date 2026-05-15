@@ -1,0 +1,2681 @@
+{
+    "header": {
+        "schema_version": "1.0",
+        "content_type": "screen_view",
+        "app_version": "1.00.137"
+    },
+    "body": {
+        "screens": [
+            {
+                "name": "sc1",
+                "role": "screen",
+                "groupPath": [],
+                "availableLayers": [
+                    "root"
+                ],
+                "properties": {
+                    "objectType": 4,
+                    "comment": "",
+                    "fill": {
+                        "pattern": 0,
+                        "subjectColor": "#6666bb",
+                        "patternColor": "#ffffff"
+                    },
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    },
+                    "transparency": 255,
+                    "width": 1920,
+                    "height": 1080
+                },
+                "events": [
+                    {
+                        "id": "opened",
+                        "statements": []
+                    },
+                    {
+                        "id": "closing",
+                        "statements": []
+                    }
+                ],
+                "methods": [],
+                "objects": [
+                    {
+                        "name": "Header BG",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#ffffff",
+                            "frameWidth": "width_2px",
+                            "style": "solid_line",
+                            "frameRadius": 0,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 10,
+                            "y": 8,
+                            "width": 820,
+                            "height": 80,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Logo Arrow",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#3399ff",
+                            "frameWidth": "width_2px",
+                            "style": "solid_line",
+                            "frameRadius": 0,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#3399ff",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 15,
+                            "y": 13,
+                            "width": 70,
+                            "height": 70,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Company Name",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "东莞市锐杰智能科技有限公司",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 0
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 32,
+                            "fontBold": true,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 95,
+                            "y": 13,
+                            "width": 730,
+                            "height": 70,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Machine Status Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "机器设备状态",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 10,
+                            "y": 105,
+                            "width": 200,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Machine Status Display",
+                        "objectTypeName": "objectTextInput",
+                        "layer": "root",
+                        "layerIndex": 6,
+                        "properties": {
+                            "widgetType": 30836,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "",
+                            "format": 0,
+                            "passwordMode": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {},
+                            "keypadExitAnimation": {},
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#00ddff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00ddff",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": true,
+                            "fontColor": "#ff0000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 215,
+                            "y": 105,
+                            "width": 350,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 6
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "textWrote",
+                                "statements": []
+                            },
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Counter Group Left BG",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#4444aa",
+                            "frameWidth": "width_2px",
+                            "style": "dash_line",
+                            "frameRadius": 4,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 10,
+                            "y": 170,
+                            "width": 820,
+                            "height": 230,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Single Discharge Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "单次放料计数",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 30,
+                            "y": 195,
+                            "width": 200,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Single Discharge Value",
+                        "objectTypeName": "objectNumeric",
+                        "layer": "root",
+                        "layerIndex": 5,
+                        "properties": {
+                            "widgetType": 25966,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0.0,
+                            "writeValue": 0.0,
+                            "value": 0.0,
+                            "dataFormat": 14,
+                            "displayLimit": false,
+                            "displayValue": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {
+                                "duration": "100"
+                            },
+                            "keypadExitAnimation": {
+                                "duration": "100"
+                            },
+                            "displayFormat": 0,
+                            "formatPattern": "0.00",
+                            "leadingZero": false,
+                            "significantDigits": 2,
+                            "valueRange": {
+                                "high": "9999"
+                            },
+                            "inputRange": {
+                                "high": "9999"
+                            },
+                            "limitAlarmColorEnabled": false,
+                            "lowLimitAlarmColor": "#ffff00",
+                            "lowLimitAlarmBlinking": false,
+                            "highLimitAlarmColor": "#ff0000",
+                            "highLimitAlarmBlinking": false,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#ffffff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 240,
+                            "y": 195,
+                            "width": 280,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 5
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueChanged",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueWrote",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Clear Single Discharge",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "清零",
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 535,
+                            "y": 195,
+                            "width": 120,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Total Discharge Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "总放料计数",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 30,
+                            "y": 310,
+                            "width": 200,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Total Discharge Value",
+                        "objectTypeName": "objectNumeric",
+                        "layer": "root",
+                        "layerIndex": 5,
+                        "properties": {
+                            "widgetType": 25966,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0.0,
+                            "writeValue": 0.0,
+                            "value": 0.0,
+                            "dataFormat": 14,
+                            "displayLimit": false,
+                            "displayValue": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {
+                                "duration": "100"
+                            },
+                            "keypadExitAnimation": {
+                                "duration": "100"
+                            },
+                            "displayFormat": 0,
+                            "formatPattern": "0.00",
+                            "leadingZero": false,
+                            "significantDigits": 2,
+                            "valueRange": {
+                                "high": "9999"
+                            },
+                            "inputRange": {
+                                "high": "9999"
+                            },
+                            "limitAlarmColorEnabled": false,
+                            "lowLimitAlarmColor": "#ffff00",
+                            "lowLimitAlarmBlinking": false,
+                            "highLimitAlarmColor": "#ff0000",
+                            "highLimitAlarmBlinking": false,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#ffffff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 240,
+                            "y": 310,
+                            "width": 280,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 5
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueChanged",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueWrote",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Clear Total Discharge",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "清零",
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 535,
+                            "y": 310,
+                            "width": 120,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Counter Group Right BG",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#4444aa",
+                            "frameWidth": "width_2px",
+                            "style": "dash_line",
+                            "frameRadius": 4,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 870,
+                            "y": 170,
+                            "width": 900,
+                            "height": 230,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Box Stack Layer Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "料盒已堆叠层数",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 890,
+                            "y": 195,
+                            "width": 240,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Box Stack Layer Value",
+                        "objectTypeName": "objectNumeric",
+                        "layer": "root",
+                        "layerIndex": 5,
+                        "properties": {
+                            "widgetType": 25966,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0.0,
+                            "writeValue": 0.0,
+                            "value": 0.0,
+                            "dataFormat": 14,
+                            "displayLimit": false,
+                            "displayValue": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {
+                                "duration": "100"
+                            },
+                            "keypadExitAnimation": {
+                                "duration": "100"
+                            },
+                            "displayFormat": 0,
+                            "formatPattern": "0.00",
+                            "leadingZero": false,
+                            "significantDigits": 2,
+                            "valueRange": {
+                                "high": "9999"
+                            },
+                            "inputRange": {
+                                "high": "9999"
+                            },
+                            "limitAlarmColorEnabled": false,
+                            "lowLimitAlarmColor": "#ffff00",
+                            "lowLimitAlarmBlinking": false,
+                            "highLimitAlarmColor": "#ff0000",
+                            "highLimitAlarmBlinking": false,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#ffffff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1145,
+                            "y": 195,
+                            "width": 300,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 5
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueChanged",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueWrote",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Clear Box Stack",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "清零",
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1460,
+                            "y": 195,
+                            "width": 120,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Product Stack Layer Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "产品已堆叠层数",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 890,
+                            "y": 310,
+                            "width": 240,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Product Stack Layer Value",
+                        "objectTypeName": "objectNumeric",
+                        "layer": "root",
+                        "layerIndex": 5,
+                        "properties": {
+                            "widgetType": 25966,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0.0,
+                            "writeValue": 0.0,
+                            "value": 0.0,
+                            "dataFormat": 14,
+                            "displayLimit": false,
+                            "displayValue": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {
+                                "duration": "100"
+                            },
+                            "keypadExitAnimation": {
+                                "duration": "100"
+                            },
+                            "displayFormat": 0,
+                            "formatPattern": "0.00",
+                            "leadingZero": false,
+                            "significantDigits": 2,
+                            "valueRange": {
+                                "high": "9999"
+                            },
+                            "inputRange": {
+                                "high": "9999"
+                            },
+                            "limitAlarmColorEnabled": false,
+                            "lowLimitAlarmColor": "#ffff00",
+                            "lowLimitAlarmBlinking": false,
+                            "highLimitAlarmColor": "#ff0000",
+                            "highLimitAlarmBlinking": false,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#ffffff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1145,
+                            "y": 310,
+                            "width": 300,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 5
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueChanged",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueWrote",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Clear Product Stack",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "清零",
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1460,
+                            "y": 310,
+                            "width": 120,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Config Group BG",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#4444aa",
+                            "frameWidth": "width_2px",
+                            "style": "dash_line",
+                            "frameRadius": 4,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 10,
+                            "y": 420,
+                            "width": 820,
+                            "height": 230,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Recipe Number Label",
+                        "objectTypeName": "objectText",
+                        "layer": "root",
+                        "layerIndex": 8,
+                        "properties": {
+                            "widgetType": 29812,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "配方编号",
+                            "picture": "none",
+                            "pictureColor": "#00000000",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 30,
+                            "y": 440,
+                            "width": 160,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 8
+                        },
+                        "events": [
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Recipe Number Value",
+                        "objectTypeName": "objectNumeric",
+                        "layer": "root",
+                        "layerIndex": 5,
+                        "properties": {
+                            "widgetType": 25966,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0.0,
+                            "writeValue": 0.0,
+                            "value": 0.0,
+                            "dataFormat": 14,
+                            "displayLimit": false,
+                            "displayValue": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {
+                                "duration": "100"
+                            },
+                            "keypadExitAnimation": {
+                                "duration": "100"
+                            },
+                            "displayFormat": 0,
+                            "formatPattern": "0.00",
+                            "leadingZero": false,
+                            "significantDigits": 2,
+                            "valueRange": {
+                                "high": "9999"
+                            },
+                            "inputRange": {
+                                "high": "9999"
+                            },
+                            "limitAlarmColorEnabled": false,
+                            "lowLimitAlarmColor": "#ffff00",
+                            "lowLimitAlarmBlinking": false,
+                            "highLimitAlarmColor": "#ff0000",
+                            "highLimitAlarmBlinking": false,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#ffffff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 200,
+                            "y": 440,
+                            "width": 200,
+                            "height": 50,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 5
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueChanged",
+                                "statements": []
+                            },
+                            {
+                                "id": "valueWrote",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Program Name Display",
+                        "objectTypeName": "objectTextInput",
+                        "layer": "root",
+                        "layerIndex": 6,
+                        "properties": {
+                            "widgetType": 30836,
+                            "objectType": 7,
+                            "comment": "",
+                            "text": "",
+                            "format": 0,
+                            "passwordMode": false,
+                            "keypadMode": 1,
+                            "keypadTitleBarEnabled": false,
+                            "keypadPositionMode": 0,
+                            "keypadScreenPosition": 4,
+                            "keypadObjectPosition": 4,
+                            "keypadEntranceAnimation": {},
+                            "keypadExitAnimation": {},
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|28:System Input Box - Flat.flbx"
+                            },
+                            "pictureColor": "#00ccff",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00ccff",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": true,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 30,
+                            "y": 520,
+                            "width": 580,
+                            "height": 60,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 6
+                        },
+                        "events": [
+                            {
+                                "id": "editingStarted",
+                                "statements": []
+                            },
+                            {
+                                "id": "editingFinished",
+                                "statements": []
+                            },
+                            {
+                                "id": "textWrote",
+                                "statements": []
+                            },
+                            {
+                                "id": "textChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Tools Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "工具",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 625,
+                            "y": 520,
+                            "width": 150,
+                            "height": 60,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Program Group BG",
+                        "objectTypeName": "objectDrawingRectangle",
+                        "layer": "root",
+                        "layerIndex": 7,
+                        "properties": {
+                            "widgetType": 29284,
+                            "objectType": 7,
+                            "comment": "",
+                            "frameColor": "#4444aa",
+                            "frameWidth": "width_2px",
+                            "style": "dash_line",
+                            "frameRadius": 4,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#000000"
+                            },
+                            "visible": true,
+                            "enabled": true,
+                            "pinned": false,
+                            "x": 870,
+                            "y": 420,
+                            "width": 900,
+                            "height": 230,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 7,
+                            "points": [
+                                {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                {
+                                    "x": 1.0,
+                                    "y": 1.0
+                                }
+                            ]
+                        },
+                        "events": [],
+                        "methods": []
+                    },
+                    {
+                        "name": "Program Name Write Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#ffcc00",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "程序名称编写",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 890,
+                            "y": 440,
+                            "width": 400,
+                            "height": 60,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Motor Origin Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#dddddd",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "电机原点",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 890,
+                            "y": 530,
+                            "width": 280,
+                            "height": 60,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Motor Position Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|2|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#dddddd",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "电机到位",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1190,
+                            "y": 530,
+                            "width": 280,
+                            "height": 60,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Start Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc44",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "启动",
+                            "font": "Calibri",
+                            "fontSize": 48,
+                            "fontBold": true,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 30,
+                            "y": 830,
+                            "width": 380,
+                            "height": 180,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Pause Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#ee2222",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "暂停",
+                            "font": "Calibri",
+                            "fontSize": 48,
+                            "fontBold": true,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 650,
+                            "y": 830,
+                            "width": 380,
+                            "height": 180,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Return Origin Button",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|1|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#ffcc00",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "回原点",
+                            "font": "Calibri",
+                            "fontSize": 48,
+                            "fontBold": true,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1270,
+                            "y": 830,
+                            "width": 380,
+                            "height": 180,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Brake Switch",
+                        "objectTypeName": "objectSwitch",
+                        "layer": "root",
+                        "layerIndex": 1,
+                        "properties": {
+                            "widgetType": 30579,
+                            "objectType": 7,
+                            "comment": "",
+                            "readOnly": false,
+                            "readWriteValueSeparated": false,
+                            "readValue": 0,
+                            "writeValue": 0,
+                            "value": 0,
+                            "currentState": 0,
+                            "dataFormat": 7,
+                            "stateMappingPolicy": 0,
+                            "stateCount": 2,
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|4|0:|25:System Switch - Flat.flbx"
+                            },
+                            "pictureColor": "#00cc66",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "抱闸",
+                            "font": "Calibri",
+                            "fontSize": 20,
+                            "fontBold": true,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#000000",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1750,
+                            "y": 8,
+                            "width": 150,
+                            "height": 90,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 1
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": [
+                                    {
+                                        "method": "increaseState",
+                                        "parameters": {
+                                            "increaseStateMethodCyclicalParameter": "1"
+                                        },
+                                        "target": "Method://Switch:increaseState",
+                                        "type": "object_method"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "stateChanged",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Nav Initial Screen",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|5|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#007744",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "初始界面",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#ffffff",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1690,
+                            "y": 750,
+                            "width": 210,
+                            "height": 70,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Nav Camera Data",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|5|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#007744",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "相机数据",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#ffffff",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1690,
+                            "y": 840,
+                            "width": 210,
+                            "height": 70,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    },
+                    {
+                        "name": "Nav IO Interface",
+                        "objectTypeName": "objectButton",
+                        "layer": "root",
+                        "layerIndex": 2,
+                        "properties": {
+                            "widgetType": 29794,
+                            "objectType": 7,
+                            "comment": "",
+                            "picture": {
+                                "kind": "resource",
+                                "path": "v1|1|5|0:|25:System Button - Flat.flbx"
+                            },
+                            "pictureColor": "#007744",
+                            "pictureIndex": {
+                                "row": 0,
+                                "column": 0
+                            },
+                            "pictureHorizontalFlipped": false,
+                            "pictureVerticalFlipped": false,
+                            "fill": {
+                                "pattern": 0,
+                                "subjectColor": "#00000000",
+                                "patternColor": "#00000000"
+                            },
+                            "radius": 0,
+                            "border": {
+                                "style": 5,
+                                "color": "#000000",
+                                "width": 1
+                            },
+                            "transparency": 255,
+                            "text": "I/O界面",
+                            "font": "Calibri",
+                            "fontSize": 22,
+                            "fontBold": false,
+                            "fontItalic": false,
+                            "fontUnderline": false,
+                            "fontColor": "#ffffff",
+                            "alignment": 4,
+                            "padding": {},
+                            "blinking": 0,
+                            "scrolling": {},
+                            "visible": true,
+                            "enabled": true,
+                            "safetyControlMode": 0,
+                            "minPressTime": 500,
+                            "maxConfirmTime": 3,
+                            "pinned": false,
+                            "x": 1690,
+                            "y": 930,
+                            "width": 210,
+                            "height": 70,
+                            "lockAspectRatio": false,
+                            "rotation": 0,
+                            "layerIndex": 2
+                        },
+                        "events": [
+                            {
+                                "id": "task",
+                                "statements": []
+                            },
+                            {
+                                "id": "pressed",
+                                "statements": []
+                            },
+                            {
+                                "id": "released",
+                                "statements": []
+                            },
+                            {
+                                "id": "clicked",
+                                "statements": []
+                            },
+                            {
+                                "id": "held",
+                                "statements": []
+                            }
+                        ],
+                        "methods": []
+                    }
+                ]
+            },
+            {
+                "name": "sc2",
+                "role": "screen",
+                "groupPath": [],
+                "availableLayers": [
+                    "root"
+                ],
+                "properties": {
+                    "objectType": 4,
+                    "comment": "",
+                    "fill": {
+                        "pattern": 0,
+                        "subjectColor": "#ffffff",
+                        "patternColor": "#ffffff"
+                    },
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    },
+                    "transparency": 255,
+                    "width": 1920,
+                    "height": 1080
+                },
+                "events": [
+                    {
+                        "id": "opened",
+                        "statements": []
+                    },
+                    {
+                        "id": "closing",
+                        "statements": []
+                    }
+                ],
+                "methods": [],
+                "objects": []
+            }
+        ],
+        "windows": []
+    }
+}

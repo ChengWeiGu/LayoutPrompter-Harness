@@ -1,0 +1,106 @@
+{
+    "name": "Numeric",
+    "objectTypeName": "objectNumeric",
+    "layer": "root",
+    "layerIndex": 5,
+    "properties": {
+        "widgetType": 25966,
+        "objectType": 7,
+        "comment": "",
+        "readOnly": false,
+        "readWriteValueSeparated": false,
+        "readValue": 0.0,
+        "writeValue": 0.0,
+        "value": 0.0,
+        "dataFormat": 14,
+        "displayLimit": false,
+        "displayValue": false,
+        "keypadMode": 1,
+        "keypadTitleBarEnabled": false,
+        "keypadPositionMode": 0,
+        "keypadScreenPosition": 4,
+        "keypadObjectPosition": 4,
+        "keypadEntranceAnimation": {
+        "duration": "100"
+        },
+        "keypadExitAnimation": {
+        "duration": "100"
+        },
+        "displayFormat": 0,
+        "formatPattern": "0.00",
+        "leadingZero": false,
+        "significantDigits": 2,
+        "valueRange": {
+        "high": "9999"
+        },
+        "inputRange": {
+        "high": "9999"
+        },
+        "limitAlarmColorEnabled": false,
+        "lowLimitAlarmColor": "#ffff00",
+        "lowLimitAlarmBlinking": false,
+        "highLimitAlarmColor": "#ff0000",
+        "highLimitAlarmBlinking": false,
+        "picture": {
+        "kind": "resource",
+        "path": "v1|1|0|0:|30:System Input Box - Ribbon.flbx"
+        },
+        "pictureColor": "#00000000",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "fill": {
+        "pattern": 0,
+        "subjectColor": "#00000000",
+        "patternColor": "#00000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "transparency": 255,
+        "font": "Calibri",
+        "fontSize": 16,
+        "fontBold": false,
+        "fontColor": "#000000",
+        "alignment": 4,
+        "padding": {},
+        "visible": true,
+        "enabled": true,
+        "safetyControlMode": 0,
+        "minPressTime": 500,
+        "maxConfirmTime": 3,
+        "pinned": false,
+        "x": 119,
+        "y": 218,
+        "width": 100,
+        "height": 40,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 5
+    },
+    "events": [
+        {
+        "id": "editingStarted",
+        "statements": []
+        },
+        {
+        "id": "editingFinished",
+        "statements": []
+        },
+        {
+        "id": "valueChanged",
+        "statements": []
+        },
+        {
+        "id": "valueWrote",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

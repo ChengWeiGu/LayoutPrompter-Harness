@@ -1,0 +1,23 @@
+{
+    "name": "Custom Widget",
+    "objectTypeName": "objectComposite",
+    "layer": "root",
+    "layerIndex": 9,
+    "properties": {
+        "objectType": 8,
+        "widgetType": 28771,
+        "comment": "",
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 119,
+        "y": 409,
+        "width": 196,
+        "height": 60,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 9
+    },
+    "events": [],
+    "methods": []
+}

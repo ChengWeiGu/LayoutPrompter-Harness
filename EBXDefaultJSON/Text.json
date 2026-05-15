@@ -1,0 +1,59 @@
+{
+    "name": "Text (2)",
+    "objectTypeName": "objectText",
+    "layer": "root",
+    "layerIndex": 8,
+    "properties": {
+        "widgetType": 29812,
+        "objectType": 7,
+        "comment": "",
+        "text": "Text",
+        "picture": "none",
+        "pictureColor": "#00000000",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "fill": {
+        "pattern": 0,
+        "subjectColor": "#00000000",
+        "patternColor": "#00000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "transparency": 255,
+        "font": "Calibri",
+        "fontSize": 16,
+        "fontBold": false,
+        "fontItalic": false,
+        "fontUnderline": false,
+        "fontColor": "#000000",
+        "alignment": 4,
+        "padding": {},
+        "blinking": 0,
+        "scrolling": {},
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 666,
+        "y": 226,
+        "width": 145,
+        "height": 40,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 8
+    },
+    "events": [
+        {
+        "id": "textChanged",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

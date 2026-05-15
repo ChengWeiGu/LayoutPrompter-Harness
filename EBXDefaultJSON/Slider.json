@@ -1,0 +1,57 @@
+{
+    "name": "Slider",
+    "objectTypeName": "objectSlider",
+    "layer": "root",
+    "layerIndex": 4,
+    "properties": {
+        "widgetType": 27763,
+        "objectType": 7,
+        "comment": "",
+        "step": 1.0,
+        "value": 0.0,
+        "valueRange": {
+        "high": "100"
+        },
+        "quickMovePolicy": 0,
+        "moveTowardCoarseStep": 1,
+        "dataFormat": 14,
+        "style": 0,
+        "direction": 0,
+        "usePicture": false,
+        "blockStyle": "big_rect",
+        "blockWidth": 20,
+        "blockColor": "#000080",
+        "frameColor": "#00000000",
+        "backgroundColor": "#00000000",
+        "slotColor": "#c0c0c0",
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 692,
+        "y": 80,
+        "width": 150,
+        "height": 40,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 4
+    },
+    "events": [
+        {
+        "id": "sliderPressed",
+        "statements": []
+        },
+        {
+        "id": "sliderReleased",
+        "statements": []
+        },
+        {
+        "id": "sliderMoved",
+        "statements": []
+        },
+        {
+        "id": "valueChanged",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

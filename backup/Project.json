@@ -1,0 +1,88 @@
+{
+  "header": {
+    "schema_version": "1.0",
+    "content_type": "screen_view",
+    "app_version": "1.00.137"
+  },
+  "body": {
+    "screens": [
+      {
+        "name": "sc1",
+        "role": "screen",
+        "groupPath": [],
+        "availableLayers": [
+          "root"
+        ],
+        "properties": {
+          "objectType": 4,
+          "comment": "",
+          "fill": {
+            "pattern": 0,
+            "subjectColor": "#ffffff",
+            "patternColor": "#ffffff"
+          },
+          "radius": 0,
+          "border": {
+            "style": 5,
+            "color": "#000000",
+            "width": 0
+          },
+          "transparency": 255,
+          "width": 1920,
+          "height": 1080
+        },
+        "events": [
+          {
+            "id": "opened",
+            "statements": []
+          },
+          {
+            "id": "closing",
+            "statements": []
+          }
+        ],
+        "methods": [],
+        "objects": []
+      },
+      {
+        "name": "sc2",
+        "role": "screen",
+        "groupPath": [],
+        "availableLayers": [
+          "root"
+        ],
+        "properties": {
+          "objectType": 4,
+          "comment": "",
+          "fill": {
+            "pattern": 0,
+            "subjectColor": "#ffffff",
+            "patternColor": "#ffffff"
+          },
+          "radius": 0,
+          "border": {
+            "style": 5,
+            "color": "#000000",
+            "width": 0
+          },
+          "transparency": 255,
+          "width": 1920,
+          "height": 1080
+        },
+        "events": [
+          {
+            "id": "opened",
+            "statements": []
+          },
+          {
+            "id": "closing",
+            "statements": []
+          }
+        ],
+        "methods": [],
+        "objects": []
+      }
+    ],
+    "windows": []
+  }
+}

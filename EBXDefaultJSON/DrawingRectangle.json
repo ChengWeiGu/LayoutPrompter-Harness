@@ -1,0 +1,42 @@
+{
+    "name": "Rectangle",
+    "objectTypeName": "objectDrawingRectangle",
+    "layer": "root",
+    "layerIndex": 7,
+    "properties": {
+        "widgetType": 29284,
+        "objectType": 7,
+        "comment": "",
+        "frameColor": "#000000",
+        "frameWidth": "width_1px",
+        "style": "solid_line",
+        "frameRadius": 0,
+        "fill": {
+        "pattern": 255,
+        "subjectColor": "#ffffff",
+        "patternColor": "#000000"
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 400,
+        "y": 212,
+        "width": 208,
+        "height": 109,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 7,
+        "points": [
+        {
+            "x": 0.0,
+            "y": 0.0
+        },
+        {
+            "x": 1.0,
+            "y": 1.0
+        }
+        ]
+    },
+    "events": [],
+    "methods": []
+}

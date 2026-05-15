@@ -1,0 +1,67 @@
+{
+    "name": "Option List",
+    "objectTypeName": "objectOptionList",
+    "layer": "root",
+    "layerIndex": 3,
+    "properties": {
+        "widgetType": 27759,
+        "objectType": 7,
+        "comment": "",
+        "mode": 1,
+        "style": 1,
+        "fontSizeMode": 0,
+        "rowHeight": 0,
+        "value": 0.0,
+        "dataSource": 0,
+        "dataSourcePredefineCount": 2,
+        "dataSourcePredefineMapping": {
+        "items": [
+            {
+            "valueRange": "0",
+            "activated": true
+            },
+            {
+            "valueRange": "1",
+            "activated": true
+            }
+        ]
+        },
+        "dataSourceHistoryDataDateFormat": 0,
+        "backgroundColor": "#deefff",
+        "selectionColor": "#57bfff",
+        "font": "Calibri",
+        "fontSize": 16,
+        "fontBold": false,
+        "fontItalic": false,
+        "fontUnderline": false,
+        "fontColor": "#000000",
+        "visible": true,
+        "enabled": true,
+        "safetyControlMode": 0,
+        "minPressTime": 500,
+        "maxConfirmTime": 3,
+        "pinned": false,
+        "x": 525,
+        "y": 80,
+        "width": 100,
+        "height": 35,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 3
+    },
+    "events": [
+        {
+        "id": "selectionChanged",
+        "statements": []
+        },
+        {
+        "id": "valueChanged",
+        "statements": []
+        },
+        {
+        "id": "errorNotification",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

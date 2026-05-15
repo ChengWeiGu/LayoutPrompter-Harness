@@ -1,0 +1,99 @@
+{
+    "name": "Switch",
+    "objectTypeName": "objectSwitch",
+    "layer": "root",
+    "layerIndex": 1,
+    "properties": {
+        "widgetType": 30579,
+        "objectType": 7,
+        "comment": "",
+        "readOnly": false,
+        "readWriteValueSeparated": false,
+        "readValue": 0,
+        "writeValue": 0,
+        "value": 0,
+        "currentState": 0,
+        "dataFormat": 7,
+        "stateMappingPolicy": 0,
+        "stateCount": 2,
+        "picture": {
+        "kind": "resource",
+        "path": "v1|1|0|0:|27:System Switch - Ribbon.flbx"
+        },
+        "pictureColor": "#80ddff",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "fill": {
+        "pattern": 0,
+        "subjectColor": "#00000000",
+        "patternColor": "#00000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "transparency": 255,
+        "text": "",
+        "font": "Calibri",
+        "fontSize": 16,
+        "fontBold": false,
+        "fontItalic": false,
+        "fontUnderline": false,
+        "fontColor": "#000000",
+        "alignment": 4,
+        "padding": {},
+        "blinking": 0,
+        "scrolling": {},
+        "visible": true,
+        "enabled": true,
+        "safetyControlMode": 0,
+        "minPressTime": 500,
+        "maxConfirmTime": 3,
+        "pinned": false,
+        "x": 251,
+        "y": 60,
+        "width": 55,
+        "height": 90,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "layerIndex": 1
+    },
+    "events": [
+        {
+        "id": "task",
+        "statements": [
+            {
+            "method": "increaseState",
+            "parameters": {
+                "increaseStateMethodCyclicalParameter": "1"
+            },
+            "target": "Method://Switch:increaseState",
+            "type": "object_method"
+            }
+        ]
+        },
+        {
+        "id": "pressed",
+        "statements": []
+        },
+        {
+        "id": "released",
+        "statements": []
+        },
+        {
+        "id": "clicked",
+        "statements": []
+        },
+        {
+        "id": "stateChanged",
+        "statements": []
+        }
+    ],
+    "methods": []
+}
