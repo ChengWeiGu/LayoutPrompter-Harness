@@ -45,7 +45,7 @@ def main():
             
             save_msg = (
                     f"[System Info] latest complete json has been saved to {save_file_name}\n"
-                    "Immediately after that, if the original project file has not been updated yet, please call tool_call with the following:\n"
+                    "Immediately after that, if the original project file has not been updated yet, please override it to user's project with:\n"
                     "```tool_call\n"
                     "OverrideRes2Proj:{"
                     f"\"source_filename\":\"{save_file_name}\","

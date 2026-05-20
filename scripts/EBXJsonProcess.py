@@ -1227,18 +1227,18 @@ class ScreenEncoder(ScreenDecoder):
         
 
 if __name__ == "__main__":
-    project_path = "Project.json" # 測試用 json
-    save_view_path = "./temp/llm-output-20260515165201.json"
-    screen_name = "sc1"
+    project_path = "art1-figmamake-proj.json" # 測試用 json
+    save_view_path = "./art1-figmamake-view.json"
+    screen_name = "art1-figmamake"
     
-    # sc_decoder = ScreenDecoder()
-    # sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
-    # print(sc_view)
+    sc_decoder = ScreenDecoder()
+    sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
+    print(sc_view)
     
-    # with open(save_view_path, "w", encoding='utf-8') as f:
-    #     json.dump(sc_view, f, ensure_ascii=False, indent=4)
+    with open(save_view_path, "w", encoding='utf-8') as f:
+        json.dump(sc_view, f, ensure_ascii=False, indent=4)
     
-    sc_encoder = ScreenEncoder()
-    sc_encoder.override_project_from_view(save_view_path, project_path)
+    # sc_encoder = ScreenEncoder()
+    # sc_encoder.override_project_from_view(save_view_path, project_path)
     
     pass
