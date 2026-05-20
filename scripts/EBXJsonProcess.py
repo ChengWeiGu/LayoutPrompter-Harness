@@ -1227,9 +1227,9 @@ class ScreenEncoder(ScreenDecoder):
         
 
 if __name__ == "__main__":
-    project_path = "art1-figmamake-proj.json" # 測試用 json
-    save_view_path = "./art1-figmamake-view.json"
-    screen_name = "art1-figmamake"
+    project_path = "Project800_480.json" # 測試用 json
+    save_view_path = "./EXP-view.json"
+    screen_name = "demo5"
     
     sc_decoder = ScreenDecoder()
     sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)

@@ -22,7 +22,9 @@ EBX is Weintek's UI Design tool of HMI for end customer.
     - Add new objects defined in `Widget JSON Descriptoins` but their `name` should be unique
     - For widgets whose `objectType` you cannot reconginze, please only change their `profile`
     - Assign new `name` to an object whose `name` is duplicated to another. make sure all names are unique
-    - Cgange | Design a good order of object list in `objects`. The earlier the order, the closer it is to the bottom layer of the screen.
+    - Change the order of `objects` list. The earlier the order of a widget, the closer it is to the BOTTOM layer of the screen.
+        - Similar to the concept of Z-index, smaller index in `objects` means it is closer to the `Screen Window`
+        - For `DrawingRectangle` which acts as a background, please provide it a samller z-index than that of its children.
     - Call tools to 
         - Get screen json from project
         - Read image from a file
@@ -4171,6 +4173,3332 @@ This example teach you how to make plans and optimize a screen
     1. 降低顏色飽和度 
     2. 淺藍改灰藍、橘色改柔和 
     3. 框線與按鈕改扁平、細線條
+
+
+## Example 2 
+
+This example teach you how to generate a complete json with many widgets (> 70 ea) in a smaller screen size and better order of objects
+
+- **Design JSON**:
+    ```json
+    {
+        "screen_name": "demo5",
+        "screen_size": {
+            "width": 800,
+            "height": 480
+        },
+        "screen_properties": {
+            "facecolor": "#1e2a38",
+            "border": {
+                "style": 5,
+                "color": "#000000",
+                "width": 0
+            }
+        },
+        "objects": [
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_main",
+                "frame": {
+                    "frameColor": "#253345",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 0
+                },
+                "interior": {
+                    "color": "#253345"
+                },
+                "profile": {
+                    "x": 0,
+                    "y": 84,
+                    "width": 800,
+                    "height": 344,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_z_lower_limit",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "下限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 464,
+                    "y": 382,
+                    "width": 60,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_z_upper_limit",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "上限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 400,
+                    "y": 382,
+                    "width": 60,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_left_panel",
+                "frame": {
+                    "frameColor": "#2e4058",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 6
+                },
+                "interior": {
+                    "color": "#2e4058"
+                },
+                "profile": {
+                    "x": 8,
+                    "y": 90,
+                    "width": 222,
+                    "height": 332,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_xo",
+                "frame": {
+                    "frameColor": "#354d6a",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#354d6a"
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 155,
+                    "width": 210,
+                    "height": 38,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_ro",
+                "frame": {
+                    "frameColor": "#354d6a",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#354d6a"
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 205,
+                    "width": 210,
+                    "height": 38,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_yo",
+                "frame": {
+                    "frameColor": "#354d6a",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#354d6a"
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 255,
+                    "width": 210,
+                    "height": 38,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_center_panel",
+                "frame": {
+                    "frameColor": "#2a3d55",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 6
+                },
+                "interior": {
+                    "color": "#2a3d55"
+                },
+                "profile": {
+                    "x": 238,
+                    "y": 90,
+                    "width": 296,
+                    "height": 332,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_x_axis",
+                "frame": {
+                    "frameColor": "#1f5c5c",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#1e4a4a"
+                },
+                "profile": {
+                    "x": 244,
+                    "y": 95,
+                    "width": 284,
+                    "height": 72,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_r_axis",
+                "frame": {
+                    "frameColor": "#1f5c5c",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#1e4a4a"
+                },
+                "profile": {
+                    "x": 244,
+                    "y": 177,
+                    "width": 284,
+                    "height": 72,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_footer",
+                "frame": {
+                    "frameColor": "#162030",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 0
+                },
+                "interior": {
+                    "color": "#162030"
+                },
+                "profile": {
+                    "x": 0,
+                    "y": 428,
+                    "width": 800,
+                    "height": 52,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_right_z",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "右工位\nZ轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 692,
+                    "y": 432,
+                    "width": 104,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_y_axis",
+                "frame": {
+                    "frameColor": "#1f5c5c",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#1e4a4a"
+                },
+                "profile": {
+                    "x": 244,
+                    "y": 259,
+                    "width": 284,
+                    "height": 72,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_right_panel",
+                "frame": {
+                    "frameColor": "#2a3d55",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 6
+                },
+                "interior": {
+                    "color": "#2a3d55"
+                },
+                "profile": {
+                    "x": 542,
+                    "y": 90,
+                    "width": 250,
+                    "height": 332,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_right_y",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "右工位\nY轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 606,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_right_r",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "右工位\nR轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 520,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_left_z",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "左工位\nZ轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 434,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_left_y",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "左工位\nY轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 348,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_left_r",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "左工位\nR轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 262,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_x_axis",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "X轴页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 11,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 176,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_motor",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "电机设置",
+                    "fontStyle": "Calibri",
+                    "fontSize": 11,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 90,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "nav_main",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "主页面",
+                    "fontStyle": "Calibri",
+                    "fontSize": 11,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#cce8f4",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 4,
+                    "y": 432,
+                    "width": 82,
+                    "height": 44,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#1e3a52"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_down",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "下降",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 672,
+                    "y": 343,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_z_axis",
+                "frame": {
+                    "frameColor": "#1f5c5c",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#1e4a4a"
+                },
+                "profile": {
+                    "x": 244,
+                    "y": 341,
+                    "width": 284,
+                    "height": 72,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_up",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "上升",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 548,
+                    "y": 343,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_back",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "后",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 672,
+                    "y": 261,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_front",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "前",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 548,
+                    "y": 261,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_cw",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "顺时针",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 672,
+                    "y": 179,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_ccw",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "逆时针",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 548,
+                    "y": 179,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_right",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "右",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 672,
+                    "y": 97,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_left",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "左",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 548,
+                    "y": 97,
+                    "width": 112,
+                    "height": 60,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#3a5a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_z_axis",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "Z",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 345,
+                    "width": 32,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a8a7a"
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "card_zo",
+                "frame": {
+                    "frameColor": "#354d6a",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#354d6a"
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 305,
+                    "width": 210,
+                    "height": 38,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_z_val",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a5a4a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#80ffcc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 286,
+                    "y": 345,
+                    "width": 136,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_y_axis",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "Y",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 263,
+                    "width": 32,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a8a7a"
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_y_val",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a5a4a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#80ffcc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 286,
+                    "y": 263,
+                    "width": 136,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_r_axis",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "R",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 181,
+                    "width": 32,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a8a7a"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 320,
+                    "y": 135,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_alarm",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 135,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#4488bb"
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_r_val",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a5a4a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#80ffcc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 286,
+                    "y": 181,
+                    "width": 136,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_header",
+                "frame": {
+                    "frameColor": "#243447",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 0
+                },
+                "interior": {
+                    "color": "#243447"
+                },
+                "profile": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 800,
+                    "height": 46,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_x_axis",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "X",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 99,
+                    "width": 32,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a8a7a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_4axis_zero",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "四轴回零",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 122,
+                    "y": 356,
+                    "width": 100,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a6a8a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_4axis_goto",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "四轴到点",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 356,
+                    "width": 100,
+                    "height": 32,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a6a8a"
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_x_val",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a5a4a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#80ffcc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 286,
+                    "y": 99,
+                    "width": 136,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_enter_zo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "录入",
+                    "fontStyle": "Calibri",
+                    "fontSize": 12,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 154,
+                    "y": 310,
+                    "width": 64,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a7a9a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_enter_yo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "录入",
+                    "fontStyle": "Calibri",
+                    "fontSize": 12,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 154,
+                    "y": 260,
+                    "width": 64,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a7a9a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_enter_ro",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "录入",
+                    "fontStyle": "Calibri",
+                    "fontSize": 12,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 154,
+                    "y": 210,
+                    "width": 64,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a7a9a"
+                }
+            },
+            {
+                "objectType": "Button",
+                "name": "btn_enter_xo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "录入",
+                    "fontStyle": "Calibri",
+                    "fontSize": 12,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 154,
+                    "y": 160,
+                    "width": 64,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Button - Flat.flbx",
+                    "index": 2,
+                    "color": "#2a7a9a"
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_zo",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a4a2a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontColor": "#80ffb0",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 48,
+                    "y": 310,
+                    "width": 100,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "bg_tabs",
+                "frame": {
+                    "frameColor": "#1a2535",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 0
+                },
+                "interior": {
+                    "color": "#1a2535"
+                },
+                "profile": {
+                    "x": 0,
+                    "y": 46,
+                    "width": 800,
+                    "height": 38,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_yo",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a4a2a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontColor": "#80ffb0",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 48,
+                    "y": 260,
+                    "width": 100,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "OptionList",
+                "name": "opt_product",
+                "style": 0,
+                "outline": {
+                    "backgroundColor": "#2e5f7a",
+                    "selectionColor": "#3a9fc0"
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#f0f8ff"
+                },
+                "profile": {
+                    "x": 60,
+                    "y": 10,
+                    "width": 56,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_zo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "ZO",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#7ec8d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 16,
+                    "y": 310,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_ro",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a4a2a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontColor": "#80ffb0",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 48,
+                    "y": 210,
+                    "width": 100,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_yo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "YO",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#7ec8d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 16,
+                    "y": 260,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_xo",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1a4a2a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontColor": "#80ffb0",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 48,
+                    "y": 160,
+                    "width": 100,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "badge_datetime",
+                "frame": {
+                    "frameColor": "#2e4058",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#2e4058"
+                },
+                "profile": {
+                    "x": 518,
+                    "y": 7,
+                    "width": 276,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_current_weld",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#1e5a6a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#a0f0d0",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 100,
+                    "y": 94,
+                    "width": 62,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_ro",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "RO",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#7ec8d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 16,
+                    "y": 210,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_target",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#2e6e7a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#f0ffff",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 344,
+                    "y": 10,
+                    "width": 60,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "TextInput",
+                "name": "txt_time",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#2e4058"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 0,
+                    "fontColor": "#8ab4cc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 618,
+                    "y": 10,
+                    "width": 170,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_xo",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "XO",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#7ec8d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 16,
+                    "y": 160,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "tab_right_bg",
+                "frame": {
+                    "frameColor": "#3a4f66",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#3a4f66"
+                },
+                "profile": {
+                    "x": 176,
+                    "y": 50,
+                    "width": 160,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_current_weld",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "当前焊点位:",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 14,
+                    "y": 94,
+                    "width": 82,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "tab_right_lbl",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "右工位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#8ab4cc",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 176,
+                    "y": 50,
+                    "width": 160,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "tab_left_active",
+                "frame": {
+                    "frameColor": "#e07820",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#e07820"
+                },
+                "profile": {
+                    "x": 8,
+                    "y": 50,
+                    "width": 160,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "tab_left_lbl",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "左工位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 16,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ffffff",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 8,
+                    "y": 50,
+                    "width": 160,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "TextInput",
+                "name": "txt_date",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#2e4058"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 0,
+                    "fontColor": "#8ab4cc",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 522,
+                    "y": 10,
+                    "width": 88,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "NumericInput",
+                "name": "num_spec",
+                "outline": {
+                    "galleryName": "System Input Box - Flat.flbx",
+                    "index": 1,
+                    "color": "#2e6e7a"
+                },
+                "background": {
+                    "color": "#00000000",
+                    "radius": 4,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontColor": "#f0ffff",
+                    "alignment": 4,
+                    "padding": {}
+                },
+                "profile": {
+                    "x": 194,
+                    "y": 10,
+                    "width": 60,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingRectangle",
+                "name": "badge_mode",
+                "frame": {
+                    "frameColor": "#1a7a6a",
+                    "frameWidth": 1,
+                    "style": 0,
+                    "frameRadius": 5
+                },
+                "interior": {
+                    "color": "#1a7a6a"
+                },
+                "profile": {
+                    "x": 414,
+                    "y": 7,
+                    "width": 96,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_mode",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "自动模式",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#ccfff5",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 414,
+                    "y": 7,
+                    "width": 96,
+                    "height": 32,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_target",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "目标焊点数:",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 260,
+                    "y": 10,
+                    "width": 82,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_spec",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "焊接规范:",
+                    "fontStyle": "Calibri",
+                    "fontSize": 13,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 122,
+                    "y": 10,
+                    "width": 70,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "lbl_product",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "产品号",
+                    "fontStyle": "Calibri",
+                    "fontSize": 14,
+                    "fontBold": 1,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 6,
+                    "y": 10,
+                    "width": 52,
+                    "height": 26,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "X軸報警",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 273,
+                    "y": 130,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "X軸啟用",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 345,
+                    "y": 130,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 389,
+                    "y": 135,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "左限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 412,
+                    "y": 130,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2) (2)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 456,
+                    "y": 135,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2) (2)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "右限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 479,
+                    "y": 130,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (3)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 320,
+                    "y": 218,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_alarm (2)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 218,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#4488bb"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (3)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "R軸報警",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 273,
+                    "y": 213,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (3)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "R軸啟用",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 345,
+                    "y": 213,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (4)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 320,
+                    "y": 300,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_alarm (3)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 248,
+                    "y": 300,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#4488bb"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (4)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "Y軸報警",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 273,
+                    "y": 296,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (4)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "Y軸啟用",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 345,
+                    "y": 296,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2) (3)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 389,
+                    "y": 300,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2) (3)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "前限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 412,
+                    "y": 296,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2) (2) (2)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 455,
+                    "y": 300,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2) (2) (2)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "後限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 479,
+                    "y": 296,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (5)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 322,
+                    "y": 382,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_alarm (4)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 250,
+                    "y": 382,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#4488bb"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (5)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "Z軸報警",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 275,
+                    "y": 377,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (5)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "Z軸啟用",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 347,
+                    "y": 377,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2) (4)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 391,
+                    "y": 382,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2) (4)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "上限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 414,
+                    "y": 377,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "Lamp",
+                "name": "lamp_x_enable (2) (2) (3)",
+                "background": {
+                    "color": "#00000000",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 0
+                    }
+                },
+                "label": {
+                    "text": "",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 7,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 458,
+                    "y": 382,
+                    "width": 28,
+                    "height": 28,
+                    "rotation": 0
+                },
+                "outline": {
+                    "galleryName": "System Lamp - Flat.flbx",
+                    "index": 0,
+                    "color": "#cc3333"
+                }
+            },
+            {
+                "objectType": "Text",
+                "name": "Text (2) (2) (2) (3)",
+                "background": {
+                    "color": "#ffffff",
+                    "radius": 0,
+                    "border": {
+                        "style": 5,
+                        "color": "#000000",
+                        "width": 1
+                    }
+                },
+                "label": {
+                    "text": "下限位",
+                    "fontStyle": "Calibri",
+                    "fontSize": 10,
+                    "fontBold": 0,
+                    "fontItalic": 0,
+                    "fontUnderline": 0,
+                    "fontColor": "#a8c4d8",
+                    "alignment": 4,
+                    "padding": {},
+                    "blinking": 0,
+                    "scrolling": {}
+                },
+                "profile": {
+                    "x": 481,
+                    "y": 377,
+                    "width": 47,
+                    "height": 36,
+                    "rotation": 0
+                }
+            }
+        ]
+    }
+    ```
+
+- **Features**:
+    - the resolution is 800 X 400 which contans about 80 widgets
+    - The order of rectangle is correct, for example
+        1. `bg_left_panel` is earlier order than `lbl_xo`, `num_xo`, `btn_enter_xo` and `btn_4axis_goto`
+        2. `badge_datetime` has smaller z-index than `txt_date` and `txt_time`
+        3. `card_y_axis` is closer to the bottom and does not cover its children `btn_y_axis`, `num_y_val`, `lamp_x_alarm (3)`, `lamp_x_enable (4)`, `Text (2) (4)` and `Text (2) (2) (3)`, ...etc.
+        4. `bg_footer` does not cover its children `nav_main`, `nav_left_r`, `nav_right_y`, ...etc. (9 buttons)
 
 
 # Tool use for beautification task
