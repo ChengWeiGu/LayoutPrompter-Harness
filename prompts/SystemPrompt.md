@@ -22,9 +22,7 @@ EBX is Weintek's UI Design tool of HMI for end customer.
     - Add new objects defined in `Widget JSON Descriptoins` but their `name` should be unique
     - For widgets whose `objectType` you cannot reconginze, please only change their `profile`
     - Assign new `name` to an object whose `name` is duplicated to another. make sure all names are unique
-    - Change the order of `objects` list. The earlier the order of a widget, the closer it is to the BOTTOM layer of the screen.
-        - Similar to the concept of Z-index, smaller index in `objects` means it is closer to the `Screen Window`
-        - For `DrawingRectangle` which acts as a background, please provide it a samller z-index than that of its children.
+    - Change the order of widgets. The earlier the order of a widget in `objects` list, the closer it is to the BOTTOM layer of the screen.
     - Call tools to 
         - Get screen json from project
         - Read image from a file
@@ -231,8 +229,9 @@ Almost objects have same definition of attributes in their JSON as follows
             - a text widget to show temperature string label
             - a numeric widget to show the corresponding value
             - their JSON can be found from `objects` list
-        - The eariler order of a widget in `objects` list: The earlier the order, the closer it is to the bottom layer of the screen.
-            - Thus, the numeric has larger z-index than the text
+        - The eariler order of a widget in `objects` list: 
+            - The earlier the order, the closer it is to the bottom layer of the screen
+            - Thus, the Text is closer to the bottom screen
     - In fact, user may create lots of objects in his project, so the screen JSON might be very big and complex
     - with the following widget JSON, you need to know how to beautify them
 
@@ -840,13 +839,46 @@ Custom Widget has another Object Name called `CompositeWidget`.
 
 ---
 
+## Layer Order Rule / 物件圖層順序規則
+
+The layer order is controlled ONLY by the order of items in the `objects` array.
+
+- Objects appearing earlier in the `objects` array are rendered behind later objects.
+- Objects appearing later in the `objects` array are rendered on top of earlier objects.
+- Therefore, background rectangles must be placed BEFORE their child widgets in the `objects` array.
+- Do NOT place background rectangles after buttons, labels, numeric inputs, or lamps.
+- Do NOT confuse this with `outline.index`; `outline.index` only controls widget shape/style and has nothing to do with layer order.
+
+- Correct order example:
+    ```json
+    "objects": [
+        { "objectType": "DrawingRectangle", "name": "bg_main_panel" },
+        { "objectType": "DrawingRectangle", "name": "bg_card_1" },
+        { "objectType": "Text", "name": "title_card_1" },
+        { "objectType": "NumericInput", "name": "value_card_1" },
+        { "objectType": "Button", "name": "button_card_1" }
+    ]
+    ```
+
+- Wrong order example:
+    ```json
+    "objects": [
+        { "objectType": "Text", "name": "title_card_1" },
+        { "objectType": "NumericInput", "name": "value_card_1" },
+        { "objectType": "Button", "name": "button_card_1" },
+        { "objectType": "DrawingRectangle", "name": "bg_card_1" }
+    ]
+    ```
+
+- In the wrong example, bg_card_1 will cover the text, numeric input, and button because it appears later in the objects array.
+
+
 ## Other Rules
 
 - `name` acts as object ID which is unique in the screen.
 - every type of widget has its own `objectType`, don't invent it.
 - For some widgets, always consider using `Flat.flbx` because the galleryName must provide changeable facecolor. It's easy to set `index` without errors.
 - For Object Type that you cannot recognize (out of definition), just change their `profile`.
-
 
 # Layout Examples to beautify a JSON screen in EBX
 
@@ -4182,7 +4214,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
 - **Design JSON**:
     ```json
     {
-        "screen_name": "demo5",
+        "screen_name": "art2",
         "screen_size": {
             "width": 800,
             "height": 480
@@ -4214,82 +4246,6 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "width": 800,
                     "height": 344,
                     "rotation": 0
-                }
-            },
-            {
-                "objectType": "Lamp",
-                "name": "lamp_z_lower_limit",
-                "background": {
-                    "color": "#00000000",
-                    "radius": 0,
-                    "border": {
-                        "style": 5,
-                        "color": "#000000",
-                        "width": 0
-                    }
-                },
-                "label": {
-                    "text": "下限位",
-                    "fontStyle": "Calibri",
-                    "fontSize": 10,
-                    "fontBold": 0,
-                    "fontItalic": 0,
-                    "fontUnderline": 0,
-                    "fontColor": "#a8c4d8",
-                    "alignment": 7,
-                    "padding": {},
-                    "blinking": 0,
-                    "scrolling": {}
-                },
-                "profile": {
-                    "x": 464,
-                    "y": 382,
-                    "width": 60,
-                    "height": 28,
-                    "rotation": 0
-                },
-                "outline": {
-                    "galleryName": "System Lamp - Flat.flbx",
-                    "index": 0,
-                    "color": "#cc3333"
-                }
-            },
-            {
-                "objectType": "Lamp",
-                "name": "lamp_z_upper_limit",
-                "background": {
-                    "color": "#00000000",
-                    "radius": 0,
-                    "border": {
-                        "style": 5,
-                        "color": "#000000",
-                        "width": 0
-                    }
-                },
-                "label": {
-                    "text": "上限位",
-                    "fontStyle": "Calibri",
-                    "fontSize": 10,
-                    "fontBold": 0,
-                    "fontItalic": 0,
-                    "fontUnderline": 0,
-                    "fontColor": "#a8c4d8",
-                    "alignment": 7,
-                    "padding": {},
-                    "blinking": 0,
-                    "scrolling": {}
-                },
-                "profile": {
-                    "x": 400,
-                    "y": 382,
-                    "width": 60,
-                    "height": 28,
-                    "rotation": 0
-                },
-                "outline": {
-                    "galleryName": "System Lamp - Flat.flbx",
-                    "index": 0,
-                    "color": "#cc3333"
                 }
             },
             {
@@ -6638,7 +6594,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2)",
+                "name": "lamp_x_left_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6676,7 +6632,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2)",
+                "name": "label_x_left_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -6709,7 +6665,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2) (2)",
+                "name": "lamp_x_right_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6747,7 +6703,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2) (2)",
+                "name": "label_x_right_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -6780,7 +6736,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (3)",
+                "name": "lamp_r_enable",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6818,7 +6774,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_alarm (2)",
+                "name": "lamp_r_alarm",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6856,7 +6812,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (3)",
+                "name": "label_r_alarm",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -6867,7 +6823,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "R軸報警",
+                    "text": "R轴报警",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -6889,7 +6845,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (3)",
+                "name": "label_r_enable",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -6900,7 +6856,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "R軸啟用",
+                    "text": "R轴启用",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -6922,7 +6878,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (4)",
+                "name": "lamp_y_enable",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6960,7 +6916,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_alarm (3)",
+                "name": "lamp_y_alarm",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -6998,7 +6954,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (4)",
+                "name": "label_y_alarm",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7009,7 +6965,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "Y軸報警",
+                    "text": "Y轴报警",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -7031,7 +6987,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (4)",
+                "name": "label_y_enable",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7042,7 +6998,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "Y軸啟用",
+                    "text": "Y轴启用",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -7064,7 +7020,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2) (3)",
+                "name": "lamp_y_front_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7102,7 +7058,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2) (3)",
+                "name": "label_y_front_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7135,7 +7091,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2) (2) (2)",
+                "name": "lamp_y_back_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7173,7 +7129,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2) (2) (2)",
+                "name": "label_y_back_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7184,7 +7140,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "後限位",
+                    "text": "后限位",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -7206,7 +7162,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (5)",
+                "name": "lamp_z_enable",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7244,7 +7200,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_alarm (4)",
+                "name": "lamp_z_alarm",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7282,7 +7238,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (5)",
+                "name": "label_z_alarm",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7293,7 +7249,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "Z軸報警",
+                    "text": "Z轴报警",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -7315,7 +7271,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (5)",
+                "name": "label_z_enable",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7326,7 +7282,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     }
                 },
                 "label": {
-                    "text": "Z軸啟用",
+                    "text": "Z轴启用",
                     "fontStyle": "Calibri",
                     "fontSize": 10,
                     "fontBold": 0,
@@ -7348,7 +7304,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2) (4)",
+                "name": "lamp_z_upper_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7386,7 +7342,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2) (4)",
+                "name": "label_z_upper_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7419,7 +7375,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Lamp",
-                "name": "lamp_x_enable (2) (2) (3)",
+                "name": "lamp_z_lower_limit",
                 "background": {
                     "color": "#00000000",
                     "radius": 0,
@@ -7457,7 +7413,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text (2) (2) (2) (3)",
+                "name": "label_z_lower_limit",
                 "background": {
                     "color": "#ffffff",
                     "radius": 0,
@@ -7493,11 +7449,11 @@ This example teach you how to generate a complete json with many widgets (> 70 e
     ```
 
 - **Features**:
-    - the resolution is 800 X 400 which contans about 80 widgets
+    - the resolution is 800 X 400 which contains about 80 widgets
     - The order of rectangle is correct, for example
-        1. `bg_left_panel` is earlier order than `lbl_xo`, `num_xo`, `btn_enter_xo` and `btn_4axis_goto`
-        2. `badge_datetime` has smaller z-index than `txt_date` and `txt_time`
-        3. `card_y_axis` is closer to the bottom and does not cover its children `btn_y_axis`, `num_y_val`, `lamp_x_alarm (3)`, `lamp_x_enable (4)`, `Text (2) (4)` and `Text (2) (2) (3)`, ...etc.
+        1. `bg_left_panel` is earlier order than `lbl_xo`, `num_xo`, `btn_enter_xo`, `card_xo` and `btn_4axis_goto`
+        2. `badge_datetime` is earlier order than `txt_date` and `txt_time`
+        3. `card_y_axis` is closer to the bottom and does not cover its children: `btn_y_axis`, `num_y_val`, `lamp_y_alarm`, `lamp_y_enable`, `label_y_enable` and `label_y_front_limit`, ...etc.
         4. `bg_footer` does not cover its children `nav_main`, `nav_left_r`, `nav_right_y`, ...etc. (9 buttons)
 
 

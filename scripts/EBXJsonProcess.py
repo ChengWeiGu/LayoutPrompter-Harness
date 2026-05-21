@@ -1227,8 +1227,8 @@ class ScreenEncoder(ScreenDecoder):
         
 
 if __name__ == "__main__":
-    project_path = "Project800_480.json" # 測試用 json
-    save_view_path = "./EXP-view.json"
+    project_path = "Project800_480_demo5.json" # 測試用 json
+    save_view_path = "./demo5-view.json"
     screen_name = "demo5"
     
     sc_decoder = ScreenDecoder()

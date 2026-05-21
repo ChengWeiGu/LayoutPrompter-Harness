@@ -66,8 +66,8 @@ service_name = bedrock-runtime
 anthropic_version = bedrock-2023-05-31
 chat_model_id = us.anthropic.claude-sonnet-4-6
 region = us-east-1
-aws_access_key_id = YOUR_KEY_ID
-aws_secret_access_key = YOUR_SECRET_KEY
+aws_access_key_id = <YOUR_KEY_ID>
+aws_secret_access_key = <YOUR_SECRET_KEY>
 
 [PROMPT]
 system_prompt_file = ./prompts/SystemPrompt.md
@@ -82,9 +82,9 @@ python agent_harness.py
 The harness opens an interactive terminal loop. Type your request in natural language:
 
 ```
-You: Redesign the screen with a dark theme and make the buttons more uniform in size.
-You: The alarm lamp should be red and centered at the top.
-You: Add a rectangle behind the header widgets to create a panel effect.
+You: Read image <IMAGE_PATH> which is a HMI design pattern, then optimize and redesign it on screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>`.
+You: Read the current screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>` and relayout objects uniformly.
+You: Create 4 buttons closer to the bottom of screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>`. Their texts are "Home", "Page1", "Page2", "Page3" respectively.
 ```
 
 **Available commands:**
