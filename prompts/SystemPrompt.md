@@ -4214,7 +4214,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
 - **Design JSON**:
     ```json
     {
-        "screen_name": "art2",
+        "screen_name": "demo5",
         "screen_size": {
             "width": 800,
             "height": 480
@@ -6528,9 +6528,9 @@ This example teach you how to generate a complete json with many widgets (> 70 e
             },
             {
                 "objectType": "Text",
-                "name": "Text",
+                "name": "label_x_alarm",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6552,18 +6552,18 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 273,
-                    "y": 130,
-                    "width": 47,
-                    "height": 36,
+                    "x": 276,
+                    "y": 135,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
             {
                 "objectType": "Text",
-                "name": "Text (2)",
+                "name": "label_x_enable",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6585,10 +6585,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 345,
-                    "y": 130,
-                    "width": 47,
-                    "height": 36,
+                    "x": 348,
+                    "y": 136,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6634,7 +6634,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_x_left_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6656,10 +6656,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 412,
-                    "y": 130,
-                    "width": 47,
-                    "height": 36,
+                    "x": 415,
+                    "y": 136,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6705,7 +6705,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_x_right_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6727,10 +6727,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 479,
-                    "y": 130,
-                    "width": 47,
-                    "height": 36,
+                    "x": 482,
+                    "y": 136,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6814,7 +6814,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_r_alarm",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6836,10 +6836,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 273,
-                    "y": 213,
-                    "width": 47,
-                    "height": 36,
+                    "x": 276,
+                    "y": 218,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6847,7 +6847,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_r_enable",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6869,10 +6869,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 345,
-                    "y": 213,
-                    "width": 47,
-                    "height": 36,
+                    "x": 348,
+                    "y": 218,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6956,7 +6956,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_y_alarm",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -6978,10 +6978,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 273,
-                    "y": 296,
-                    "width": 47,
-                    "height": 36,
+                    "x": 276,
+                    "y": 301,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -6989,7 +6989,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_y_enable",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7011,10 +7011,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 345,
-                    "y": 296,
-                    "width": 47,
-                    "height": 36,
+                    "x": 348,
+                    "y": 301,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7060,7 +7060,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_y_front_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7082,10 +7082,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 412,
-                    "y": 296,
-                    "width": 47,
-                    "height": 36,
+                    "x": 415,
+                    "y": 301,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7115,7 +7115,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 455,
+                    "x": 456,
                     "y": 300,
                     "width": 28,
                     "height": 28,
@@ -7131,7 +7131,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_y_back_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7153,10 +7153,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 479,
-                    "y": 296,
-                    "width": 47,
-                    "height": 36,
+                    "x": 482,
+                    "y": 301,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7186,7 +7186,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 322,
+                    "x": 320,
                     "y": 382,
                     "width": 28,
                     "height": 28,
@@ -7224,7 +7224,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 250,
+                    "x": 248,
                     "y": 382,
                     "width": 28,
                     "height": 28,
@@ -7240,7 +7240,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_z_alarm",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7262,10 +7262,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 275,
-                    "y": 377,
-                    "width": 47,
-                    "height": 36,
+                    "x": 276,
+                    "y": 382,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7273,7 +7273,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_z_enable",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7295,10 +7295,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 347,
-                    "y": 377,
-                    "width": 47,
-                    "height": 36,
+                    "x": 348,
+                    "y": 382,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7328,7 +7328,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 391,
+                    "x": 389,
                     "y": 382,
                     "width": 28,
                     "height": 28,
@@ -7344,7 +7344,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_z_upper_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7366,10 +7366,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 414,
-                    "y": 377,
-                    "width": 47,
-                    "height": 36,
+                    "x": 415,
+                    "y": 382,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             },
@@ -7399,7 +7399,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 458,
+                    "x": 456,
                     "y": 382,
                     "width": 28,
                     "height": 28,
@@ -7415,7 +7415,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                 "objectType": "Text",
                 "name": "label_z_lower_limit",
                 "background": {
-                    "color": "#ffffff",
+                    "color": "#00000000",
                     "radius": 0,
                     "border": {
                         "style": 5,
@@ -7437,10 +7437,10 @@ This example teach you how to generate a complete json with many widgets (> 70 e
                     "scrolling": {}
                 },
                 "profile": {
-                    "x": 481,
-                    "y": 377,
-                    "width": 47,
-                    "height": 36,
+                    "x": 482,
+                    "y": 382,
+                    "width": 43,
+                    "height": 26,
                     "rotation": 0
                 }
             }
@@ -7449,7 +7449,7 @@ This example teach you how to generate a complete json with many widgets (> 70 e
     ```
 
 - **Features**:
-    - the resolution is 800 X 400 which contains about 80 widgets
+    - the resolution is 800 X 400 which contains about 99 widgets
     - The order of rectangle is correct, for example
         1. `bg_left_panel` is earlier order than `lbl_xo`, `num_xo`, `btn_enter_xo`, `card_xo` and `btn_4axis_goto`
         2. `badge_datetime` is earlier order than `txt_date` and `txt_time`

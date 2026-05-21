@@ -1,8 +1,6 @@
 import os
 import copy
 import json
-import shutil
-from pathlib import Path
 
 
 ObjectMap_ebx2view = {
@@ -162,7 +160,10 @@ class ScreenDecoder:
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
             
             # bg section
-            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` is always 0
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
             _bg_radius = _properties["radius"] # default 0
             _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
             
@@ -410,7 +411,10 @@ class ScreenDecoder:
             _pictureColor = _properties["pictureColor"] # default #00000000 => transparent
             
             # bg section
+            _bg_pattern = _properties["fill"]["pattern"]
             _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => transparent
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
             _bg_radius = _properties["radius"] # default 0
             _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
             
@@ -770,8 +774,12 @@ class ScreenEncoder(ScreenDecoder):
             _properties = obj_json["properties"]
             
             # bg section
-            _properties["fill"]["pattern"] = 0 # always 0
-            _properties["fill"]["subjectColor"] = obj_view_json["background"]["color"]
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+            
             _properties["radius"] = obj_view_json["background"]["radius"]
             _properties["border"] = obj_view_json["background"]["border"]
             
@@ -964,7 +972,12 @@ class ScreenEncoder(ScreenDecoder):
             _properties["pictureColor"] = obj_view_json["outline"]["color"]
             
             # bg section
-            _properties["fill"]["subjectColor"] = obj_view_json["background"]["color"]
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+                
             _properties["radius"] = obj_view_json["background"]["radius"]
             _properties["border"] = obj_view_json["background"]["border"]
             
@@ -1097,6 +1110,18 @@ class ScreenEncoder(ScreenDecoder):
         else:
             cls.override_other_object(obj_json, obj_view_json)
     
+    @classmethod
+    def override_layerIndex(cls, obj_json:dict, new_idx:int):
+        try:
+            name = obj_json["name"]
+            objectTypeName = obj_json["objectTypeName"]
+            # change layer index
+            obj_json["layerIndex"] = new_idx 
+            obj_json["properties"]["layerIndex"] = new_idx 
+            
+        except Exception as e:
+            error_msg = f"[Override layerIndex Failed] {str(e)} for name:{name} and objectTypeName:{objectTypeName}"
+            raise Exception(error_msg)
     
     def __init__(self):
         self.descr="transform view json to original json"
@@ -1126,6 +1151,8 @@ class ScreenEncoder(ScreenDecoder):
             Args:
             - view_path: LLM 產生的 json view 路徑
             - project_path: EBX export 檔案路徑
+        
+        *** 需更改layerIndex
         """
         try:
             sc_view = self.load_json_file(view_path)
@@ -1146,6 +1173,7 @@ class ScreenEncoder(ScreenDecoder):
             _obj_names = self.get_screen_object_names(_objects)
             
             # scan objects in sc_view
+            _objects_reorder = []
             for idx, obj in enumerate(objects):
                 obj_name = obj["name"]
                 obj_type = obj["objectType"]
@@ -1153,7 +1181,8 @@ class ScreenEncoder(ScreenDecoder):
                 if obj_name not in _obj_names:
                     _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                     self.override_object_router(_obj, obj) # 更改該物件
-                    _objects.insert(idx, _obj) # 插入該物件
+                    self.override_layerIndex(_obj, idx) # 更改 layerIndex
+                    _objects_reorder.insert(idx, _obj) # 插入該物件
                 else:
                     # 物件存在則找尋該物件
                     for _idx, _obj in enumerate(_objects):
@@ -1162,8 +1191,13 @@ class ScreenEncoder(ScreenDecoder):
                         # 存在就 update
                         if _name == obj_name and _type == obj_type:
                             # 依照物件型態修改
-                            self.override_object_router(_obj, obj)
+                            self.override_object_router(_obj, obj) # 更改該物件
+                            self.override_layerIndex(_obj, idx) # 更改 layerIndex
+                            _objects_reorder.insert(idx, _obj) # 插入該物件
                             break
+            
+            # override whole obj list
+            _sc_json["objects"] = _objects_reorder
             
             # override org project file
             with open(project_path, 'w', encoding='utf-8') as f:
@@ -1199,7 +1233,7 @@ class ScreenEncoder(ScreenDecoder):
                 if obj_name not in _obj_names:
                     _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                     self.override_object_router(_obj, obj) # 更改該物件
-                    _objects.append(_obj) # 插入該物件(加入到最後)
+                    _objects.append(_obj) # 插入該物件(加入到最後)，不改 layerIndex
                     out_msg += f"Create Object `{obj_name}` success\n"
                 else:
                     # 物件存在則找尋該物件
@@ -1208,7 +1242,7 @@ class ScreenEncoder(ScreenDecoder):
                         _type = self.get_object_type(_obj) # 轉為 view obj type
                         # 存在就 update
                         if _name == obj_name and _type == obj_type:
-                            # 依照物件型態修改
+                            # 依照物件型態修改，不改 layerIndex
                             self.override_object_router(_obj, obj)
                             out_msg += f"Update Object `{obj_name}` success.\n"
                             break
@@ -1231,12 +1265,12 @@ if __name__ == "__main__":
     save_view_path = "./demo5-view.json"
     screen_name = "demo5"
     
-    sc_decoder = ScreenDecoder()
-    sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
-    print(sc_view)
+    # sc_decoder = ScreenDecoder()
+    # sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
+    # print(sc_view)
     
-    with open(save_view_path, "w", encoding='utf-8') as f:
-        json.dump(sc_view, f, ensure_ascii=False, indent=4)
+    # with open(save_view_path, "w", encoding='utf-8') as f:
+    #     json.dump(sc_view, f, ensure_ascii=False, indent=4)
     
     # sc_encoder = ScreenEncoder()
     # sc_encoder.override_project_from_view(save_view_path, project_path)
