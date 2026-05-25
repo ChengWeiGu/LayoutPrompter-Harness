@@ -23,6 +23,7 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | NumericInput | Number entry field |
 | TextInput | Text entry field |
 | DrawingRectangle | Geometric shape for layout decoration |
+| DrawingLine | Line shape |
 | Text | Static text label |
 | CompositeWidget | Complex grouped widget |
 

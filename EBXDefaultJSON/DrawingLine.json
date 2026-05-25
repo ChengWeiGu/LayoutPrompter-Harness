@@ -1,0 +1,41 @@
+{
+    "name": "line_for_demo",
+    "objectTypeName": "objectDrawingLine",
+    "layer": "root",
+    "properties": {
+        "widgetType": 27748,
+        "objectType": 7,
+        "comment": "",
+        "lineColor": "#000000",
+        "lineWidth": 1,
+        "style": "solid_line",
+        "arrowType": {
+        "end": "1"
+        },
+        "arrowSize": {
+        "end": "1",
+        "start": "1"
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 97,
+        "y": 187,
+        "width": 494,
+        "height": 1,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "points": [
+        {
+            "x": 0.0,
+            "y": 0.0
+        },
+        {
+            "x": 1.0,
+            "y": 0.0
+        }
+        ]
+    },
+    "events": [],
+    "methods": []
+}

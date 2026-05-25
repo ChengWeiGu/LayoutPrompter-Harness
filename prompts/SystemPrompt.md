@@ -748,6 +748,77 @@ Rectangle Widget is one of the group `Draw` in EBX. This object is usually used 
 
 ---
 
+## DrawingLine widget
+
+Line Widget is one of the group `Draw` in EBX. User can draw a line on EBX with two points.
+
+### Default JSON
+
+```json
+{
+    "objectType": "DrawingLine",
+    "name": "line_for_demo",
+    "pattern": {
+        "lineColor": "#000000",
+        "lineWidth": 1,
+        "style": 0
+    },
+    "arrow": {
+        "arrowType": {},
+        "arrowSize": {
+            "end": "1",
+            "start": "1"
+        }
+    },
+    "start_pt": {
+        "x": 114,
+        "y": 34
+    },
+    "end_pt": {
+        "x": 608,
+        "y": 34
+    }
+}
+```
+
+Note: this default json says it is a horizontal line
+
+### properties descr
+
+- In `pattern` section:
+    - `lineColor`: hex string
+    - `lineWidth`: int, value from 1 (thin) to 8 (thick)
+    - `style`: int, one of the following choices
+        - 0: solid_line
+        - 1: dash_line
+        - 2: dot_line
+        - 3: dash_dot_line
+        - 4: dash_dot_dot_line
+        - there is no option for no border
+
+- In `arrow` section:
+    - `arrowType`: json, default at {}
+        - Setting Format: {"end": "5","start": "1"} | {"end": "1"} | ...etc.
+            - `start`: string, "0"-"5"
+                - "0": Line：單純的直線，沒有箭頭。
+                - "1": Filled arrow / solid arrow：實心箭頭，箭頭頭部是填滿的黑色。
+                - "2": Open arrow / outline arrow：空心或開放式箭頭，只有箭頭外框線。
+                - "3": Filled arrow / solid arrow：另一個實心箭頭，看起來箭頭頭部較小或樣式略不同。
+                - "4": Diamond arrow / diamond marker：菱形端點，不太算一般箭頭。
+                - "5": Circle arrow / dot endpoint：圓點端點，也比較像線段端點樣式，不是箭頭。
+            - `end`: string, "0"-"5", as same as the description of `start`
+    - `arrowSize`: json, default at {"end": "1","start": "1"}
+        - `start`: string, "1" (thin) -"8" (thick), default = "1"
+        - `end`: string, "1" (thin) -"8" (thick), default = "1"
+
+- `start_pt`: json, the start point of the line
+    - `x`: int
+    - `y`: int
+
+- `end_pt`: json, the end point of the line
+
+---
+
 ## Text widget
 
 Text widget is one of the group `Draw` in EBX. This object is usually used to show a text string only

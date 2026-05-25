@@ -13,6 +13,8 @@ ObjectMap_ebx2view = {
     "objectTextInput":"TextInput",
     "objectDrawingRectangle":"DrawingRectangle",
     "objectText":"Text",
+    "objectDrawingLine":"DrawingLine",
+    "objectDrawingEllipse":"DrawingEllipse",
     "objectComposite":"CompositeWidget"
 }
 
@@ -254,7 +256,7 @@ class ScreenDecoder:
             _objectTypeName = object_json["objectTypeName"]
             _properties = object_json["properties"]
             
-            # use short name
+            # view type name
             _view_object_type = cls.get_object_type(object_json)
             if _view_object_type != "OptionList":
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not an `OptionList`.")
@@ -324,7 +326,7 @@ class ScreenDecoder:
             _objectTypeName = object_json["objectTypeName"]
             _properties = object_json["properties"]
             
-            # use short name
+            # view type name
             _view_object_type = cls.get_object_type(object_json)
             if _view_object_type != "Slider":
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Slider`.")
@@ -395,7 +397,7 @@ class ScreenDecoder:
             _objectTypeName = object_json["objectTypeName"]
             _properties = object_json["properties"]
             
-            # use short name
+            # view type name
             _view_object_type = cls.get_object_type(object_json)
             if _view_object_type not in cls.supported_input_objects:
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
@@ -482,7 +484,7 @@ class ScreenDecoder:
             _objectTypeName = object_json["objectTypeName"]
             _properties = object_json["properties"]
             
-            # use short name
+            # view type name
             _view_object_type = cls.get_object_type(object_json)
             if _view_object_type != "DrawingRectangle":
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Rectangle`.")
@@ -555,6 +557,115 @@ class ScreenDecoder:
             error_msg = f"[Get Rectangle View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)
     
+    @classmethod
+    def get_line_view(cls, object_json:dict) -> dict:
+        """DrawingLine"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "DrawingLine":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Line Widget`.")
+            
+            # Pattern Section
+            _lineColor = _properties["lineColor"] # default "#000000"
+            _lineWidth = _properties["lineWidth"] # 1-8, default 1
+            _style = _properties["style"] # default "solid_line"
+            if _style == "solid_line":
+                _style = 0
+            elif _style == "dash_line":
+                _style = 1
+            elif _style == "dot_line":
+                _style = 2
+            elif _style == "dash_dot_line":
+                _style = 3
+            elif _style == "dash_dot_dot_line":
+                _style = 4
+            else:
+                _style = 0 # 沒有 "5" => 直接變成預設
+            
+            # Arrow Section
+            _arrowType = _properties["arrowType"] # default {}, formated as {"end": "5","start": "1"}, range of "0"-"5"
+            _arrowSize = _properties["arrowSize"] # default at {"end": "1","start": "1"}, range of "1" - "8"
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            # points
+            _points = _properties["points"]
+            print(_points)
+            _p1, _p2 = _points[0], _points[1]
+            # using start-to-end point to describe a arrow line
+            if _p1 == {"x": 0.0,"y": 0.0} and _p2 == {"x": 1.0,"y": 0.0}:
+                """arrow right (→), actual height = 1"""
+                _start = {"x":_x, "y":_y}
+                _end = {"x":_x+_width, "y":_y}
+            elif _p1 == {"x": 0.0,"y": 1.0} and _p2 == {"x": 1.0,"y": 0.0}:
+                """arrow from left-lower to right-top (↗)"""
+                _start = {"x":_x, "y":_y+_height}
+                _end = {"x":_x+_width, "y":_y}
+            elif _p1 == {"x": 0.0,"y": 1.0} and _p2 == {"x": 0.0,"y": 0.0}:
+                """arrow up (↑), actual width = 1"""
+                _start = {"x":_x, "y":_y+_height}
+                _end = {"x":_x, "y":_y}
+            elif _p1 == {"x": 1.0,"y": 1.0} and _p2 == {"x": 0.0,"y": 0.0}:
+                """arrow from lower-right to upper-left (↖)"""
+                _start = {"x":_x + _width, "y":_y+_height}
+                _end = {"x":_x, "y":_y}
+            elif _p1 == {"x": 1.0,"y": 0.0} and _p2 == {"x": 0.0,"y": 0.0}:
+                """arrow left (←), actual height = 1"""
+                _start = {"x":_x + _width, "y":_y}
+                _end = {"x":_x, "y":_y}
+            elif _p1 == {"x": 1.0,"y": 0.0} and _p2 == {"x": 0.0,"y": 1.0}:
+                """arrow from upper-right to lower-left (↙)"""
+                _start = {"x":_x + _width, "y":_y}
+                _end = {"x":_x, "y":_y+_height}
+            elif _p1 == {"x": 0.0,"y": 0.0} and _p2 == {"x": 0.0,"y": 1.0}:
+                """arrow down (↓), actual width = 1"""
+                _start = {"x":_x, "y":_y}
+                _end = {"x":_x, "y":_y+_height}
+            elif _p1 == {"x": 0.0,"y": 0.0} and _p2 == {"x": 1.0,"y": 1.0}:
+                """arrow from upper-ledft to lower-right (↘)"""
+                _start = {"x":_x, "y":_y}
+                _end = {"x":_x+_width, "y":_y+_height}
+            else:
+                raise ValueError(f"[Get Line View Error] Get unknown start and end point, please check")
+            
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "pattern":{
+                    "lineColor":_lineColor,
+                    "lineWidth":_lineWidth,
+                    "style":_style
+                },
+                "arrow":{
+                    "arrowType":_arrowType,
+                    "arrowSize":_arrowSize
+                },        
+                "start_pt":_start,
+                "end_pt":_end
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Line View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Line View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            raise Exception(error_msg)    
+    
+    
     @staticmethod
     def get_other_object_view(object_json:dict) -> dict:
         """For undefined object, we only extract profile info"""
@@ -608,6 +719,8 @@ class ScreenDecoder:
             _obj_view = cls.get_input_object_view(object_json)
         elif _obj_type == "DrawingRectangle":
             _obj_view = cls.get_rectangle_view(object_json)
+        elif _obj_type == "DrawingLine":
+            _obj_view = cls.get_line_view(object_json)
         else:
             _obj_view = cls.get_other_object_view(object_json) # None
         
@@ -1067,6 +1180,132 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg)
     
     @classmethod
+    def override_line_widget(cls, obj_json:dict, obj_view_json:dict):
+        def convert_start_end_to_line_properties(_start: dict, _end: dict) -> dict:
+            """
+            Convert absolute start/end points back to:
+            - x
+            - y
+            - width
+            - height
+            - points: [_p1, _p2]
+
+            This is the reverse logic of get_line_view().
+            """
+
+            sx = _start["x"]
+            sy = _start["y"]
+            ex = _end["x"]
+            ey = _end["y"]
+
+            dx = ex - sx
+            dy = ey - sy
+
+            if dx == 0 and dy == 0:
+                raise ValueError("[Set Line View Error] start and end point cannot be the same")
+
+            # Bounding box
+            _x = min(sx, ex)
+            _y = min(sy, ey)
+
+            # Recover width / height
+            # For horizontal line, height cannot be 0 in widget definition, so use 1.
+            # For vertical line, width cannot be 0 in widget definition, so use 1.
+            _width = abs(dx) if dx != 0 else 1
+            _height = abs(dy) if dy != 0 else 1
+
+            def normalize_point(pt: dict) -> dict:
+                px = pt["x"]
+                py = pt["y"]
+
+                if dx == 0:
+                    nx = 0.0
+                else:
+                    nx = 0.0 if px == _x else 1.0
+
+                if dy == 0:
+                    ny = 0.0
+                else:
+                    ny = 0.0 if py == _y else 1.0
+
+                return {
+                    "x": nx,
+                    "y": ny
+                }
+
+            _p1 = normalize_point(_start)
+            _p2 = normalize_point(_end)
+
+            return {
+                "x": _x,
+                "y": _y,
+                "width": _width,
+                "height": _height,
+                "points": [_p1, _p2]
+            }
+            
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "DrawingLine":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Line Widget`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]            
+            
+            # Pattern Section
+            _properties["lineColor"] = obj_view_json["pattern"]["lineColor"]
+            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"]
+            style = obj_view_json["pattern"]["style"]
+            if style == 0:
+                _style = "solid_line"
+            elif style == 1:
+                _style = "dash_line"
+            elif style == 2:
+                _style = "dot_line"
+            elif style == 3:
+                _style = "dash_dot_line"
+            elif style == 4:
+                _style = "dash_dot_dot_line"
+            else:
+                _style = "solid_line" # default
+                   
+            _properties["style"] = _style
+            
+            # Arrow Section
+            _properties["arrowType"] = obj_view_json["arrow"]["arrowType"]
+            _properties["arrowSize"] = obj_view_json["arrow"]["arrowSize"]
+            
+            # points
+            start_pt = obj_view_json["start_pt"]
+            end_pt = obj_view_json["end_pt"]
+            _convert_pt = convert_start_end_to_line_properties(start_pt, end_pt)
+            
+            # profile section
+            _properties["x"] = _convert_pt["x"]
+            _properties["y"] = _convert_pt["y"]
+            _properties["width"] = _convert_pt["width"]
+            _properties["height"] = _convert_pt["height"]
+            _properties["points"] = _convert_pt["points"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Line Widget Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Line Widget Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
+            raise Exception(error_msg)
+    
+    @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
         try:
             name = obj_view_json["name"]
@@ -1107,11 +1346,14 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_input_object(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingRectangle":
             cls.override_rectangle(obj_json, obj_view_json)
+        elif _obj_view_type == "DrawingLine":
+            cls.override_line_widget(obj_json, obj_view_json)
         else:
             cls.override_other_object(obj_json, obj_view_json)
     
     @classmethod
     def override_layerIndex(cls, obj_json:dict, new_idx:int):
+        """2026/05/25 棄用LayerIndex但保留此func"""
         try:
             name = obj_json["name"]
             objectTypeName = obj_json["objectTypeName"]
@@ -1181,7 +1423,7 @@ class ScreenEncoder(ScreenDecoder):
                 if obj_name not in _obj_names:
                     _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
                     self.override_object_router(_obj, obj) # 更改該物件
-                    self.override_layerIndex(_obj, idx) # 更改 layerIndex
+                    # self.override_layerIndex(_obj, idx) # 更改 layerIndex (已停用)
                     _objects_reorder.insert(idx, _obj) # 插入該物件
                 else:
                     # 物件存在則找尋該物件
@@ -1192,7 +1434,7 @@ class ScreenEncoder(ScreenDecoder):
                         if _name == obj_name and _type == obj_type:
                             # 依照物件型態修改
                             self.override_object_router(_obj, obj) # 更改該物件
-                            self.override_layerIndex(_obj, idx) # 更改 layerIndex
+                            # self.override_layerIndex(_obj, idx) # 更改 layerIndex (已停用)
                             _objects_reorder.insert(idx, _obj) # 插入該物件
                             break
             
@@ -1261,9 +1503,9 @@ class ScreenEncoder(ScreenDecoder):
         
 
 if __name__ == "__main__":
-    project_path = "Project800_480_demo5.json" # 測試用 json
-    save_view_path = "./demo5-view.json"
-    screen_name = "demo5"
+    project_path = "Project_DrawWidgets.json" # 測試用 json
+    save_view_path = "./line-view.json"
+    screen_name = "demo1"
     
     # sc_decoder = ScreenDecoder()
     # sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
@@ -1272,7 +1514,7 @@ if __name__ == "__main__":
     # with open(save_view_path, "w", encoding='utf-8') as f:
     #     json.dump(sc_view, f, ensure_ascii=False, indent=4)
     
-    # sc_encoder = ScreenEncoder()
-    # sc_encoder.override_project_from_view(save_view_path, project_path)
+    sc_encoder = ScreenEncoder()
+    sc_encoder.override_project_from_view(save_view_path, project_path)
     
     pass
