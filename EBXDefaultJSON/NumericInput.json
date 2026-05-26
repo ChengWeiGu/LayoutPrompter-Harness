@@ -2,7 +2,6 @@
     "name": "Numeric",
     "objectTypeName": "objectNumeric",
     "layer": "root",
-    "layerIndex": 5,
     "properties": {
         "widgetType": 25966,
         "objectType": 7,
@@ -81,8 +80,7 @@
         "width": 100,
         "height": 40,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 5
+        "rotation": 0
     },
     "events": [
         {

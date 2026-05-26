@@ -2,7 +2,6 @@
     "name": "Switch",
     "objectTypeName": "objectSwitch",
     "layer": "root",
-    "layerIndex": 1,
     "properties": {
         "widgetType": 30579,
         "objectType": 7,
@@ -61,8 +60,7 @@
         "width": 55,
         "height": 90,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 1
+        "rotation": 0
     },
     "events": [
         {

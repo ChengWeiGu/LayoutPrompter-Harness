@@ -15,6 +15,7 @@ ObjectMap_ebx2view = {
     "objectText":"Text",
     "objectDrawingLine":"DrawingLine",
     "objectDrawingEllipse":"DrawingEllipse",
+    "objectDrawingArc":"DrawingArc",
     "objectComposite":"CompositeWidget"
 }
 
@@ -146,6 +147,21 @@ class ScreenDecoder:
             error_msg = f"[Get Picture Index Failed] {str(e)}"
             raise Exception(error_msg)
            
+    @staticmethod
+    def convert_lineStyle2Num(style_name:str) -> int:
+        _style = 0 # 預設
+        if style_name == "solid_line":
+            _style = 0
+        elif style_name == "dash_line":
+            _style = 1
+        elif style_name == "dot_line":
+            _style = 2
+        elif style_name == "dash_dot_line":
+            _style = 3
+        elif style_name == "dash_dot_dot_line":
+            _style = 4
+        return _style
+    
     @classmethod
     def get_general_object_view(cls, object_json:dict) -> dict:
         """this func extract view of the following objects only:
@@ -477,8 +493,8 @@ class ScreenDecoder:
             raise Exception(error_msg)
         
     @classmethod
-    def get_rectangle_view(cls, object_json:dict) -> dict:
-        """DrawingRectangle"""
+    def get_draw_object_view(cls, object_json:dict) -> dict:
+        """DrawingRectangle | DrawingEllipse"""
         try:
             _name = object_json["name"]
             _objectTypeName = object_json["objectTypeName"]
@@ -486,37 +502,22 @@ class ScreenDecoder:
             
             # view type name
             _view_object_type = cls.get_object_type(object_json)
-            if _view_object_type != "DrawingRectangle":
-                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Rectangle`.")
+            if _view_object_type not in ["DrawingRectangle", "DrawingEllipse"]:
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Rectangle` | `Ellipse`.")
             
             # Frame Section
             _frameColor = _properties["frameColor"] # default "#000000"
-            
             _frameWidth = _properties["frameWidth"] # default "width_1px"
             _frameWidth = int(_frameWidth.split("_")[-1][0]) # 變成整數
             
             _style =  _properties["style"] # default "solid_line" => solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
-            if _style == "solid_line":
-                _style = 0
-            elif _style == "dash_line":
-                _style = 1
-            elif _style == "dot_line":
-                _style = 2
-            elif _style == "dash_dot_line":
-                _style = 3
-            elif _style == "dash_dot_dot_line":
-                _style = 4
-            else:
-                _style = 0 # 沒有 "5" => 直接變成預設
-            
-            _frameRadius = _properties["frameRadius"] # default 0
+            _style = cls.convert_lineStyle2Num(_style)
             
             # Interior section
             _pattern = _properties["fill"]["pattern"] # default 255, no facecolor
             _subjectColor = _properties["fill"]["subjectColor"] # default "#ffffff", 搭配 pattern = 0 才是代表有填滿，否則只設此值無意義
             if _pattern == 255:
                 _subjectColor = "#00000000"
-            
             
             # profile section
             _x = _properties["x"]
@@ -525,15 +526,13 @@ class ScreenDecoder:
             _height = _properties["height"]
             _rotation = _properties["rotation"]
             
-            
             _view = {
                 "objectType": _view_object_type,
                 "name":_name,
                 "frame":{
                     "frameColor":_frameColor,
                     "frameWidth":_frameWidth,
-                    "style":_style,
-                    "frameRadius":_frameRadius
+                    "style":_style
                 },
                 "interior":{
                     "color":_subjectColor
@@ -546,6 +545,11 @@ class ScreenDecoder:
                     "rotation":_rotation
                 }
             }
+            
+            # ellipse does not have frameRadius attribute
+            if _view_object_type != "DrawingEllipse":
+                _frameRadius = _properties["frameRadius"] # default 0
+                _view["frame"]["frameRadius"] = _frameRadius
             
             return _view
         
@@ -574,18 +578,7 @@ class ScreenDecoder:
             _lineColor = _properties["lineColor"] # default "#000000"
             _lineWidth = _properties["lineWidth"] # 1-8, default 1
             _style = _properties["style"] # default "solid_line"
-            if _style == "solid_line":
-                _style = 0
-            elif _style == "dash_line":
-                _style = 1
-            elif _style == "dot_line":
-                _style = 2
-            elif _style == "dash_dot_line":
-                _style = 3
-            elif _style == "dash_dot_dot_line":
-                _style = 4
-            else:
-                _style = 0 # 沒有 "5" => 直接變成預設
+            _style = cls.convert_lineStyle2Num(_style)
             
             # Arrow Section
             _arrowType = _properties["arrowType"] # default {}, formated as {"end": "5","start": "1"}, range of "0"-"5"
@@ -665,6 +658,59 @@ class ScreenDecoder:
             error_msg = f"[Get Line View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)    
     
+    @classmethod
+    def get_arc_view(cls, object_json:dict) -> dict:
+        """DrawingArc"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # view type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "DrawingArc":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Arc`.")
+            
+            # Pattern Section
+            _lineColor = _properties["lineColor"] # default "#000000"
+            _lineWidth = _properties["lineWidth"] # default = 1
+            
+            _style =  _properties["style"] # default "solid_line" => solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
+            _style = cls.convert_lineStyle2Num(_style)
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "pattern":{
+                    "lineColor":_lineColor,
+                    "lineWidth":_lineWidth,
+                    "style":_style
+                },      
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Arc View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Arc View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            raise Exception(error_msg)
     
     @staticmethod
     def get_other_object_view(object_json:dict) -> dict:
@@ -717,10 +763,12 @@ class ScreenDecoder:
             _obj_view = cls.get_slider_view(object_json)
         elif _obj_type in cls.supported_input_objects:
             _obj_view = cls.get_input_object_view(object_json)
-        elif _obj_type == "DrawingRectangle":
-            _obj_view = cls.get_rectangle_view(object_json)
+        elif _obj_type in ["DrawingRectangle", "DrawingEllipse"] :
+            _obj_view = cls.get_draw_object_view(object_json)
         elif _obj_type == "DrawingLine":
             _obj_view = cls.get_line_view(object_json)
+        elif _obj_type == "DrawingArc":
+            _obj_view = cls.get_arc_view(object_json)
         else:
             _obj_view = cls.get_other_object_view(object_json) # None
         
@@ -851,6 +899,22 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(f"[Get Token Failed] for `{objectType}` and `{galleryName}`")
         
         return f"v1|1|{index}|0:|{galleryNo}:{galleryName}"         
+    
+    @staticmethod
+    def convert_lineStyle2String(style_num:int) -> str:
+        _style = "solid_line" # default
+        if style_num == 0:
+            _style = "solid_line"
+        elif style_num == 1:
+            _style = "dash_line"
+        elif style_num == 2:
+            _style = "dot_line"
+        elif style_num == 3:
+            _style = "dash_dot_line"
+        elif style_num == 4:
+            _style = "dash_dot_dot_line"
+        
+        return _style
     
     @classmethod
     def override_screen_background(cls, sc_json:dict, sc_view_json:dict):
@@ -1118,15 +1182,15 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg)
     
     @classmethod
-    def override_rectangle(cls, obj_json:dict, obj_view_json:dict):
+    def override_draw_object(cls, obj_json:dict, obj_view_json:dict):
         try:
             name = obj_view_json["name"]
             obj_json["name"] = name
             
             # filter
             view_obj_type = obj_view_json["objectType"]
-            if view_obj_type != "DrawingRectangle":
-                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Rectangle`.")
+            if view_obj_type not in ["DrawingRectangle", "DrawingEllipse"]:
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Rectangle` | `Ellipse`.")
             
             # type mapping
             objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
@@ -1144,21 +1208,12 @@ class ScreenEncoder(ScreenDecoder):
             _properties["frameWidth"] = f"width_{frameWidth}px"
 
             style = obj_view_json["frame"]["style"] # int
-            if style == 0:
-                _style = "solid_line"
-            elif style == 1:
-                _style = "dash_line"
-            elif style == 2:
-                _style = "dot_line"
-            elif style == 3:
-                _style = "dash_dot_line"
-            elif style == 4:
-                _style = "dash_dot_dot_line"
-            else:
-                _style = "solid_line" # default
-            
+            _style = cls.convert_lineStyle2String(style) # str            
             _properties["style"] = _style
-            _properties["frameRadius"] = obj_view_json["frame"]["frameRadius"]
+            
+            # ellipse does not have frameRadius attr
+            if view_obj_type != "DrawingEllipse":
+                _properties["frameRadius"] = obj_view_json["frame"]["frameRadius"]
 
             # Interior section
             _properties["fill"]["pattern"] = 0 # set to 0, default 255
@@ -1181,6 +1236,7 @@ class ScreenEncoder(ScreenDecoder):
     
     @classmethod
     def override_line_widget(cls, obj_json:dict, obj_view_json:dict):
+        """DrawingLine"""
         def convert_start_end_to_line_properties(_start: dict, _end: dict) -> dict:
             """
             Convert absolute start/end points back to:
@@ -1265,20 +1321,8 @@ class ScreenEncoder(ScreenDecoder):
             # Pattern Section
             _properties["lineColor"] = obj_view_json["pattern"]["lineColor"]
             _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"]
-            style = obj_view_json["pattern"]["style"]
-            if style == 0:
-                _style = "solid_line"
-            elif style == 1:
-                _style = "dash_line"
-            elif style == 2:
-                _style = "dot_line"
-            elif style == 3:
-                _style = "dash_dot_line"
-            elif style == 4:
-                _style = "dash_dot_dot_line"
-            else:
-                _style = "solid_line" # default
-                   
+            style = obj_view_json["pattern"]["style"] # int
+            _style = cls.convert_lineStyle2String(style) # str                   
             _properties["style"] = _style
             
             # Arrow Section
@@ -1304,6 +1348,50 @@ class ScreenEncoder(ScreenDecoder):
         except Exception as e:
             error_msg = f"[Override Line Widget Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
             raise Exception(error_msg)
+    
+    @classmethod
+    def override_arc_widget(cls, obj_json:dict, obj_view_json:dict):
+        """DrawingArc"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "DrawingArc":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Arc`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]            
+            
+            # Pattern Section
+            _properties["lineColor"] = obj_view_json["pattern"]["lineColor"]
+            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"]
+            style = obj_view_json["pattern"]["style"] # int
+            _style = cls.convert_lineStyle2String(style) # str                   
+            _properties["style"] = _style
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Arc Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Arc Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
+            raise Exception(error_msg)
+    
     
     @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
@@ -1344,10 +1432,12 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_slider(obj_json, obj_view_json)
         elif _obj_view_type in cls.supported_input_objects:
             cls.override_input_object(obj_json, obj_view_json)
-        elif _obj_view_type == "DrawingRectangle":
-            cls.override_rectangle(obj_json, obj_view_json)
+        elif _obj_view_type in ["DrawingRectangle", "DrawingEllipse"]:
+            cls.override_draw_object(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingLine":
             cls.override_line_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "DrawingArc":
+            cls.override_arc_widget(obj_json, obj_view_json)
         else:
             cls.override_other_object(obj_json, obj_view_json)
     
@@ -1504,17 +1594,17 @@ class ScreenEncoder(ScreenDecoder):
 
 if __name__ == "__main__":
     project_path = "Project_DrawWidgets.json" # 測試用 json
-    save_view_path = "./line-view.json"
-    screen_name = "demo1"
+    save_view_path = "./rotate-example-view.json"
+    screen_name = "demo4"
     
-    # sc_decoder = ScreenDecoder()
-    # sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
-    # print(sc_view)
+    sc_decoder = ScreenDecoder()
+    sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
+    print(sc_view)
     
-    # with open(save_view_path, "w", encoding='utf-8') as f:
-    #     json.dump(sc_view, f, ensure_ascii=False, indent=4)
+    with open(save_view_path, "w", encoding='utf-8') as f:
+        json.dump(sc_view, f, ensure_ascii=False, indent=4)
     
-    sc_encoder = ScreenEncoder()
-    sc_encoder.override_project_from_view(save_view_path, project_path)
+    # sc_encoder = ScreenEncoder()
+    # sc_encoder.override_project_from_view(save_view_path, project_path)
     
     pass

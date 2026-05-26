@@ -2,7 +2,6 @@
     "name": "Button",
     "objectTypeName": "objectButton",
     "layer": "root",
-    "layerIndex": 2,
     "properties": {
         "widgetType": 29794,
         "objectType": 7,
@@ -52,8 +51,7 @@
         "width": 100,
         "height": 40,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 2
+        "rotation": 0
     },
     "events": [
         {

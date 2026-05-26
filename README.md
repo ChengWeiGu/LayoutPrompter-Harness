@@ -24,6 +24,8 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | TextInput | Text entry field |
 | DrawingRectangle | Geometric shape for layout decoration |
 | DrawingLine | Line shape |
+| DrawingEllipse | Ellipse shape |
+| DrawingArc | Arc shape |
 | Text | Static text label |
 | CompositeWidget | Complex grouped widget |
 
@@ -129,4 +131,4 @@ The core engine (`EBXJsonProcess.py`) handles bidirectional transformation betwe
 
 - Generated JSON views are saved to `./temp/llm-output-<timestamp>.json` automatically
 - Before any write to `Project.json`, the original is backed up to `./backup/`
-- The agent runs up to 10 tool-call steps per request before stopping
+- The agent runs up to 3 tool-call steps per request before stopping

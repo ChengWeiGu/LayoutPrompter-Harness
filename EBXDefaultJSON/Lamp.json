@@ -2,7 +2,6 @@
     "name": "Lamp",
     "objectTypeName": "objectSwitch",
     "layer": "root",
-    "layerIndex": 0,
     "properties": {
         "widgetType": 30579,
         "objectType": 7,
@@ -61,8 +60,7 @@
         "width": 60,
         "height": 60,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 0
+        "rotation": 0
     },
     "events": [
         {

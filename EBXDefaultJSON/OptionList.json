@@ -2,7 +2,6 @@
     "name": "Option List",
     "objectTypeName": "objectOptionList",
     "layer": "root",
-    "layerIndex": 3,
     "properties": {
         "widgetType": 27759,
         "objectType": 7,
@@ -46,8 +45,7 @@
         "width": 100,
         "height": 35,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 3
+        "rotation": 0
     },
     "events": [
         {

@@ -60,8 +60,11 @@ Almost objects have same definition of attributes in their JSON as follows
     6. NumericInput
     7. TextInput
     8. DrawingRectangle
-    9. Text
-    10. Others (do nothing but just change the bbox for others)
+    9. DrawingLine
+    10. DrawingEllipse
+    11. DrawingArc
+    12. Text
+    13. Others (not in this document, do nothing but just change their bbox)
 
 - In `label` Section: 
     - `text`: string, text string shown on the widget
@@ -816,6 +819,97 @@ Note: this default json says it is a horizontal line
     - `y`: int
 
 - `end_pt`: json, the end point of the line
+
+---
+
+## DrawingEllipse widget
+
+Ellipse Widget is one of the group `Draw` in EBX. You can use the object to draw a circle | ellipse shape
+
+### Default JSON
+
+```json
+{
+    "objectType": "DrawingEllipse",
+    "name": "Ellipse",
+    "frame": {
+        "frameColor": "#000000",
+        "frameWidth": 1,
+        "style": 0
+    },
+    "interior": {
+        "color": "#00000000"
+    },
+    "profile": {
+        "x": 241,
+        "y": 117,
+        "width": 185,
+        "height": 166,
+        "rotation": 0
+    }
+}
+```
+
+### properties descr
+
+- In `frame` section:
+    - `frameColor`: hex string
+    - `frameWidth`: int, value from 1 (thin) to 8 (thick)
+    - `style`: int, one of the following choices
+        - 0: solid_line
+        - 1: dash_line
+        - 2: dot_line
+        - 3: dash_dot_line
+        - 4: dash_dot_dot_line
+        - there is no option for no border
+
+- In `interior` section:
+    - `color`: hex string, the interior color (facecolor) of rectangle object, "#00000000" means no facecolor.
+
+- When `width` = `height`, this widget becomes a circle shape.
+
+---
+
+## DrawingArc widget
+
+Arc Widget is one of the group `Draw` in EBX. You can use the object to draw 1/4 Circle like a first-quadrant arc.
+To Draw arc in different quadrant, you can rotate it with `rotation`.
+
+### Default JSON
+
+```json
+{
+    "objectType": "DrawingArc",
+    "name": "Arc",
+    "pattern": {
+        "lineColor": "#000000",
+        "lineWidth": 1,
+        "style": 0
+    },
+    "profile": {
+        "x": 225,
+        "y": 400,
+        "width": 120,
+        "height": 120,
+        "rotation": 0
+    }
+}
+```
+
+### properties descr
+
+- In `pattern` section:
+    - `lineColor`: hex string
+    - `lineWidth`: int, value from 1 (thin) to 8 (thick)
+    - `style`: int, one of the following choices
+        - 0: solid_line
+        - 1: dash_line
+        - 2: dot_line
+        - 3: dash_dot_line
+        - 4: dash_dot_dot_line
+        - there is no option for no border
+
+- When `width` != `height`, this widget becomes a ellipse-like arc.
 
 ---
 
@@ -7526,6 +7620,104 @@ This example teach you how to generate a complete json with many widgets (> 70 e
         2. `badge_datetime` is earlier order than `txt_date` and `txt_time`
         3. `card_y_axis` is closer to the bottom and does not cover its children: `btn_y_axis`, `num_y_val`, `lamp_y_alarm`, `lamp_y_enable`, `label_y_enable` and `label_y_front_limit`, ...etc.
         4. `bg_footer` does not cover its children `nav_main`, `nav_left_r`, `nav_right_y`, ...etc. (9 buttons)
+
+
+## Example 3
+
+This example teach you how to do rotation for objects
+
+- **Design JSON**:
+    ```json
+    {
+        "screen_name": "rotate_example",
+        "screen_size": {
+            "width": 1280,
+            "height": 800
+        },
+        "screen_properties": {
+            "facecolor": "#ffffff",
+            "border": {
+                "style": 5,
+                "color": "#000000",
+                "width": 0
+            }
+        },
+        "objects": [
+            {
+                "objectType": "DrawingArc",
+                "name": "corner_arc_1",
+                "pattern": {
+                    "lineColor": "#22aa55",
+                    "lineWidth": 3,
+                    "style": 0
+                },
+                "profile": {
+                    "x": 150,
+                    "y": 50,
+                    "width": 100,
+                    "height": 100,
+                    "rotation": 0
+                }
+            },
+            {
+                "objectType": "DrawingArc",
+                "name": "corner_arc_2",
+                "pattern": {
+                    "lineColor": "#22aa55",
+                    "lineWidth": 3,
+                    "style": 0
+                },
+                "profile": {
+                    "x": 50,
+                    "y": 50,
+                    "width": 100,
+                    "height": 100,
+                    "rotation": 270
+                }
+            },
+            {
+                "objectType": "DrawingArc",
+                "name": "corner_arc_3",
+                "pattern": {
+                    "lineColor": "#22aa55",
+                    "lineWidth": 3,
+                    "style": 0
+                },
+                "profile": {
+                    "x": 50,
+                    "y": 150,
+                    "width": 100,
+                    "height": 100,
+                    "rotation": 180
+                }
+            },
+            {
+                "objectType": "DrawingArc",
+                "name": "corner_arc_4",
+                "pattern": {
+                    "lineColor": "#22aa55",
+                    "lineWidth": 3,
+                    "style": 0
+                },
+                "profile": {
+                    "x": 150,
+                    "y": 150,
+                    "width": 100,
+                    "height": 100,
+                    "rotation": 90
+                }
+            }
+        ]
+    }
+    ```
+
+- **Description**:
+    - There is a circle which is composed of 4 arc widgets instead of using an ellipse object
+    - To clockwise rotate an object, please increase `rotation`:
+        - `corner_arc_1` represents a arc in first quadrant with no rotation
+        - `corner_arc_4` is a fourth-quadrant arc with 90°
+        - `corner_arc_3` is a third-quadrant arc with 180°
+        - `corner_arc_2` is a second-quadrant arc with 270°
 
 
 # Tool use for beautification task

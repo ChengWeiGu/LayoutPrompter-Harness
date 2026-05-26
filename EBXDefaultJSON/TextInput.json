@@ -2,7 +2,6 @@
     "name": "Text",
     "objectTypeName": "objectTextInput",
     "layer": "root",
-    "layerIndex": 6,
     "properties": {
         "widgetType": 30836,
         "objectType": 7,
@@ -57,8 +56,7 @@
         "width": 100,
         "height": 40,
         "lockAspectRatio": false,
-        "rotation": 0,
-        "layerIndex": 6
+        "rotation": 0
     },
     "events": [
         {
