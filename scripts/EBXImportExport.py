@@ -1,6 +1,4 @@
 """
-import_screen_between_projects.py
-----------------------------------
 跨 EBV7 專案匯入一個 Screen（連同其相依的 Composite Model）。
 
 使用情境：
@@ -246,11 +244,12 @@ def import_project(archive:dict, target_project:str):
             raise Exception(f"[EBV7 Socket Error] 沒有偵測到任何存活的 EBV7 實例")
         
         dst = pick(instances, target_project)
-        conflicts = call(
-                        *dst,
-                        "detectImportConflicts",
-                        {"archive": archive},
-                    )
+        
+        # conflicts = call(
+        #                 *dst,
+        #                 "detectImportConflicts",
+        #                 {"archive": archive}, 
+        #             )
         
         # if conflicts.get("has_conflicts"):
         #     raise RuntimeError(f"Import conflicts: {conflicts['conflicts']}")
@@ -258,7 +257,7 @@ def import_project(archive:dict, target_project:str):
         result = call(
             *dst,
             "importScreenView",
-            {"archive": archive},
+            {"archive": archive, "policy": "override"}, # default of policy = "rename"
         )
 
         status = result['success']
@@ -268,23 +267,45 @@ def import_project(archive:dict, target_project:str):
     except Exception as e:
         raise
     
-
-
+def get_screen_snapshot(project_path:str, screen_name:str) -> str:
+    """
+    Args:
+        project_path (str): EBXPRJ File
+        screen_name (str): screen name
+    """
+    try:
+        instances = discover()
+        if not instances:
+            raise Exception(f"[EBV7 Socket Error] 沒有偵測到任何存活的 EBV7 實例")
+        
+        dst = pick(instances, project_path)
+        
+        snap = call(*dst, "getSnapshot", {"screen_name": screen_name})        
+        
+        out_path = snap.get('absolute_path')
+        return out_path
+        
+    except Exception as e:
+        raise
 
 
 if __name__ == "__main__":
     # sys.exit(main())
 
-    # project_path = "Project_DrawWidgets.ebxprj"
-    # screen_name = "demo1"
+    project_path = "Project_DrawWidgets.ebxprj"
+    screen_name = "demo5"
     # ebx_proj = export_project(project_path, screen_name)
     # print(json.dumps(ebx_proj, ensure_ascii=False, indent=4))
+    get_screen_snapshot(project_path,screen_name)
     
-    json_file = "Project_DrawWidgets.json"
-    target_project = "Project_DrawWidgets.ebxprj"
-    with open(json_file, "r", encoding="utf-8") as f:
-        ebx_proj = json.load(f)
-    import_project(ebx_proj, target_project)
+    
+    # json_file = "Project_DrawWidgets - ImportError.json"
+    # target_project = "Project_DrawWidgets.ebxprj"
+    # with open(json_file, "r", encoding="utf-8") as f:
+    #     ebx_proj = json.load(f)
+    # import_project(ebx_proj, target_project)
+    
+    
     
     
     

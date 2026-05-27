@@ -1,0 +1,27 @@
+{
+    "name": "Picture",
+    "objectTypeName": "objectPicture",
+    "layer": "root",
+    "properties": {
+        "widgetType": 26992,
+        "objectType": 7,
+        "comment": "",
+        "picture": "none",
+        "pictureColor": "#ffffff",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "pinned": false,
+        "x": 129,
+        "y": 101,
+        "width": 80,
+        "height": 80,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [],
+    "methods": []
+}

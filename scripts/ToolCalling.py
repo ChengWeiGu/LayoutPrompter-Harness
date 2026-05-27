@@ -20,12 +20,12 @@ sc_encoder = EBXJsonProcess.ScreenEncoder()
 def ReadImageByteData(image_path:str):
     try:
         ext = image_path.split(".")[-1].lower()
-        if ext not in ["png", "jpg", "jpeg"]:
+        if ext not in ["png", "jpeg"]:
             return {
                     "role": "user", 
                     "content":[
                             {
-                                "text": "System only accept image file with extenstion of png/jpg/jpeg."
+                                "text": f"System only accept image file with extenstion of png/jpeg. got {ext}"
                             }
                         ]
                     }
@@ -131,6 +131,25 @@ def UpsertWidgets(widget_list:list, screen_name:str, target_filename:str) -> str
         return f"[Upsert Widgets Failed]{error_msg} for file: `{target_filename}` and screen: `{screen_name}`. Please STOP and tell user to check"
 
 
+"""LLM使用工具5
+
+Args:
+- project_filename: project 檔案名稱 (.ebxprj)
+"""
+def ReadScreenShot(project_filename:str, screen_name:str):
+    try:
+        # check ext
+        ext = project_filename.split(".")[-1]
+        if ext.lower() != "ebxprj":
+            out_msg = f"[Get Screen Shot Failed] only support extension of project for `.ebxprj` instead of `{ext}`, please check"
+        screenshot_path = EBXImportExport.get_screen_snapshot(project_filename, screen_name)
+        return ReadImageByteData(screenshot_path)
+    
+    except Exception as e:
+        error_msg = str(e)
+        return f"[Get Screen Shot Failed]{error_msg} for file: `{project_filename}` and screen: `{screen_name}`. Please STOP and tell user to check"
+
+
 
 """工具檢測
     return:
@@ -210,7 +229,21 @@ def catch_tool_execute(text:str) -> dict:
             result = ReadImageByteData(image_path)
             # error msg
             if isinstance(result, str):
-                return  ClaudeFunc.build_user_message(result)
+                return ClaudeFunc.build_user_message(result)
+            # image dict
+            return result
+        
+        elif tool_name == "ReadScreenShot":
+            project_path = kwargs["project_filename"]
+            # check project file exists
+            _is_file_exist = os.path.exists(project_path)
+            if not _is_file_exist:
+                return ClaudeFunc.build_user_message(f"[Fail] `{project_path}` does not exist. please tell user to check")
+            # call func
+            result = ReadScreenShot(**kwargs)
+            # error msg
+            if isinstance(result, str):
+                return ClaudeFunc.build_user_message(result)
             # image dict
             return result
         
@@ -220,12 +253,22 @@ def catch_tool_execute(text:str) -> dict:
     return {}
 
 
-"""JSON生成檢測"""
+"""JSON生成檢測
+- 抓最後一個 json
+"""
 def catch_json_output(text:str) -> tuple:
     pattern = r"```json\s*\n(.*?)\n```"
-    match = re.search(pattern, text, re.DOTALL)
-    if match:
-        content = match.group(1)
+    
+    # 抓第一個json
+    # match = re.search(pattern, text, re.DOTALL)
+    # if match:
+    #     content = match.group(1)
+    #     return True, content
+    
+    # 抓最後一個json
+    matches = re.findall(pattern, text, re.DOTALL)
+    if matches:
+        content = matches[-1]
         return True, content
     
     return False, None

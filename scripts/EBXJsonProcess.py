@@ -14,9 +14,11 @@ ObjectMap_ebx2view = {
     "objectTextInput":"TextInput",
     "objectDrawingRectangle":"DrawingRectangle",
     "objectText":"Text",
+    "objectPicture":"Picture",
     "objectDrawingLine":"DrawingLine",
     "objectDrawingEllipse":"DrawingEllipse",
     "objectDrawingArc":"DrawingArc",
+    "objectDrawingPolygon":"DrawingPolygon",
     "objectComposite":"CompositeWidget"
 }
 
@@ -32,6 +34,7 @@ class ScreenDecoder:
     
     supported_input_objects = ["NumericInput", "TextInput"]
     supported_general_objects = ["Lamp", "Switch","Button","Text"]
+    supported_draw_objects = ["DrawingRectangle", "DrawingEllipse", "DrawingPolygon"]
     
     @staticmethod
     def load_json_file(project_path:str) -> dict:
@@ -495,7 +498,7 @@ class ScreenDecoder:
         
     @classmethod
     def get_draw_object_view(cls, object_json:dict) -> dict:
-        """DrawingRectangle | DrawingEllipse"""
+        """DrawingRectangle | DrawingEllipse | DrawingPolygon"""
         try:
             _name = object_json["name"]
             _objectTypeName = object_json["objectTypeName"]
@@ -503,8 +506,8 @@ class ScreenDecoder:
             
             # view type name
             _view_object_type = cls.get_object_type(object_json)
-            if _view_object_type not in ["DrawingRectangle", "DrawingEllipse"]:
-                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Rectangle` | `Ellipse`.")
+            if _view_object_type not in cls.supported_draw_objects:
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Rectangle` | `Ellipse` | `Plygon`")
             
             # Frame Section
             _frameColor = _properties["frameColor"] # default "#000000"
@@ -547,19 +550,24 @@ class ScreenDecoder:
                 }
             }
             
-            # ellipse does not have frameRadius attribute
-            if _view_object_type != "DrawingEllipse":
+            # Only DrawingRectangle has `frameRadius`
+            if _view_object_type == "DrawingRectangle":
                 _frameRadius = _properties["frameRadius"] # default 0
                 _view["frame"]["frameRadius"] = _frameRadius
+            
+            # For DrawingPolygon, we need points section
+            if _view_object_type == "DrawingPolygon":
+                _points = _properties["points"]
+                _view["points"] = _points
             
             return _view
         
         except ValueError as e:
-            error_msg = f"[Get Rectangle View Failed] {str(e)}"
+            error_msg = f"[Get Draw Object View Failed] {str(e)}"
             raise Exception(error_msg)
         
         except Exception as e:
-            error_msg = f"[Get Rectangle View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            error_msg = f"[Get Draw Object View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)
     
     @classmethod
@@ -712,6 +720,69 @@ class ScreenDecoder:
             error_msg = f"[Get Arc View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)
     
+    @classmethod
+    def get_picture_view(cls, object_json:dict) -> dict:
+        """Picture"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "Picture":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            # outline section
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - for picture: 
+                - example: "v1|1|0|0:|25:System Lamp - Ribbon.flbx"
+                - In default: _properties["picture"] is "none" string.
+            - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
+            """
+            _picture = _properties["picture"]
+            _view["outline"] = _picture # default
+            if _picture != "none": 
+                _picture_path = _properties["picture"]["path"]  
+                _galleryName = _picture_path.split(":")[-1]
+                _index = cls.get_picture_index(_picture_path)
+                _pictureColor = _properties["pictureColor"] # default at #00000000 which means transparent
+                
+                _view["outline"] = {
+                    "galleryName":_galleryName,
+                    "index":_index,
+                    "color":_pictureColor
+                }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Picture Object View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Picture Object View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            raise Exception(error_msg)
+       
     @staticmethod
     def get_other_object_view(object_json:dict) -> dict:
         """For undefined object, we only extract profile info"""
@@ -763,12 +834,14 @@ class ScreenDecoder:
             _obj_view = cls.get_slider_view(object_json)
         elif _obj_type in cls.supported_input_objects:
             _obj_view = cls.get_input_object_view(object_json)
-        elif _obj_type in ["DrawingRectangle", "DrawingEllipse"] :
+        elif _obj_type in cls.supported_draw_objects:
             _obj_view = cls.get_draw_object_view(object_json)
         elif _obj_type == "DrawingLine":
             _obj_view = cls.get_line_view(object_json)
         elif _obj_type == "DrawingArc":
             _obj_view = cls.get_arc_view(object_json)
+        elif _obj_type == "Picture":
+            _obj_view = cls.get_picture_view(object_json)
         else:
             _obj_view = cls.get_other_object_view(object_json) # None
         
@@ -1220,14 +1293,15 @@ class ScreenEncoder(ScreenDecoder):
     
     @classmethod
     def override_draw_object(cls, obj_json:dict, obj_view_json:dict):
+        """DrawingRectangle | DrawingEllipse | DrawingPolygon"""
         try:
             name = obj_view_json["name"]
             obj_json["name"] = name
             
             # filter
             view_obj_type = obj_view_json["objectType"]
-            if view_obj_type not in ["DrawingRectangle", "DrawingEllipse"]:
-                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Rectangle` | `Ellipse`.")
+            if view_obj_type not in cls.supported_draw_objects:
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Rectangle` | `Ellipse` | `Plygon`")
             
             # type mapping
             objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
@@ -1248,9 +1322,29 @@ class ScreenEncoder(ScreenDecoder):
             _style = cls.convert_lineStyle2String(style) # str            
             _properties["style"] = _style
             
-            # ellipse does not have frameRadius attr
-            if view_obj_type != "DrawingEllipse":
+            # Only DrawingRectangle has `frameRadius`
+            if view_obj_type == "DrawingRectangle":
                 _properties["frameRadius"] = obj_view_json["frame"]["frameRadius"]
+                
+            # Points section for polygon
+            if view_obj_type == "DrawingPolygon":
+                # check points of polygon
+                points = obj_view_json["points"]
+                num_pts = len(points)
+                if num_pts < 3:
+                    raise ValueError(f"[Override Polygon Error] name of `{name}` should have points > 3 ea; got {num_pts}")
+                # check val 0-1
+                for pt in points:
+                    x, y = pt["x"], pt["y"]
+                    x_rule_ul = x <= 1
+                    y_rule_ul = y <= 1
+                    x_rule_ll = x >= 0
+                    y_rule_ll = y >= 0
+                    if not (x_rule_ul and y_rule_ul and x_rule_ll and y_rule_ll):
+                        raise ValueError(f"[Override Polygon Error] name of `{name}` has incorrect (x,y) = ({x},{y}); should be a normalized value within 0-1")
+                # assign points
+                _properties["points"] = points
+                
 
             # Interior section
             _properties["fill"]["pattern"] = 0 # set to 0, default 255
@@ -1264,11 +1358,11 @@ class ScreenEncoder(ScreenDecoder):
             _properties["rotation"] = obj_view_json["profile"]["rotation"]
         
         except ValueError as e:
-            error_msg = f"[Override Rectangle Failed] {str(e)}"
+            error_msg = f"[Override Draw Widget Failed] {str(e)}"
             raise Exception(error_msg)
         
         except Exception as e:
-            error_msg = f"[Override Rectangle Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
+            error_msg = f"[Override Draw Widget Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
             raise Exception(error_msg)
     
     @classmethod
@@ -1428,20 +1522,20 @@ class ScreenEncoder(ScreenDecoder):
         except Exception as e:
             error_msg = f"[Override Arc Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
             raise Exception(error_msg)
-    
-    
+        
     @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
+        """Picture"""
         try:
             name = obj_view_json["name"]
             obj_json["name"] = name
             
             view_obj_type = obj_view_json["objectType"]
             objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
-            if not objectTypeName:
-                obj_json["objectTypeName"] = objectTypeName # e.g. CompositeWidget
+            if objectTypeName:
+                obj_json["objectTypeName"] = objectTypeName # e.g. Picture → objectPicture
             else:
-                obj_json["objectTypeName"] = view_obj_type
+                obj_json["objectTypeName"] = view_obj_type # e.g. objectDrawingArbitraryLine → objectDrawingArbitraryLine
             
             _properties = obj_json["properties"]
             
@@ -1469,7 +1563,7 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_slider(obj_json, obj_view_json)
         elif _obj_view_type in cls.supported_input_objects:
             cls.override_input_object(obj_json, obj_view_json)
-        elif _obj_view_type in ["DrawingRectangle", "DrawingEllipse"]:
+        elif _obj_view_type in cls.supported_draw_objects:
             cls.override_draw_object(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingLine":
             cls.override_line_widget(obj_json, obj_view_json)
@@ -1740,8 +1834,8 @@ class ScreenEncoder(ScreenDecoder):
 
 if __name__ == "__main__":
     project_path = "Project_DrawWidgets.json" # 測試用 json
-    save_view_path = "./rotate-example-view.json"
-    screen_name = "demo4"
+    save_view_path = "./picture-view.json"
+    screen_name = "demo6"
     
     sc_decoder = ScreenDecoder()
     sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)

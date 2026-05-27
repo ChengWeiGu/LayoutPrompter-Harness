@@ -23,10 +23,12 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | NumericInput | Number entry field |
 | TextInput | Text entry field |
 | DrawingRectangle | Geometric shape for layout decoration |
-| DrawingLine | Line shape |
-| DrawingEllipse | Ellipse shape |
+| DrawingLine | Line / Arrow |
+| DrawingEllipse | Ellipse / Circle |
 | DrawingArc | Arc shape |
+| DrawingPolygon | Polygon shape |
 | Text | Static text label |
+| Picture | External / System Picture |
 | CompositeWidget | Complex grouped widget |
 
 ## Project Structure
@@ -42,6 +44,7 @@ LayoutPrompter-Harness/
 │   ├── ClaudeFunc.py       # Bedrock client setup and streaming
 │   ├── ToolCalling.py      # Tool definitions and execution
 │   ├── StreamFilter.py     # Filters tool call details from terminal output
+│   ├── EBXImportExport.py  # Socket tool for user to operate EBX Server
 │   └── EBXJsonProcess.py   # Core JSON transformation engine (EBX ↔ view format)
 ├── EBXDefaultJSON/         # Default JSON templates for each widget type
 ├── backup/                 # Auto-backups of Project.json before any modification
@@ -126,6 +129,7 @@ The core engine (`EBXJsonProcess.py`) handles bidirectional transformation betwe
 | `ReadImageByteData` | Reads an image file and passes it to Claude for visual analysis |
 | `OverrideRes2Proj` | Writes Claude's improved layout back to `Project.json` (creates backup first) |
 | `UpsertWidgets` | Inserts or updates individual widgets without replacing the whole screen |
+| `ReadScreenShot` | Read and Pass a screenshot image to Claude to verify result |
 
 ## Output
 

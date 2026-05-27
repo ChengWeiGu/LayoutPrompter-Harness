@@ -24,6 +24,9 @@ class ToolCallStreamFilter:
         if "UpsertWidgets" in tool_call_text:
             return "\n[LLM is modifying screen objects...]\n"
 
+        if "ReadScreenShot" in tool_call_text:
+            return "\n[LLM is verifying screen by snapshot...]\n"
+        
         return "\n[LLM is using a tool...]\n"
 
     def feed(self, text: str) -> str:
