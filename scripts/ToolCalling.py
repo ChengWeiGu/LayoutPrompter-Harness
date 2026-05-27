@@ -4,7 +4,7 @@ import sys
 import json
 import copy
 import shutil
-from . import ClaudeFunc, EBXJsonProcess
+from . import ClaudeFunc, EBXJsonProcess, EBXImportExport
 from pathlib import Path
 
 
@@ -51,32 +51,42 @@ def ReadImageByteData(image_path:str):
    
     
 """LLM可以調用的工具2
-- 從 Project File 抽出 Screen View
+- 從 Project File 抽出 Screen View OR
+- 使用 EBX Socket 功能抽 View
 
 Args:
 - screen_name: screen name
-- filename: project 檔案名稱
+- filename: project 檔案名稱 (.json | .ebxprj)
 """
 def GetScreenLayout(screen_name:str, filename:str):
     try:
-        sc_view = sc_decoder.get_screen_view_from_file(filename, screen_name)
+        ext = filename.split(".")[-1]
+        if ext.lower() == "json":
+            sc_view = sc_decoder.get_screen_view_from_file(filename, screen_name)
+        elif ext.lower() == "ebxprj":
+            sc_view = sc_encoder.get_screen_view_by_socket_export(filename, screen_name)
+        else:
+            raise ValueError(f"Incorrect Extension Format: `{filename}`")
         return sc_view
+    
     except Exception as e:
         error_msg = str(e)
         return f"[Get Screen Layout Failed]{error_msg} for file: `{filename}` and screen name :`{screen_name}`. Please STOP and tell user to check"
-    
 
-"""LLM使用的工具3
+
+"""LLM使用的工具3 - JSON-to-JSON
 - 使用前須備份檔案
 - 檔案到檔案的複寫
 - 必須先將LLM的美化結果先輸出一個檔案例如 llm-output.json
 
 Args:
-- source_filename: 來源檔案名稱
-- target_filename: 目標(專案)檔案名稱
+- source_filename: 來源檔案名稱 (View JSON Path)
+- target_filename: 目標專案檔案名稱 (Project Path .json | .ebxprj)
 """
 def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
     try:
+        trg_ext = target_filename.split(".")[-1]
+        
         # 先備份 target 以免被改壞掉
         src_file = Path(target_filename)   # 原始檔案路徑
         dst_dir = Path("backup")           # 目標資料夾
@@ -84,13 +94,18 @@ def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
         # 只複製檔案內容與權限
         shutil.copy(src_file, dst_dir)
         # start override
-        sc_encoder.override_project_from_view(source_filename, target_filename)
+        if trg_ext.lower() == "json":
+            sc_encoder.override_project_from_view(source_filename, target_filename)
+        elif trg_ext.lower() == "ebxprj":
+            sc_encoder.import_project_from_view_by_socket(source_filename, target_filename)
+        else:
+            raise ValueError(f"Incorrect Extension Format of project: `{target_filename}`")
+        
         return f"[Override Success] From `{source_filename}` to `{target_filename}`"
     
     except Exception as e:
         error_msg = str(e)
         return f"[Override Failed]{error_msg} from `{source_filename}` to `{target_filename}`. Please STOP and tell user to check"
-    
     
 
 """LLM使用工具4
@@ -98,11 +113,17 @@ def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
 
 Args:
 - objects: LLM 生成的 pseudo json list, 可以是部分物件
-- target_filename: project 檔案名稱
+- target_filename: project 檔案名稱 ( .json | .ebxprj)
 """
 def UpsertWidgets(widget_list:list, screen_name:str, target_filename:str) -> str:
     try:
-        out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_filename)
+        ext = target_filename.split(".")[-1]
+        if ext.lower() == "json":
+            out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_filename)
+        elif ext.lower() == "ebxprj":
+            out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_filename)
+        else:
+            raise ValueError(f"Incorrect Extension Format of project: `{target_filename}`")
         return out_msg
       
     except Exception as e:

@@ -1,6 +1,7 @@
 import os
 import copy
 import json
+from . import EBXImportExport
 
 
 ObjectMap_ebx2view = {
@@ -593,7 +594,6 @@ class ScreenDecoder:
             
             # points
             _points = _properties["points"]
-            print(_points)
             _p1, _p2 = _points[0], _points[1]
             # using start-to-end point to describe a arrow line
             if _p1 == {"x": 0.0,"y": 0.0} and _p2 == {"x": 1.0,"y": 0.0}:
@@ -777,10 +777,47 @@ class ScreenDecoder:
     def __init__(self):
         self.descr="transform original json into view json"
         
+    def get_screen_view_by_socket_export(self, project_path:str, screen_name:str, **kwargs) -> dict:
+        """transform whole screen json to the view that LLM understands
+            Args:
+            - project_path: EBX export 檔案路徑 (.ebxprj)
+            - screen_name: 待美化的 screen 名稱
+        """
+        try:
+            # get project json by socket
+            _proj_json = EBXImportExport.export_project(project_path, screen_name)   
+            # find screen         
+            _idx, _sc_json = self.get_screen_from_project(_proj_json, screen_name)
+            if _idx < 0 or not _sc_json:
+                raise Exception(f"[Get Screen View Failed] screen name :`{screen_name}` not found in project file: `{project_path}`.")
+            
+            _sc_size = self.get_screen_size(_sc_json)
+            _sc_properties = self.get_screen_properties(_sc_json)
+            
+            _objs = _sc_json["objects"]
+            
+            _objects = []
+            
+            # scan objs
+            for _obj in _objs:
+                _view = self.get_object_view_router(_obj)
+                _objects.append(_view)
+            
+            _sc_view = {
+                "screen_name":screen_name,
+                "screen_size":_sc_size,
+                "screen_properties":_sc_properties,
+                "objects":_objects
+            }
+            return _sc_view
+        
+        except:
+            raise
+    
     def get_screen_view_from_file(self, project_path:str, screen_name:str, **kwargs) -> dict:
         """transform whole screen json to the view that LLM understands
             Args:
-            - project_path: EBX export 檔案路徑
+            - project_path: EBX export 檔案路徑 (.json)
             - screen_name: 待美化的 screen 名稱
         """
         try:
@@ -1478,13 +1515,122 @@ class ScreenEncoder(ScreenDecoder):
         
         return ebx_object_default_json
                 
+    def import_project_from_view_by_socket(self, view_path:str, project_path:str, **kwargs) -> str:
+        """override generated screen view to ebx screen json by socket import
+            Args:
+            - view_path: LLM 產生的 json view 路徑
+            - project_path: EBX export 檔案路徑 (.ebxprj)
+        """
+        try:
+            sc_view = self.load_json_file(view_path)
+            sc_name = sc_view["screen_name"]
+            
+            # get project json by socket
+            _ebx_proj = EBXImportExport.export_project(project_path, sc_name)              
+            # find the sc
+            _idx, _sc_json = self.get_screen_from_project(_ebx_proj, sc_name)
+            if _idx < 0 or not _sc_json:
+                """後續變成安插新的screen (暫時忽略)"""
+                raise Exception(f"[Override Screen Failed] screen name :{sc_name} not found in EBX project: {project_path}.")
+            
+            # override bg
+            self.override_screen_background(_sc_json, sc_view)
+            
+            objects = sc_view["objects"]
+            _objects = _sc_json["objects"]
+            _obj_names = self.get_screen_object_names(_objects)
+            
+            # scan objects in sc_view
+            _objects_reorder = []
+            for idx, obj in enumerate(objects):
+                obj_name = obj["name"]
+                obj_type = obj["objectType"]
+                # 若物件不存在則 insert
+                if obj_name not in _obj_names:
+                    _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
+                    self.override_object_router(_obj, obj) # 更改該物件
+                    # self.override_layerIndex(_obj, idx) # 更改 layerIndex (已停用)
+                    _objects_reorder.insert(idx, _obj) # 插入該物件
+                else:
+                    # 物件存在則找尋該物件
+                    for _idx, _obj in enumerate(_objects):
+                        _name = _obj["name"]
+                        _type = self.get_object_type(_obj) # 轉為 view obj type
+                        # 存在就 update
+                        if _name == obj_name and _type == obj_type:
+                            # 依照物件型態修改
+                            self.override_object_router(_obj, obj) # 更改該物件
+                            # self.override_layerIndex(_obj, idx) # 更改 layerIndex (已停用)
+                            _objects_reorder.insert(idx, _obj) # 插入該物件
+                            break
+            
+            # override whole obj list
+            _sc_json["objects"] = _objects_reorder
+            
+            # call socket to override org project file
+            EBXImportExport.import_project(_ebx_proj, project_path)
+        
+        except:
+            raise    
+    
+    def upsert_objects2screen_by_socket(self, widget_list:list, screen_name:str, project_path:str, **kwargs) -> str:
+        """update | insert obj to a view and save it to proj
+            Args:
+            - widget_list: widgets to update | insert
+            - screen_name: user's specified screen
+            - project_path: EBX export 檔案路徑 (.ebxprj)
+        """
+        try:
+            # get project json by socket
+            _ebx_proj = EBXImportExport.export_project(project_path, screen_name)
+            _idx, _sc_json = self.get_screen_from_project(_ebx_proj, screen_name)
+            if _idx < 0 or not _sc_json:
+                """後續變成安插新的screen (暫時忽略)"""
+                raise Exception(f"[Upsert Failed] screen name :{screen_name} not found in EBX project: {project_path}.")        
+            
+            _objects = _sc_json["objects"]
+            _obj_names = self.get_screen_object_names(_objects)
+            
+            out_msg = ""
+            
+            # scan objects list
+            for idx, obj in enumerate(widget_list):
+                obj_name = obj["name"]
+                obj_type = obj["objectType"]
+                # 若物件不存在則 insert
+                if obj_name not in _obj_names:
+                    _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference
+                    self.override_object_router(_obj, obj) # 更改該物件
+                    _objects.append(_obj) # 插入該物件(加入到最後)，不改 layerIndex
+                    out_msg += f"Create Object `{obj_name}` success\n"
+                else:
+                    # 物件存在則找尋該物件
+                    for _idx, _obj in enumerate(_objects):
+                        _name = _obj["name"]
+                        _type = self.get_object_type(_obj) # 轉為 view obj type
+                        # 存在就 update
+                        if _name == obj_name and _type == obj_type:
+                            # 依照物件型態修改，不改 layerIndex
+                            self.override_object_router(_obj, obj)
+                            out_msg += f"Update Object `{obj_name}` success.\n"
+                            break
+                        elif _name == obj_name and _type != obj_type:
+                            out_msg += f"Update Object `{obj_name}` failed. The type `{obj_type}` is incorrect\n"
+                            break
+            
+            # call socket to override org project file
+            EBXImportExport.import_project(_ebx_proj, project_path)
+        
+            return out_msg
+        
+        except:
+            raise     
+    
     def override_project_from_view(self, view_path:str, project_path:str, **kwargs) -> str:
         """override generated screen view to ebx screen json
             Args:
             - view_path: LLM 產生的 json view 路徑
             - project_path: EBX export 檔案路徑
-        
-        *** 需更改layerIndex
         """
         try:
             sc_view = self.load_json_file(view_path)

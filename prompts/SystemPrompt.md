@@ -7733,7 +7733,7 @@ This example teach you how to do rotation for objects
 - name and syntax: `GetScreenLayout(screen_name:str, filename:str)`
 - args:
     - screen_name: str, user will specify which screen he wants to to beautify in EBX
-    - filename: str, the location of JSON source file that represents his EBX project
+    - filename: str, the location of his EBX project file
 - return: dict, screen json to beautify
 - description: this func can help you extract specified screen json layout from user's project and return you explicit form of the screen json
 
