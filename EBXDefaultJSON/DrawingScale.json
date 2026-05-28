@@ -1,0 +1,46 @@
+{
+    "name": "Scale",
+    "objectTypeName": "objectDrawingScale",
+    "layer": "root",
+    "properties": {
+        "widgetType": 25459,
+        "objectType": 7,
+        "comment": "",
+        "type": 0,
+        "direction": 0,
+        "alignment": 0,
+        "angleSetting": {
+        "spanAngle": "360"
+        },
+        "tickWidth": 1,
+        "tickStyle": 0,
+        "tickColor": "#000000",
+        "tickRadius": 100,
+        "tickMainDivision": 5,
+        "mainScaleLength": -10,
+        "tickSubDivision": 2,
+        "subScaleLength": -10,
+        "showScaleLabel": false,
+        "font": "Calibri",
+        "fontSize": 12,
+        "fontColor": "#000000",
+        "position": 0,
+        "rightDecimalPt": 0,
+        "leftDecimalPt": 4,
+        "labelRadius": 80,
+        "limit": {
+        "high": "100"
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 137,
+        "y": 79,
+        "width": 188,
+        "height": 188,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [],
+    "methods": []
+}

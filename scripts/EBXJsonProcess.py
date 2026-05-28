@@ -19,6 +19,8 @@ ObjectMap_ebx2view = {
     "objectDrawingEllipse":"DrawingEllipse",
     "objectDrawingArc":"DrawingArc",
     "objectDrawingPolygon":"DrawingPolygon",
+    "objectDrawingLinkLine":"DrawingLinkLine",
+    "objectDrawingScale":"DrawingScale",
     "objectComposite":"CompositeWidget"
 }
 
@@ -511,17 +513,23 @@ class ScreenDecoder:
             
             # Frame Section
             _frameColor = _properties["frameColor"] # default "#000000"
-            _frameWidth = _properties["frameWidth"] # default "width_1px"
-            _frameWidth = int(_frameWidth.split("_")[-1][0]) # 變成整數
+            _frameWidth = _properties["frameWidth"] # default "width_1px" for rectangle/ellipse/polygon; 1 for LinkLine
+            if isinstance(_frameWidth, str):
+                _frameWidth = int(_frameWidth.split("_")[-1][0]) # 變成整數
             
-            _style =  _properties["style"] # default "solid_line" => solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
-            _style = cls.convert_lineStyle2Num(_style)
+            """STYLE: solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
+            - rectangle/ellipse/polygon: default "solid_line"            
+            - LinkLine : default 0
+            """
+            _style =  _properties["style"] 
+            if isinstance(_style, str):
+                _style = cls.convert_lineStyle2Num(_style)
             
             # Interior section
             _pattern = _properties["fill"]["pattern"] # default 255, no facecolor
             _subjectColor = _properties["fill"]["subjectColor"] # default "#ffffff", 搭配 pattern = 0 才是代表有填滿，否則只設此值無意義
             if _pattern == 255:
-                _subjectColor = "#00000000"
+                _subjectColor = "#00000000"            
             
             # profile section
             _x = _properties["x"]
@@ -538,9 +546,9 @@ class ScreenDecoder:
                     "frameWidth":_frameWidth,
                     "style":_style
                 },
-                "interior":{
+                "interior": {
                     "color":_subjectColor
-                },        
+                },   
                 "profile":{
                     "x":_x,
                     "y":_y,
@@ -549,6 +557,7 @@ class ScreenDecoder:
                     "rotation":_rotation
                 }
             }
+            
             
             # Only DrawingRectangle has `frameRadius`
             if _view_object_type == "DrawingRectangle":
@@ -563,11 +572,11 @@ class ScreenDecoder:
             return _view
         
         except ValueError as e:
-            error_msg = f"[Get Draw Object View Failed] {str(e)}"
+            error_msg = f"[Get {_view_object_type} View Failed] {str(e)}"
             raise Exception(error_msg)
         
         except Exception as e:
-            error_msg = f"[Get Draw Object View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            error_msg = f"[Get {_view_object_type} View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
     @classmethod
@@ -664,6 +673,70 @@ class ScreenDecoder:
         
         except Exception as e:
             error_msg = f"[Get Line View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
+            raise Exception(error_msg)    
+    
+    @classmethod
+    def get_link_line_view(cls, object_json:dict) -> dict:
+        """DrawingLinkLine"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "DrawingLinkLine":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not a `Link Line`.")
+            
+            # Pattern Section
+            _lineColor = _properties["lineColor"] # default "#000000"
+            _lineWidth = _properties["lineWidth"] # 1-8, default 1
+            _style = _properties["style"] # default 0
+            
+            # Arrow Section
+            _arrowType = _properties["arrowType"] # default {}, formated as {"end": "5","start": "1"}, range of "0"-"5"
+            _arrowSize = _properties["arrowSize"] # default at {"end": "1","start": "1"}, range of "1" - "8"
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            # points section
+            _points = _properties["points"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "pattern":{
+                    "lineColor":_lineColor,
+                    "lineWidth":_lineWidth,
+                    "style":_style
+                },
+                "arrow":{
+                    "arrowType":_arrowType,
+                    "arrowSize":_arrowSize
+                },   
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                },
+                "points": _points
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Link Line View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Link Line View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)    
     
     @classmethod
@@ -782,7 +855,107 @@ class ScreenDecoder:
         except Exception as e:
             error_msg = f"[Get Picture Object View Failed] {str(e)} for name:{_name} and type:{_objectTypeName}"
             raise Exception(error_msg)
-       
+    
+    @classmethod
+    def get_scale_view(cls, object_json:dict) -> dict:
+        """DrawingScale"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "DrawingScale":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # general section
+            _type = _properties["type"] # int, 0: Circular; 1: Linear
+            _angleSetting = _properties["angleSetting"] # default {"spanAngle": "360"}; example {"clockwise": "1","spanAngle": "270","startAngle": "45"}
+            _alignment = _properties["alignment"] # Linear will use
+            
+            """
+            1: right to left
+            2: left to right
+            3: top to bottom
+            4: bottom to top
+            """
+            _direction = _properties["direction"] # int, 0
+            
+            # Tick Mark Section
+            _tickWidth = _properties["tickWidth"] # int, 1 - 8
+            _tickStyle = _properties["tickStyle"] # int, 0 - 4
+            _tickColor = _properties["tickColor"] # hex string default at #000000
+            _tickRadius = _properties["tickRadius"] # default 100 (單位 %), don't change it
+            _tickMainDivision = _properties["tickMainDivision"] # int, 5, 2-100
+            _mainScaleLength = _properties["mainScaleLength"] # int, -10
+            _tickSubDivision = _properties["tickSubDivision"] # int, 2, 2-100
+            _subScaleLength = _properties["subScaleLength"] # int, -10
+            
+            # Scale Label Section
+            _showScaleLabel = _properties["showScaleLabel"] # Default : False
+            _fontStyle = _properties["font"] # default "Calibri"
+            _fontSize = _properties["fontSize"] # default 12
+            _fontColor = _properties["fontColor"] # default #000000
+            _rightDecimalPt = _properties["rightDecimalPt"] # default 0
+            _leftDecimalPt = _properties["leftDecimalPt"] # default 0
+            _labelRadius = _properties["labelRadius"] # default 80 (單位 %), don't change it
+            _limit = _properties["limit"] # default {"high": "100"}, example : {"high": "100","low": "30"}
+            
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "general":{
+                    "type":_type,
+                    "angleSetting":_angleSetting,
+                    "direction":_direction,
+                    "alignment":_alignment
+                },
+                "tick_mark":{
+                    "tickWidth":_tickWidth,
+                    "tickStyle":_tickStyle,
+                    "tickColor":_tickColor,
+                    "tickMainDivision":_tickMainDivision,
+                    "mainScaleLength":_mainScaleLength,
+                    "tickSubDivision":_tickSubDivision,
+                    "subScaleLength":_subScaleLength,
+                },
+                "scale_label":{
+                    "showScaleLabel":_showScaleLabel,
+                    "fontStyle":_fontStyle,
+                    "fontSize":_fontSize,
+                    "fontColor":_fontColor,
+                    "rightDecimalPt":_rightDecimalPt,
+                    "leftDecimalPt":_leftDecimalPt,
+                    "limit":_limit,
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Scale Object View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Scale Object View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
     @staticmethod
     def get_other_object_view(object_json:dict) -> dict:
         """For undefined object, we only extract profile info"""
@@ -838,10 +1011,14 @@ class ScreenDecoder:
             _obj_view = cls.get_draw_object_view(object_json)
         elif _obj_type == "DrawingLine":
             _obj_view = cls.get_line_view(object_json)
+        elif _obj_type == "DrawingLinkLine":
+            _obj_view = cls.get_link_line_view(object_json)
         elif _obj_type == "DrawingArc":
             _obj_view = cls.get_arc_view(object_json)
         elif _obj_type == "Picture":
             _obj_view = cls.get_picture_view(object_json)
+        elif _obj_type == "DrawingScale":
+            _obj_view = cls.get_scale_view(object_json)
         else:
             _obj_view = cls.get_other_object_view(object_json) # None
         
@@ -1362,7 +1539,7 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg)
         
         except Exception as e:
-            error_msg = f"[Override Draw Widget Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
+            error_msg = f"[Override Draw Widget Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
             raise Exception(error_msg)
     
     @classmethod
@@ -1481,6 +1658,70 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg)
     
     @classmethod
+    def override_link_line_widget(cls, obj_json:dict, obj_view_json:dict):
+        """DrawingLinkLine"""   
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "DrawingLinkLine":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Link Line`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]            
+            
+            # Pattern Section
+            _properties["lineColor"] = obj_view_json["pattern"]["lineColor"] # hex str
+            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"] # int
+            
+            style = obj_view_json["pattern"]["style"] # int
+            _properties["style"] = style
+            
+            # Arrow Section
+            _properties["arrowType"] = obj_view_json["arrow"]["arrowType"]
+            _properties["arrowSize"] = obj_view_json["arrow"]["arrowSize"]
+            
+            # points section
+            points = obj_view_json["points"]
+            num_pts = len(points)
+            if num_pts < 2:
+                raise ValueError(f"[Override Link Line Error] name of `{name}` should have at least 2 points; got {num_pts}")
+            # check val 0-1
+            for pt in points:
+                x, y = pt["x"], pt["y"]
+                x_rule_ul = x <= 1
+                y_rule_ul = y <= 1
+                x_rule_ll = x >= 0
+                y_rule_ll = y >= 0
+                if not (x_rule_ul and y_rule_ul and x_rule_ll and y_rule_ll):
+                    raise ValueError(f"[Override Link Line Error] name of `{name}` has incorrect (x,y) = ({x},{y}); should be a normalized value within 0-1")
+            # assign points
+            _properties["points"] = points
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Link Line Widget Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Link Line Widget Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg)
+    
+    @classmethod
     def override_arc_widget(cls, obj_json:dict, obj_view_json:dict):
         """DrawingArc"""
         try:
@@ -1522,6 +1763,66 @@ class ScreenEncoder(ScreenDecoder):
         except Exception as e:
             error_msg = f"[Override Arc Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
             raise Exception(error_msg)
+     
+    @classmethod
+    def override_scale_widget(cls, obj_json:dict, obj_view_json:dict):
+        """DrawingScale"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "DrawingScale":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Scale Widget`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # general section
+            _properties["type"] = obj_view_json["general"]["type"] # int, 0: Circular; 1: Linear
+            _properties["angleSetting"] = obj_view_json["general"]["angleSetting"]
+            _properties["alignment"] = obj_view_json["general"]["alignment"]
+            _properties["direction"] = obj_view_json["general"]["direction"]
+
+            # tick_mark section
+            _properties["tickWidth"] = obj_view_json["tick_mark"]["tickWidth"]
+            _properties["tickStyle"] = obj_view_json["tick_mark"]["tickStyle"]
+            _properties["tickColor"] = obj_view_json["tick_mark"]["tickColor"]   
+            _properties["tickMainDivision"] = obj_view_json["tick_mark"]["tickMainDivision"]
+            _properties["mainScaleLength"] = obj_view_json["tick_mark"]["mainScaleLength"]
+            _properties["tickSubDivision"] = obj_view_json["tick_mark"]["tickSubDivision"]
+            _properties["subScaleLength"] = obj_view_json["tick_mark"]["subScaleLength"]
+            
+            # scale_label section
+            _properties["showScaleLabel"] = obj_view_json["scale_label"]["showScaleLabel"]
+            _properties["font"] = obj_view_json["scale_label"]["fontStyle"]
+            _properties["fontSize"] = obj_view_json["scale_label"]["fontSize"]
+            _properties["fontColor"] = obj_view_json["scale_label"]["fontColor"]
+            _properties["rightDecimalPt"] = obj_view_json["scale_label"]["rightDecimalPt"]
+            _properties["leftDecimalPt"] = obj_view_json["scale_label"]["leftDecimalPt"]
+            _properties["limit"] = obj_view_json["scale_label"]["limit"]
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Scale Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Scale Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
         
     @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
@@ -1567,8 +1868,12 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_draw_object(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingLine":
             cls.override_line_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "DrawingLinkLine":
+            cls.override_link_line_widget(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingArc":
             cls.override_arc_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "DrawingScale":
+            cls.override_scale_widget(obj_json, obj_view_json)
         else:
             cls.override_other_object(obj_json, obj_view_json)
     

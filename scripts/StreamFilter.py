@@ -8,26 +8,31 @@ class ToolCallStreamFilter:
         self.tool_call_buffer = ""
 
     def get_tool_hint(self, tool_call_text: str) -> str:
+        
+        # color
+        BEGIN_COLOR = "\033[92m"
+        RESET = "\033[0m"
+        
         """
         根據 tool_call 內容回傳 terminal 要顯示的簡短提示。
         不顯示 tool_call 細節。
         """
         if "ReadImageFromFile" in tool_call_text or "ReadImageByteData" in tool_call_text:
-            return "\n[LLM is reading an image...]\n"
+            return BEGIN_COLOR + "\nLLM is reading an image...\n" + RESET
 
         if "GetScreenLayout" in tool_call_text:
-            return "\n[LLM is reading screen layout from Project...]\n"
+            return BEGIN_COLOR + "\nLLM is reading screen layout from Project...\n" + RESET
 
         if "OverrideRes2Proj" in tool_call_text:
-            return "\n[LLM is updating the project file with new design...]\n"
+            return BEGIN_COLOR + "\nLLM is updating the project file with new design...\n" + RESET
 
         if "UpsertWidgets" in tool_call_text:
-            return "\n[LLM is modifying screen objects...]\n"
+            return BEGIN_COLOR + "\nLLM is modifying screen objects...\n" + RESET
 
         if "ReadScreenShot" in tool_call_text:
-            return "\n[LLM is verifying screen by snapshot...]\n"
+            return BEGIN_COLOR + "\nLLM is verifying screen by snapshot...\n" + RESET
         
-        return "\n[LLM is using a tool...]\n"
+        return BEGIN_COLOR + "\nLLM is using a tool...\n" + RESET
 
     def feed(self, text: str) -> str:
         self.buffer += text

@@ -1,0 +1,47 @@
+{
+    "name": "Link Line",
+    "objectTypeName": "objectDrawingLinkLine",
+    "layer": "root",
+    "properties": {
+        "widgetType": 27756,
+        "objectType": 7,
+        "comment": "",
+        "lineColor": "#000000",
+        "lineWidth": 1,
+        "style": 0,
+        "arrowType": {},
+        "arrowSize": {
+        "end": "1",
+        "start": "1"
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 146,
+        "y": 100,
+        "width": 169,
+        "height": 151,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "points": [
+        {
+            "x": 0.0,
+            "y": 0.7549668874172185
+        },
+        {
+            "x": 0.46153846153846156,
+            "y": 0.0
+        },
+        {
+            "x": 1.0,
+            "y": 0.7947019867549668
+        },
+        {
+            "x": 0.378698224852071,
+            "y": 1.0
+        }
+        ]
+    },
+    "events": [],
+    "methods": []
+}

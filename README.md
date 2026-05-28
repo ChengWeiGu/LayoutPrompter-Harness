@@ -24,11 +24,13 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | TextInput | Text entry field |
 | DrawingRectangle | Geometric shape for layout decoration |
 | DrawingLine | Line / Arrow |
+| DrawingLinkLine | Multi Link Line |
 | DrawingEllipse | Ellipse / Circle |
 | DrawingArc | Arc shape |
 | DrawingPolygon | Polygon shape |
 | Text | Static text label |
 | Picture | External / System Picture |
+| DrawingScale | Circular gauge / Linear Scale  |
 | CompositeWidget | Complex grouped widget |
 
 ## Project Structure
