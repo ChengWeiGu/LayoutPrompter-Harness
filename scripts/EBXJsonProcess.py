@@ -414,6 +414,7 @@ class ScreenDecoder:
     
     @classmethod
     def get_input_object_view(cls, object_json:dict) -> dict:
+        """NumericInput | TextInput"""
         try:
             _name = object_json["name"]
             _objectTypeName = object_json["objectTypeName"]
@@ -894,6 +895,8 @@ class ScreenDecoder:
             
             # Scale Label Section
             _showScaleLabel = _properties["showScaleLabel"] # Default : False
+            _showScaleLabel = 1 if _showScaleLabel else 0
+            
             _fontStyle = _properties["font"] # default "Calibri"
             _fontSize = _properties["fontSize"] # default 12
             _fontColor = _properties["fontColor"] # default #000000
@@ -1211,6 +1214,20 @@ class ScreenEncoder(ScreenDecoder):
             sc_json["properties"]["fill"]["pattern"] = 0 # always 0
             sc_json["properties"]["fill"]["subjectColor"] = sc_view_json["screen_properties"]["facecolor"]
             sc_json["properties"]["border"] = sc_view_json["screen_properties"]["border"]
+
+        except Exception as e:
+            error_msg = f"[Override BG Screen Failed] {str(e)}"
+            raise Exception(error_msg)
+    
+    @classmethod
+    def override_screen_properties(cls, sc_json:dict, sc_view_properties:dict):
+        """sc_view_properties:
+        {"facecolor": "#0f1923", "border": {"style": 5, "color": "#000000", "width": 0}}
+        """
+        try:
+            sc_json["properties"]["fill"]["pattern"] = 0 # always 0
+            sc_json["properties"]["fill"]["subjectColor"] = sc_view_properties["facecolor"]
+            sc_json["properties"]["border"] = sc_view_properties["border"]
 
         except Exception as e:
             error_msg = f"[Override BG Screen Failed] {str(e)}"
@@ -1801,7 +1818,9 @@ class ScreenEncoder(ScreenDecoder):
             _properties["subScaleLength"] = obj_view_json["tick_mark"]["subScaleLength"]
             
             # scale_label section
-            _properties["showScaleLabel"] = obj_view_json["scale_label"]["showScaleLabel"]
+            showScaleLabel = obj_view_json["scale_label"]["showScaleLabel"]
+            _properties["showScaleLabel"] = True if showScaleLabel else False
+            
             _properties["font"] = obj_view_json["scale_label"]["fontStyle"]
             _properties["fontSize"] = obj_view_json["scale_label"]["fontSize"]
             _properties["fontColor"] = obj_view_json["scale_label"]["fontColor"]
@@ -1972,7 +1991,7 @@ class ScreenEncoder(ScreenDecoder):
         except:
             raise    
     
-    def upsert_objects2screen_by_socket(self, widget_list:list, screen_name:str, project_path:str, **kwargs) -> str:
+    def upsert_objects2screen_by_socket(self, widget_list:list, screen_name:str, project_path:str, screen_properties:dict={}, **kwargs) -> str:
         """update | insert obj to a view and save it to proj
             Args:
             - widget_list: widgets to update | insert
@@ -1991,6 +2010,11 @@ class ScreenEncoder(ScreenDecoder):
             _obj_names = self.get_screen_object_names(_objects)
             
             out_msg = ""
+            
+            # override screen if provided
+            if screen_properties:
+                self.override_screen_properties(_sc_json, screen_properties)
+                out_msg += f"Change BG Window success\n"
             
             # scan objects list
             for idx, obj in enumerate(widget_list):
@@ -2083,7 +2107,7 @@ class ScreenEncoder(ScreenDecoder):
         except:
             raise
             
-    def upsert_objects2screen(self, widget_list:list, screen_name:str, project_path:str, **kwargs) -> str:
+    def upsert_objects2screen(self, widget_list:list, screen_name:str, project_path:str, screen_properties:dict={}, **kwargs) -> str:
         """update | insert obj to a view and save it to proj
             Args:
             - widget_list: widgets to update | insert
@@ -2101,6 +2125,11 @@ class ScreenEncoder(ScreenDecoder):
             _obj_names = self.get_screen_object_names(_objects)
             
             out_msg = ""
+            
+            # override screen if provided
+            if screen_properties:
+                self.override_screen_properties(_sc_json, screen_properties)
+                out_msg += f"Change BG Window success\n"
             
             # scan objects list
             for idx, obj in enumerate(widget_list):

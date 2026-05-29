@@ -265,11 +265,9 @@ Almost objects have same definition of attributes in their JSON as follows
                 "width": 1
             }
         },
-        "objects": []
+        "objects":[]
     }
     ```
-
-    If you want to just update the style of screen, just make values of `objects` empty list.
 
 ---
 
@@ -1221,7 +1219,7 @@ Scale widget is one of the group `Draw` in EBX. It looks like a circular gauge-l
         "subScaleLength": -10
     },
     "scale_label": {
-        "showScaleLabel": false,
+        "showScaleLabel": 0,
         "fontStyle": "Calibri",
         "fontSize": 12,
         "fontColor": "#000000",
@@ -1285,7 +1283,7 @@ Scale widget is one of the group `Draw` in EBX. It looks like a circular gauge-l
     - `subScaleLength`: int, default at -10, not important in beautified task
 
 - In `scale_label` section:
-    - `showScaleLabel`: bool, default at false which means hiding scale label
+    - `showScaleLabel`: int, 0 | 1, default at `0` which means hiding scale label
         - if you want to adjust any attr in the section, please turn on it (set true)
     - `fontStyle`: str, always fixed at "Calibri"
     - `fontSize`: int, default at 12, range of 5 - 100
@@ -8829,16 +8827,23 @@ the example teach you how to utilize only one Link Line widget to draw a spiral
         - call this tool ONLY after receiving `[System Info]` that contains `source_filename`
 
 **tool-4**
-- name and syntax: `UpsertWidgets(widget_list:list, screen_name:str, target_filename:str)`
+- name and syntax: `UpsertWidgets(widget_list:list, screen_name:str, target_filename:str, screen_properties:dict={})`
 - args:
     - widget_list: list, a list of widgets (json list) that user wants to create and update on the screen
     - screen_name: str, the screen name where you can place these new objects | update existing objects
     - target_filename: str, the project file that you want to edit
+    - screen_properties: json, default at {} if you don't provide, the `screen_properties` json of `Background Window` (Screen Window)
 - return: success | fail
 - description: 
-    - this func enables you to create unique and new objects (except `Background Window`) without generating a whole page json at first.
-    - this func enables you update existing objects without generating a whole page json as well.
+    - this func enables you to create unique and new objects without generating a whole page json at first.
+    - this func enables you to update existing objects without generating a whole page json.
+    - this func enables you to update screen window by passing json of `screen_properties`.
     - `widget_list` should contain jsons adhere to the format defined in `Widget JSON Descriptoins`
+    - if `screen_properties` is empty {}, that means you will not update it
+    - if `screen_properties` is not empty, you should adhere to the format of `screen_properties` defined in `Background Window`, for example:
+        ```json
+        {"facecolor": "#0f1923", "border": {"style": 5, "color": "#000000", "width": 0}}
+        ```
     - Be sure that all widget names you generate are unique on the screen
 
 **tool-5**

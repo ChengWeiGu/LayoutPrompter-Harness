@@ -110,18 +110,21 @@ def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
 
 """LLM使用工具4
 - widget name : 不重複 -> 新增; 重複 -> update
+- 允許同時修改背景
 
 Args:
-- objects: LLM 生成的 pseudo json list, 可以是部分物件
+- widget_list: LLM 生成的 pseudo json list, 可以是部分物件
+- screen_name: Target Screen Name
 - target_filename: project 檔案名稱 ( .json | .ebxprj)
+- screen_properties: 生成的 screen properties json, 預設空 {}
 """
-def UpsertWidgets(widget_list:list, screen_name:str, target_filename:str) -> str:
+def UpsertWidgets(widget_list:list ,screen_name:str, target_filename:str, screen_properties:dict={}) -> str:
     try:
         ext = target_filename.split(".")[-1]
         if ext.lower() == "json":
-            out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_filename)
+            out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_filename, screen_properties)
         elif ext.lower() == "ebxprj":
-            out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_filename)
+            out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_filename, screen_properties)
         else:
             raise ValueError(f"Incorrect Extension Format of project: `{target_filename}`")
         return out_msg
