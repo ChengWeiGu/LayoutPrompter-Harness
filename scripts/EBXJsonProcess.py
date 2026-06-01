@@ -155,6 +155,7 @@ class ScreenDecoder:
            
     @staticmethod
     def convert_lineStyle2Num(style_name:str) -> int:
+        """2026/6/1 已修正問題不再採用"""
         _style = 0 # 預設
         if style_name == "solid_line":
             _style = 0
@@ -356,16 +357,7 @@ class ScreenDecoder:
             # outline section
             _style =  _properties["style"] # default 0 => 0/1/2: default/crystal/flat
             _direction = _properties["direction"] # default 0 => 0/1/2/3: right/up/left/down
-            _blockStyle = _properties["blockStyle"] # default "big_rect" => 0/1/2/3: Big rect/Small rect/Up arrow/Down arrow
-            if _blockStyle == "big_rect":
-                _blockStyle = 0
-            elif _blockStyle == "small_rect":
-                _blockStyle = 1
-            elif _blockStyle == "up_arrow":
-                _blockStyle = 2
-            elif _blockStyle == "down_arrow":
-                _blockStyle = 3
-            
+            _blockStyle = _properties["blockStyle"] # default 0 => 0/1/2/3: Big rect/Small rect/Up arrow/Down arrow            
             _blockWidth = _properties["blockWidth"] # default 20
             _blockColor = _properties["blockColor"] # default "#000080"
             _frameColor = _properties["frameColor"] # default "#00000000" => transparent
@@ -514,17 +506,12 @@ class ScreenDecoder:
             
             # Frame Section
             _frameColor = _properties["frameColor"] # default "#000000"
-            _frameWidth = _properties["frameWidth"] # default "width_1px" for rectangle/ellipse/polygon; 1 for LinkLine
-            if isinstance(_frameWidth, str):
-                _frameWidth = int(_frameWidth.split("_")[-1][0]) # 變成整數
+            _frameWidth = _properties["frameWidth"] # default 1 for rectangle/ellipse/polygon/LinkLine
             
-            """STYLE: solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
-            - rectangle/ellipse/polygon: default "solid_line"            
-            - LinkLine : default 0
+            """STYLE: solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line (0-4)
+            - rectangle/ellipse/polygon/LinkLine: default at 0
             """
-            _style =  _properties["style"] 
-            if isinstance(_style, str):
-                _style = cls.convert_lineStyle2Num(_style)
+            _style =  _properties["style"] # int
             
             # Interior section
             _pattern = _properties["fill"]["pattern"] # default 255, no facecolor
@@ -596,8 +583,7 @@ class ScreenDecoder:
             # Pattern Section
             _lineColor = _properties["lineColor"] # default "#000000"
             _lineWidth = _properties["lineWidth"] # 1-8, default 1
-            _style = _properties["style"] # default "solid_line"
-            _style = cls.convert_lineStyle2Num(_style)
+            _style = _properties["style"] # default = 0 (solid_line)
             
             # Arrow Section
             _arrowType = _properties["arrowType"] # default {}, formated as {"end": "5","start": "1"}, range of "0"-"5"
@@ -756,9 +742,7 @@ class ScreenDecoder:
             # Pattern Section
             _lineColor = _properties["lineColor"] # default "#000000"
             _lineWidth = _properties["lineWidth"] # default = 1
-            
-            _style =  _properties["style"] # default "solid_line" => solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
-            _style = cls.convert_lineStyle2Num(_style)
+            _style =  _properties["style"] # default at 0 (solid_line) => solid_line/dash_line/dot_line/dash_dot_line/dash_dot_dot_line
             
             # profile section
             _x = _properties["x"]
@@ -881,7 +865,7 @@ class ScreenDecoder:
             3: top to bottom
             4: bottom to top
             """
-            _direction = _properties["direction"] # int, 0
+            _direction = _properties["direction"] # int, 2 (linear 才可設定)
             
             # Tick Mark Section
             _tickWidth = _properties["tickWidth"] # int, 1 - 8
@@ -1192,6 +1176,7 @@ class ScreenEncoder(ScreenDecoder):
     
     @staticmethod
     def convert_lineStyle2String(style_num:int) -> str:
+        """2026/6/1 修正，不再使用"""
         _style = "solid_line" # default
         if style_num == 0:
             _style = "solid_line"
@@ -1235,6 +1220,7 @@ class ScreenEncoder(ScreenDecoder):
     
     @classmethod
     def override_general_object(cls, obj_json:dict, obj_view_json:dict):
+        """Lamp/Switch/Button/Text"""
         try:
             # name
             name = obj_view_json["name"]
@@ -1314,6 +1300,7 @@ class ScreenEncoder(ScreenDecoder):
     
     @classmethod
     def override_option_list(cls, obj_json:dict, obj_view_json:dict):
+        """ OptionList"""
         try:
             name = obj_view_json["name"]
             obj_json["name"] = name
@@ -1363,6 +1350,7 @@ class ScreenEncoder(ScreenDecoder):
     
     @classmethod
     def override_slider(cls, obj_json:dict, obj_view_json:dict):
+        """Slider"""
         try:
             name = obj_view_json["name"]
             obj_json["name"] = name
@@ -1385,19 +1373,7 @@ class ScreenEncoder(ScreenDecoder):
             _properties["style"] = obj_view_json["outline"]["style"]
             _properties["direction"] = obj_view_json["outline"]["direction"]
             
-            blockStyle = obj_view_json["outline"]["blockStyle"] # int
-            if blockStyle == 0:
-                _blockStyle = "big_rect"
-            elif blockStyle == 1:
-                _blockStyle = "small_rect"
-            elif blockStyle == 2:
-                _blockStyle = "up_arrow"
-            elif blockStyle == 3:
-                _blockStyle = "down_arrow"
-            else:
-                _blockStyle = "big_rect" # default
-            
-            _properties["blockStyle"] = _blockStyle
+            _properties["blockStyle"] = obj_view_json["outline"]["blockStyle"] # int
             _properties["blockWidth"] = obj_view_json["outline"]["blockWidth"]
             _properties["blockColor"] = obj_view_json["outline"]["blockColor"]
             _properties["frameColor"] = obj_view_json["outline"]["frameColor"]
@@ -1508,13 +1484,8 @@ class ScreenEncoder(ScreenDecoder):
             
             # Frame Section
             _properties["frameColor"] = obj_view_json["frame"]["frameColor"]
-            
-            frameWidth = obj_view_json["frame"]["frameWidth"] # int
-            _properties["frameWidth"] = f"width_{frameWidth}px"
-
-            style = obj_view_json["frame"]["style"] # int
-            _style = cls.convert_lineStyle2String(style) # str            
-            _properties["style"] = _style
+            _properties["frameWidth"] = obj_view_json["frame"]["frameWidth"] # int        
+            _properties["style"] = obj_view_json["frame"]["style"] # int
             
             # Only DrawingRectangle has `frameRadius`
             if view_obj_type == "DrawingRectangle":
@@ -1645,10 +1616,8 @@ class ScreenEncoder(ScreenDecoder):
             
             # Pattern Section
             _properties["lineColor"] = obj_view_json["pattern"]["lineColor"]
-            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"]
-            style = obj_view_json["pattern"]["style"] # int
-            _style = cls.convert_lineStyle2String(style) # str                   
-            _properties["style"] = _style
+            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"] # int             
+            _properties["style"] = obj_view_json["pattern"]["style"] # int
             
             # Arrow Section
             _properties["arrowType"] = obj_view_json["arrow"]["arrowType"]
@@ -1698,9 +1667,7 @@ class ScreenEncoder(ScreenDecoder):
             # Pattern Section
             _properties["lineColor"] = obj_view_json["pattern"]["lineColor"] # hex str
             _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"] # int
-            
-            style = obj_view_json["pattern"]["style"] # int
-            _properties["style"] = style
+            _properties["style"] = obj_view_json["pattern"]["style"] # int
             
             # Arrow Section
             _properties["arrowType"] = obj_view_json["arrow"]["arrowType"]
@@ -1761,10 +1728,8 @@ class ScreenEncoder(ScreenDecoder):
             
             # Pattern Section
             _properties["lineColor"] = obj_view_json["pattern"]["lineColor"]
-            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"]
-            style = obj_view_json["pattern"]["style"] # int
-            _style = cls.convert_lineStyle2String(style) # str                   
-            _properties["style"] = _style
+            _properties["lineWidth"] = obj_view_json["pattern"]["lineWidth"] # int              
+            _properties["style"] = obj_view_json["pattern"]["style"] # int
             
             # profile section
             _properties["x"] = obj_view_json["profile"]["x"]
