@@ -1,0 +1,26 @@
+{
+    "name": "2D Barcode",
+    "objectTypeName": "objectMatrixBarcode",
+    "layer": "root",
+    "properties": {
+        "widgetType": 25197,
+        "objectType": 7,
+        "comment": "",
+        "readValue": "www.weintek.com",
+        "barcodeType": 0,
+        "qrErrorCorrectionLevel": 30,
+        "aztecErrorCorrectionLevel": 30,
+        "cellColor": "#000000",
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 248,
+        "y": 138,
+        "width": 244,
+        "height": 244,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [],
+    "methods": []
+}

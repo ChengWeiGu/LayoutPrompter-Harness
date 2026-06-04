@@ -21,6 +21,10 @@ ObjectMap_ebx2view = {
     "objectDrawingPolygon":"DrawingPolygon",
     "objectDrawingLinkLine":"DrawingLinkLine",
     "objectDrawingScale":"DrawingScale",
+    "objectBarGraph":"BarGraph", # TBD
+    "objectEmbeddedWindow":"EmbeddedWindow",
+    "objectMatrixBarcode":"2DBarcode",
+    "objectPdfReader":"PdfReader", # TBD
     "objectComposite":"CompositeWidget"
 }
 
@@ -29,6 +33,24 @@ for k,v in ObjectMap_ebx2view.items():
     ObjectMap_view2ebx[v] = k
 # Lamp is actually a `objectSwitch`
 ObjectMap_view2ebx["Lamp"] = "objectSwitch"
+
+
+"""used for add_entity via socket"""
+ObjectMap_view2socket = {
+    "Switch":"Switch",
+    "Lamp":"Lamp",
+    "Button":"Button",
+    "OptionList":"OptionList",
+    "Slider":"Slider",
+    "NumericInput":"Numeric",
+    "TextInput":"TextInput",
+    "DrawingRectangle":"Rectangle",
+    "Text":"Text",
+    "DrawingLine":"Line",
+    "DrawingArc":"Arc",
+    "DrawingEllipse":"Ellipse",
+    "DrawingPolygon":"Polygon",
+}
 
 
 """transform original json into view json"""
@@ -152,7 +174,94 @@ class ScreenDecoder:
         except Exception as e:
             error_msg = f"[Get Picture Index Failed] {str(e)}"
             raise Exception(error_msg)
-           
+    
+    @staticmethod
+    def get_picture_path(objectType:str, galleryName:str, index:int) -> str:
+        """objectType: view type rather than ebx type
+        - return : v1|1|<index>|0:|<galleryNo>:<galleryName>
+        """
+        galleryNo = 0
+        if objectType == "Lamp":
+            if galleryName == "System Lamp - Ribbon.flbx":
+                galleryNo=25
+            elif galleryName == "System Lamp - Crystal.flbx":
+                galleryNo=26
+            elif galleryName == "System Lamp - Flat.flbx":
+                galleryNo=23
+            elif galleryName == "System Lamp - Standard.flbx":
+                galleryNo=27
+            else:
+                # default
+                galleryName = "System Lamp - Ribbon.flbx"
+                galleryNo=25
+                
+        elif objectType == "Switch":
+            if galleryName == "System Switch - Ribbon.flbx":
+                galleryNo=27
+            elif galleryName == "System Switch - Crystal.flbx":
+                galleryNo=28
+            elif galleryName == "System Switch - Flat.flbx":
+                galleryNo=25
+            elif galleryName == "System Switch - Standard.flbx":
+                galleryNo=29
+            else:
+                # default
+                galleryName = "System Switch - Ribbon.flbx"
+                galleryNo=27   
+                
+        elif objectType == "Button":
+            if galleryName == "System Button - Ribbon.flbx":
+                galleryNo=27
+            elif galleryName == "System Button - Crystal.flbx":
+                galleryNo=28
+            elif galleryName == "System Button - Flat.flbx":
+                galleryNo=25
+            elif galleryName == "System Button - Standard.flbx":
+                galleryNo=29
+            else:
+                # default
+                galleryName = "System Button - Ribbon.flbx"
+                galleryNo=27
+                
+        elif objectType == "NumericInput":
+            if galleryName == "System Input Box - Ribbon.flbx":
+                galleryNo=30
+            elif galleryName == "System Input Box - Crystal.flbx":
+                galleryNo=31
+            elif galleryName == "System Input Box - Flat.flbx":
+                galleryNo=28
+            elif galleryName == "System Input Box - Standard.flbx":
+                galleryNo=32
+            else:
+                # default
+                galleryName = "System Input Box - Ribbon.flbx"
+                galleryNo=30
+        
+        elif objectType == "TextInput":
+            if galleryName == "System Input Box - Ribbon.flbx":
+                galleryNo=30
+            elif galleryName == "System Input Box - Crystal.flbx":
+                galleryNo=31
+            elif galleryName == "System Input Box - Flat.flbx":
+                galleryNo=28
+            elif galleryName == "System Input Box - Standard.flbx":
+                galleryNo=32
+            else:
+                # default
+                galleryName = "System Input Box - Ribbon.flbx"
+                galleryNo=30
+        elif objectType == "BarGraph":
+            # fixed, only `Ribbon` available
+            galleryName = "System Bar Graph - Ribbon.flbx"
+            galleryNo=30
+        else:
+            raise Exception(f"[Get Token Failed] Type of object:`{objectType}` is not supported.")
+        
+        if not galleryNo:
+            raise Exception(f"[Get Token Failed] for `{objectType}` and `{galleryName}`")
+        
+        return f"v1|1|{index}|0:|{galleryNo}:{galleryName}"    
+         
     @staticmethod
     def convert_lineStyle2Num(style_name:str) -> int:
         """2026/6/1 已修正問題不再採用"""
@@ -943,6 +1052,205 @@ class ScreenDecoder:
             error_msg = f"[Get Scale Object View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
+    @classmethod
+    def get_bar_graph_view(cls, object_json:dict) -> dict:
+        """BarGraph
+        - BarColor 有問題
+        """
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "BarGraph":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # outline section
+            _type =  _properties["type"] # default 0, 0 (Straight) | 1 (Circle)
+            _style = _properties["style"] # default 0, 0 (Default) | 1 (Crystal) | 2 (Flat)
+            _direction = _properties["direction"] # default 0, 0-3 (Up/Down/Left/Right)
+            _angleSetting = _properties["angleSetting"] # default {"spanAngle": "360"}; example {"clockwise": "1","spanAngle": "270","startAngle": "45"}
+            _circularHoleRatio = _properties["circularHoleRatio"] # 40, 0 - 90
+            _barBackgroundColor= _properties["barBackgroundColor"] # "#a0a0a4", chageable for circular only
+            _barFrameColor = _properties["barFrameColor"] # "#00000000", changeable for circular, Default Style for Straight        
+                
+            # when using `Default` style, barColor should come from barFill
+            _barColor = _properties["barColor"]
+            if _style == 0:
+                _barColor = _properties["barColor"]
+                
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - for BarGraph: "v1|1|1|0:|30:System Bar Graph - Ribbon.flbx" (only `Ribbon` is availabe, galleryNo = 30, fixed)
+            - currently, changing picture of it does not matter for beautification task
+            - no picture color for this widget
+            """
+            _picture_path = _properties["picture"]["path"]  
+            _galleryName = _picture_path.split(":")[-1]
+            _index = cls.get_picture_index(_picture_path) # 0 - 4 
+            
+            
+            # bg section
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
+            _bg_radius = _properties["radius"] # default 0
+            _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "outline":{
+                    "type":_type,
+                    "style":_style,
+                    "direction":_direction,
+                    "angleSetting":_angleSetting,
+                    "circularHoleRatio":_circularHoleRatio,
+                    "barBackgroundColor":_barBackgroundColor,
+                    "barFrameColor":_barFrameColor
+                },
+                "background":{
+                    "color":_bg_color,
+                    "radius":_bg_radius,
+                    "border":_bg_border
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get BarGraph View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get BarGraph View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
+    @classmethod
+    def get_embed_window_view(cls, object_json:dict) -> dict:
+        """EmbeddedWindow"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "EmbeddedWindow":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # display section
+            _mode = _properties["containerMode"] # 0 (default) | 1, embedded in screen | popup window
+            _titleEnabled= _properties["titleEnabled"] # true | false (default)
+            _title = _properties["titleString"] # ""
+            _displayAnchor = _properties["displayAnchor"] # 0 - 8
+            
+            """an `effect` will have lots of diff `direction`, so we ignore the attri for simplicity"""
+            _entranceAnimation = _properties["entranceAnimation"] # default at {"duration": "100"} means no animation, example: {"direction": "2","duration": "100","effect": "2"} 
+            _exitAnimation = _properties["exitAnimation"] # default at {"duration": "100"} means no animation, example: {"direction": "2","duration": "100","effect": "2"}
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "display":{
+                    "mode":_mode,
+                    "title":_title,
+                    "displayAnchor":_displayAnchor
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get EmbeddedWindow View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get EmbeddedWindow View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
+    @classmethod
+    def get_2d_barcode_view(cls, object_json:dict) -> dict:
+        """2DBarcode"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "2DBarcode":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # general section
+            _readValue = _properties["readValue"] # www.weintek.com
+            _barcodeType = _properties["barcodeType"] # int, 0 - 2
+            _barcodeColor = _properties["cellColor"] # hex string
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "general":{
+                    "readValue":_readValue,
+                    "barcodeType":_barcodeType,
+                    "barcodeColor":_barcodeColor
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get 2DBarcode View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get 2DBarcode View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
     @staticmethod
     def get_other_object_view(object_json:dict) -> dict:
         """For undefined object, we only extract profile info"""
@@ -1006,8 +1314,12 @@ class ScreenDecoder:
             _obj_view = cls.get_picture_view(object_json)
         elif _obj_type == "DrawingScale":
             _obj_view = cls.get_scale_view(object_json)
+        elif _obj_type == "EmbeddedWindow":
+            _obj_view = cls.get_embed_window_view(object_json)
+        elif _obj_type == "2DBarcode":
+            _obj_view = cls.get_2d_barcode_view(object_json)
         else:
-            _obj_view = cls.get_other_object_view(object_json) # None
+            _obj_view = cls.get_other_object_view(object_json) # CompositeWidget
         
         return _obj_view
     
@@ -1088,91 +1400,7 @@ class ScreenDecoder:
         
 
 
-class ScreenEncoder(ScreenDecoder):
-    
-    @staticmethod
-    def get_picture_path(objectType:str, galleryName:str, index:int) -> str:
-        """objectType: view type rather than ebx type
-        - return : v1|1|<index>|0:|<galleryNo>:<galleryName>
-        """
-        galleryNo = 0
-        if objectType == "Lamp":
-            if galleryName == "System Lamp - Ribbon.flbx":
-                galleryNo=25
-            elif galleryName == "System Lamp - Crystal.flbx":
-                galleryNo=26
-            elif galleryName == "System Lamp - Flat.flbx":
-                galleryNo=23
-            elif galleryName == "System Lamp - Standard.flbx":
-                galleryNo=27
-            else:
-                # default
-                galleryName = "System Lamp - Ribbon.flbx"
-                galleryNo=25
-                
-        elif objectType == "Switch":
-            if galleryName == "System Switch - Ribbon.flbx":
-                galleryNo=27
-            elif galleryName == "System Switch - Crystal.flbx":
-                galleryNo=28
-            elif galleryName == "System Switch - Flat.flbx":
-                galleryNo=25
-            elif galleryName == "System Switch - Standard.flbx":
-                galleryNo=29
-            else:
-                # default
-                galleryName = "System Switch - Ribbon.flbx"
-                galleryNo=27   
-                
-        elif objectType == "Button":
-            if galleryName == "System Button - Ribbon.flbx":
-                galleryNo=27
-            elif galleryName == "System Button - Crystal.flbx":
-                galleryNo=28
-            elif galleryName == "System Button - Flat.flbx":
-                galleryNo=25
-            elif galleryName == "System Button - Standard.flbx":
-                galleryNo=29
-            else:
-                # default
-                galleryName = "System Button - Ribbon.flbx"
-                galleryNo=27
-                
-        elif objectType == "NumericInput":
-            if galleryName == "System Input Box - Ribbon.flbx":
-                galleryNo=30
-            elif galleryName == "System Input Box - Crystal.flbx":
-                galleryNo=31
-            elif galleryName == "System Input Box - Flat.flbx":
-                galleryNo=28
-            elif galleryName == "System Input Box - Standard.flbx":
-                galleryNo=32
-            else:
-                # default
-                galleryName = "System Input Box - Ribbon.flbx"
-                galleryNo=30
-        
-        elif objectType == "TextInput":
-            if galleryName == "System Input Box - Ribbon.flbx":
-                galleryNo=30
-            elif galleryName == "System Input Box - Crystal.flbx":
-                galleryNo=31
-            elif galleryName == "System Input Box - Flat.flbx":
-                galleryNo=28
-            elif galleryName == "System Input Box - Standard.flbx":
-                galleryNo=32
-            else:
-                # default
-                galleryName = "System Input Box - Ribbon.flbx"
-                galleryNo=30
-        
-        else:
-            raise Exception(f"[Get Token Failed] Type of object:`{objectType}` is not supported.")
-        
-        if not galleryNo:
-            raise Exception(f"[Get Token Failed] for `{objectType}` and `{galleryName}`")
-        
-        return f"v1|1|{index}|0:|{galleryNo}:{galleryName}"         
+class ScreenEncoder(ScreenDecoder):     
     
     @staticmethod
     def convert_lineStyle2String(style_num:int) -> str:
@@ -1809,6 +2037,94 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg) 
         
     @classmethod
+    def override_embed_window(cls, obj_json:dict, obj_view_json:dict):
+        """EmbeddedWindow"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "EmbeddedWindow":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `EmbeddedWindow`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # display section
+            _properties["containerMode"] = obj_view_json["display"]["mode"]
+            
+            title = obj_view_json["display"]["title"]
+            _properties["titleString"] = title
+            _properties["titleEnabled"] = False
+            if title:
+                _properties["titleEnabled"] = True
+            
+            _properties["displayAnchor"] = obj_view_json["display"]["displayAnchor"]
+
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override EmbeddedWindow Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override EmbeddedWindow Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
+    def override_2d_barcode(cls, obj_json:dict, obj_view_json:dict):
+        """2DBarcode"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "2DBarcode":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `2D Barcode`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # general section
+            _properties["readValue"] = obj_view_json["general"]["readValue"]
+            _properties["barcodeType"] = obj_view_json["general"]["barcodeType"]
+            _properties["cellColor"] = obj_view_json["general"]["barcodeColor"]            
+
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override 2DBarcode Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override 2DBarcode Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
         """Picture"""
         try:
@@ -1858,6 +2174,10 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_arc_widget(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingScale":
             cls.override_scale_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "EmbeddedWindow":
+            cls.override_embed_window(obj_json, obj_view_json)
+        elif _obj_view_type == "2DBarcode":
+            cls.override_2d_barcode(obj_json, obj_view_json)
         else:
             cls.override_other_object(obj_json, obj_view_json)
     
@@ -1984,7 +2304,7 @@ class ScreenEncoder(ScreenDecoder):
             # scan objects list
             for idx, obj in enumerate(widget_list):
                 obj_name = obj["name"]
-                obj_type = obj["objectType"]
+                obj_type = obj["objectType"] # view type rather than ebx type
                 # 若物件不存在則 insert
                 if obj_name not in _obj_names:
                     _obj = copy.deepcopy(self.ebx_object_default_json[obj_type]) # 抓對應的原始物件, 使用 copy 避免共用 reference

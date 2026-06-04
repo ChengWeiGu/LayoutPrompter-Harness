@@ -15,8 +15,11 @@ def clear_terminal():
 def main():
     
     # color
+    RED = "\033[31m"
     BLUE = "\033[94m"
     YELLOW = "\033[93m"
+    BRIGHT_CYAN = "\033[96m"
+    BRIGHT_MAGENTA = "\033[95m"
     RESET = "\033[0m"
     
     try:
@@ -38,7 +41,7 @@ def main():
         
         # user-robot QA loop
         while True:
-            user_input = input("\nYou: ").strip()
+            user_input = input(f"\n{BRIGHT_CYAN}You: {RESET}").strip()
 
             serial_num = datetime.now().strftime("%Y%m%d%H%M%S")
             save_file_name = f"./temp/llm-output-{serial_num}.json"
@@ -77,7 +80,7 @@ def main():
             
             
             if command in {"/exit", "/quit"}:
-                print("Bye.")
+                print(RED+"Bye."+RESET)
                 break
             
             if command in {"/clear", "/reset"}:
@@ -100,7 +103,7 @@ def main():
             step_count = 0
             while step_count < max_agent_steps:
                 
-                print("\nAssistant: ", end="", flush=True)
+                print(f"\n\n{BRIGHT_MAGENTA}Assistant:{RESET} ", end="", flush=True)
 
                 assistant_reply = cf_layer.stream_chat_filter(
                     client=client,
@@ -164,7 +167,7 @@ def main():
             print("------------------\n")
             
     except KeyboardInterrupt:
-        print("\nBye.")
+        print(f"\n{RED}Bye.{RESET}")
 
     except Exception as e:
         print(f"\n[ERROR] {e}", file=sys.stderr)

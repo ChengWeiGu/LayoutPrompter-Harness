@@ -31,6 +31,8 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | Text | Static text label |
 | Picture | External / System Picture |
 | DrawingScale | Circular gauge / Linear Scale  |
+| EmbeddedWindow | Embedded / Pop-up Window  |
+| 2DBarcode | Matrix Barcode  |
 | CompositeWidget | Complex grouped widget |
 
 ## Project Structure
@@ -72,7 +74,7 @@ Edit `Config.ini` before running:
 [BEDROCK_EU]
 service_name = bedrock-runtime
 anthropic_version = bedrock-2023-05-31
-chat_model_id = us.anthropic.claude-sonnet-4-6
+chat_model_id = global.anthropic.claude-sonnet-4-6
 region = us-east-1
 aws_access_key_id = <YOUR_KEY_ID>
 aws_secret_access_key = <YOUR_SECRET_KEY>
@@ -137,4 +139,4 @@ The core engine (`EBXJsonProcess.py`) handles bidirectional transformation betwe
 
 - Generated JSON views are saved to `./temp/llm-output-<timestamp>.json` automatically
 - Before any write to `Project.json`, the original is backed up to `./backup/`
-- The agent runs up to 3 tool-call steps per request before stopping
+- The agent runs up to 3-5 tool-call steps per request before stopping

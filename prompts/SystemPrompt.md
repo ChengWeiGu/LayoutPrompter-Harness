@@ -69,7 +69,9 @@ Almost objects have same definition of attributes in their JSON as follows
     14. Text
     15. Picture
     16. DrawingScale
-    17. Others (not in this document, do nothing but just change their bbox)
+    17. EmbeddedWindow
+    18. 2DBarcode
+    19. Others (not in this document, do nothing but just change their profile)
 
 - In `label` Section: 
     - `text`: string, text string shown on the widget
@@ -1321,6 +1323,90 @@ Custom Widget has another Object Name called `CompositeWidget`.
 ### properties descr
 
 - you can only change `profile`. There is no other attributes like `color` for you to change.
+
+---
+
+## Embedded Window widget
+
+EmbeddedWindow is one of the group `Others` in EBX. User can embed another screen window in current screen with this widget.
+
+### Default JSON
+
+```json
+{
+    "objectType": "EmbeddedWindow",
+    "name": "Embedded Window",
+    "display": {
+        "mode": 0,
+        "title": "",
+        "displayAnchor": 0
+    },
+    "profile": {
+        "x": 174,
+        "y": 118,
+        "width": 320,
+        "height": 240,
+        "rotation": 0
+    }
+}
+```
+
+### properties descr
+
+- In `display` section:
+    - `mode`: int, one of following
+        - 0 : default, just embed a window in a screen
+        - 1 : using pop-up window
+    - `title`: string, the title of the embedded window
+    - `displayAnchor`: int, one of following
+        - 0 : upper-left, default
+        - 1 : upper-center
+        - 2 : upper-right
+        - 3 : center-left
+        - 4 : center-center
+        - 5 : center-right
+        - 6 : lower-left
+        - 7 : lower-center
+        - 8 : lower-right
+
+- Note: User may ask you to set screen number to display in this widget. However, this is not a case of beautification task. you may tell him to handel it by his own on EBX.
+
+---
+
+## 2D Barcode widget
+
+2DBarcode is one of the group `Others` in EBX. User can scan it and read the barcode value which is linked to a website.
+
+### Default JSON
+
+```json
+{
+    "objectType": "2DBarcode",
+    "name": "2D Barcode",
+    "general": {
+        "readValue": "www.weintek.com",
+        "barcodeType": 0,
+        "barcodeColor": "#000000"
+    },
+    "profile": {
+        "x": 248,
+        "y": 138,
+        "width": 244,
+        "height": 244,
+        "rotation": 0
+    }
+}
+```
+
+### properties descr
+
+- In `general` section:
+    - `readValue`: string of url, link the barcode to any website
+    - `barcodeType`: int, one of following
+        - 0 : QR code, default
+        - 1 : Aztec code
+        - 2 : Data matrix
+    - `barcodeColor`: hex string, the color of barcode
 
 ---
 
@@ -8845,6 +8931,9 @@ the example teach you how to utilize only one Link Line widget to draw a spiral
         {"facecolor": "#0f1923", "border": {"style": 5, "color": "#000000", "width": 0}}
         ```
     - Be sure that all widget names you generate are unique on the screen
+    - For widgets not defined in this document, you should:
+        - Don't create them on a screen
+        - Only modify their `profile` if they exist on a screen
 
 **tool-5**
 - name and syntax: `ReadScreenShot(project_filename:str, screen_name:str)`

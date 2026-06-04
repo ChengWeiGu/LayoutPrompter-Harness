@@ -1,0 +1,54 @@
+{
+    "name": "Embedded Window",
+    "objectTypeName": "objectEmbeddedWindow",
+    "layer": "root",
+    "properties": {
+        "widgetType": 30565,
+        "objectType": 7,
+        "comment": "",
+        "readValue": 0,
+        "dataFormat": 7,
+        "windowMappingPolicy": 0,
+        "customWindowMapping": {
+        "kind": "valueWindowMappings",
+        "items": [
+            {
+            "window": "",
+            "values": "0",
+            "activated": false
+            },
+            {
+            "window": "",
+            "values": "1",
+            "activated": false
+            },
+            {
+            "window": "",
+            "values": "",
+            "activated": false
+            }
+        ]
+        },
+        "containerMode": 0,
+        "titleEnabled": false,
+        "titleString": "",
+        "displayAnchor": 0,
+        "entranceAnimation": {
+        "duration": "100"
+        },
+        "exitAnimation": {
+        "duration": "100"
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 174,
+        "y": 118,
+        "width": 320,
+        "height": 240,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [],
+    "methods": []
+}
