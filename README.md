@@ -120,7 +120,7 @@ Claude + SystemPrompt
 Beautified JSON saved to ./temp/llm-output-<timestamp>.json
 	↓
 [Tool Calls]
-├── UpsertWidgets        →  EBXViewProcess insert or update a portion widgets on a screen
+├── UpsertWidgets        →  EBXViewProcess inserts or updates a portion widgets on a screen
 └── OverrideRes2Proj     →  EBXViewProcess encodes a complete view format → Project (.json | .ebxprj)
 	↓
 Project updated  (original backed up to ./backup/)
