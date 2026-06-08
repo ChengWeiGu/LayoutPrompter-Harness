@@ -27,6 +27,9 @@ ObjectMap_ebx2view = {
     "objectPdfReader":"PdfReader", # TBD, border 不存在, color 沒統一
     "objectTrendDisplay":"TrendDisplay", # TBD, color 沒統一, border 有 alpha str
     "objectDataDisplay":"DataDisplay", # TBD, color 沒統一, border 有 alpha str
+    "objectAlarmBar":"AlarmBar", # TBD, color 沒統一, border 有 alpha str
+    "objectAlarmDisplay":"AlarmDisplay", # TBD, color 沒統一, border 有 alpha str
+    "objectRecipeView":"RecipeView", # TBD, color 沒統一, border 有 alpha str
     "objectComposite":"CompositeWidget"
 }
 
@@ -2441,7 +2444,7 @@ class ScreenEncoder(ScreenDecoder):
         elif _obj_view_type == "2DBarcode":
             cls.override_2d_barcode(obj_json, obj_view_json)
         else:
-            cls.override_other_object(obj_json, obj_view_json) # Picture
+            cls.override_other_object(obj_json, obj_view_json) # CompositeWidget
     
     @classmethod
     def override_layerIndex(cls, obj_json:dict, new_idx:int):

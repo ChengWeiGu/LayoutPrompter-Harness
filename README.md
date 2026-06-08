@@ -49,7 +49,7 @@ LayoutPrompter-Harness/
 │   ├── ToolCalling.py      # Tool definitions and execution
 │   ├── StreamFilter.py     # Filters tool call details from terminal output
 │   ├── EBXImportExport.py  # Socket tool for user to operate EBX Server
-│   └── EBXJsonProcess.py   # Core JSON transformation engine (EBX ↔ view format)
+│   └── EBXViewProcess.py   # Core JSON transformation engine (EBX ↔ view format)
 ├── EBXDefaultJSON/         # Default JSON templates for each widget type
 ├── backup/                 # Auto-backups of Project.json before any modification
 └── temp/                   # LLM-generated JSON output files (timestamped)
@@ -114,14 +114,14 @@ User prompt (natural language)
 Claude + SystemPrompt
 	↓
 [Tool Calls]
-├── GetScreenLayout      →  EBXJsonProcess decodes Project (.json | .ebxprj ext) → view format
+├── GetScreenLayout      →  EBXViewProcess decodes Project (.json | .ebxprj) → view format
 └── ReadImageByteData    →  Load reference images for analysis
 	↓
 Beautified JSON saved to ./temp/llm-output-<timestamp>.json
 	↓
 [Tool Calls]
-├── UpsertWidgets        →  EBXJsonProcess insert or update a portion widgets on a screen
-└── OverrideRes2Proj     →  EBXJsonProcess encodes a complete view format → Project (.json | .ebxprj)
+├── UpsertWidgets        →  EBXViewProcess insert or update a portion widgets on a screen
+└── OverrideRes2Proj     →  EBXViewProcess encodes a complete view format → Project (.json | .ebxprj)
 	↓
 Project updated  (original backed up to ./backup/)
 	↓
@@ -129,7 +129,7 @@ Project updated  (original backed up to ./backup/)
 └── ReadScreenShot       →  LLM verifies results visually
 ```
 
-The core engine (`EBXJsonProcess.py`) handles bidirectional transformation between the native EBX JSON format and a simplified "view" format that Claude can reason about effectively.
+The core engine (`EBXViewProcess.py`) handles bidirectional transformation between the native EBX JSON format and a simplified "view" format that Claude can reason about effectively.
 
 ### Agent Tools
 

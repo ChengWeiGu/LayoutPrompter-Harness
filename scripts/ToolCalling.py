@@ -4,14 +4,14 @@ import sys
 import json
 import copy
 import shutil
-from . import ClaudeFunc, EBXJsonProcess, EBXImportExport
+from . import ClaudeFunc, EBXImportExport, EBXViewProcess
 from pathlib import Path
 
 
 
 # create instance
-sc_decoder = EBXJsonProcess.ScreenDecoder()   
-sc_encoder = EBXJsonProcess.ScreenEncoder()
+sc_decoder = EBXViewProcess.ScreenDecoder()   
+sc_encoder = EBXViewProcess.ScreenEncoder()
 
 
 """LLM使用工具1: 讀取圖片
