@@ -21,10 +21,12 @@ ObjectMap_ebx2view = {
     "objectDrawingPolygon":"DrawingPolygon",
     "objectDrawingLinkLine":"DrawingLinkLine",
     "objectDrawingScale":"DrawingScale",
-    "objectBarGraph":"BarGraph", # TBD
+    "objectBarGraph":"BarGraph", # TBD, color 控制複雜, color 沒統一
     "objectEmbeddedWindow":"EmbeddedWindow",
     "objectMatrixBarcode":"2DBarcode",
-    "objectPdfReader":"PdfReader", # TBD
+    "objectPdfReader":"PdfReader", # TBD, border 不存在, color 沒統一
+    "objectTrendDisplay":"TrendDisplay", # TBD, color 沒統一, border 有 alpha str
+    "objectDataDisplay":"DataDisplay", # TBD, color 沒統一, border 有 alpha str
     "objectComposite":"CompositeWidget"
 }
 
@@ -358,17 +360,22 @@ class ScreenDecoder:
             - for text: _properties["picture"] is "none" string. we don't let LLM to change it as well as its color => remove outline section
             - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
             """
-            if _view_object_type not in ["Text"]:   
-                _picture_path = _properties["picture"]["path"]  
-                _galleryName = _picture_path.split(":")[-1]
-                _index = cls.get_picture_index(_picture_path)
-                _pictureColor = _properties["pictureColor"] # default at #00000000 which means transparent
+            if _view_object_type not in ["Text"]:
+
+                _view["outline"] = "none" # default
                 
-                _view["outline"] = {
-                    "galleryName":_galleryName,
-                    "index":_index,
-                    "color":_pictureColor
-                }
+                _picture = _properties["picture"] # dict | "none"
+                if _picture != "none":
+                    _picture_path = _picture["path"]  
+                    _galleryName = _picture_path.split(":")[-1]
+                    _index = cls.get_picture_index(_picture_path)
+                    _pictureColor = _properties["pictureColor"] # default at #00000000 which means transparent
+                
+                    _view["outline"] = {
+                        "galleryName":_galleryName,
+                        "index":_index,
+                        "color":_pictureColor
+                    }
             
             return _view
         
@@ -526,16 +533,6 @@ class ScreenDecoder:
             if _view_object_type not in cls.supported_input_objects:
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
             
-            # outline section
-            """v1|1|<index>|0:|<galleryNo>:<galleryName>
-            - for both Input: "v1|1|0|0:|30:System Input Box - Ribbon.flbx"
-            - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
-            """
-            _picture_path = _properties["picture"]["path"] 
-            _galleryName = _picture_path.split(":")[-1]
-            _index = cls.get_picture_index(_picture_path)
-            _pictureColor = _properties["pictureColor"] # default #00000000 => transparent
-            
             # bg section
             _bg_pattern = _properties["fill"]["pattern"]
             _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => transparent
@@ -563,11 +560,6 @@ class ScreenDecoder:
             _view = {
                 "objectType": _view_object_type,
                 "name":_name,
-                "outline":{
-                    "galleryName":_galleryName,
-                    "index":_index,
-                    "color":_pictureColor
-                },
                 "background":{
                     "color":_bg_color,
                     "radius":_bg_radius,
@@ -589,6 +581,27 @@ class ScreenDecoder:
                     "rotation":_rotation
                 }
             }
+            
+            
+             # outline section
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - for both Input: "v1|1|0|0:|30:System Input Box - Ribbon.flbx"
+            - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
+            """            
+            _view["outline"] = "none" # default
+                
+            _picture = _properties["picture"] # dict | "none"
+            if _picture != "none":
+                _picture_path = _picture["path"]  
+                _galleryName = _picture_path.split(":")[-1]
+                _index = cls.get_picture_index(_picture_path)
+                _pictureColor = _properties["pictureColor"] # default at #00000000 which means transparent
+            
+                _view["outline"] = {
+                    "galleryName":_galleryName,
+                    "index":_index,
+                    "color":_pictureColor
+                }            
             
             return _view
         
@@ -926,10 +939,11 @@ class ScreenDecoder:
                 - In default: _properties["picture"] is "none" string.
             - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
             """
-            _picture = _properties["picture"]
-            _view["outline"] = _picture # default
+            _view["outline"] = "none" # default
+            
+            _picture = _properties["picture"] # dict | "none"
             if _picture != "none": 
-                _picture_path = _properties["picture"]["path"]  
+                _picture_path = _picture["path"]  
                 _galleryName = _picture_path.split(":")[-1]
                 _index = cls.get_picture_index(_picture_path)
                 _pictureColor = _properties["pictureColor"] # default at #00000000 which means transparent
@@ -1052,9 +1066,11 @@ class ScreenDecoder:
             error_msg = f"[Get Scale Object View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
+    # TBD
     @classmethod
     def get_bar_graph_view(cls, object_json:dict) -> dict:
         """BarGraph
+        - Picture does not matter for beautification task
         - BarColor 有問題
         """
         try:
@@ -1067,7 +1083,7 @@ class ScreenDecoder:
             if _view_object_type != "BarGraph":
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
 
-            # outline section
+            # outline section - 1
             _type =  _properties["type"] # default 0, 0 (Straight) | 1 (Circle)
             _style = _properties["style"] # default 0, 0 (Default) | 1 (Crystal) | 2 (Flat)
             _direction = _properties["direction"] # default 0, 0-3 (Up/Down/Left/Right)
@@ -1080,15 +1096,6 @@ class ScreenDecoder:
             _barColor = _properties["barColor"]
             if _style == 0:
                 _barColor = _properties["barColor"]
-                
-            """v1|1|<index>|0:|<galleryNo>:<galleryName>
-            - for BarGraph: "v1|1|1|0:|30:System Bar Graph - Ribbon.flbx" (only `Ribbon` is availabe, galleryNo = 30, fixed)
-            - currently, changing picture of it does not matter for beautification task
-            - no picture color for this widget
-            """
-            _picture_path = _properties["picture"]["path"]  
-            _galleryName = _picture_path.split(":")[-1]
-            _index = cls.get_picture_index(_picture_path) # 0 - 4 
             
             
             # bg section
@@ -1131,6 +1138,14 @@ class ScreenDecoder:
                     "rotation":_rotation
                 }
             }
+            
+            # outline section - 2
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - for BarGraph: "v1|1|1|0:|30:System Bar Graph - Ribbon.flbx" (only `Ribbon` is availabe, galleryNo = 30, fixed)
+            - currently, changing picture of it does not matter for beautification task
+            - no picture color for this widget
+            """
+            _picture = _properties["picture"] # dict | "none"
             
             return _view
         
@@ -1249,6 +1264,184 @@ class ScreenDecoder:
         
         except Exception as e:
             error_msg = f"[Get 2DBarcode View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
+    # TBD
+    @classmethod
+    def get_trend_display_view(cls, object_json:dict) -> dict:
+        """TrendDisplay
+        - fill & border 是 RGBA → 應為 hex string
+        - border 裡面是 alpha string instead of int
+        """
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "TrendDisplay":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+           
+            # trend section
+            _timeAxisRange = _properties["timeAxisRange"] # 100, 1 - 86400 seconds
+            _legendColor = _properties["samplingDateTimeColor"] # #ff0000
+            
+            _gridEnabled = _properties["gridEnabled"] # false | true
+            _gridEnabled = 1 if _gridEnabled else 0
+            
+            _timeAxisInterval = _properties["timeAxisInterval"] # 4, 1 - 100, number of v-grid = timeAxisRange / timeAxisInterval
+            _valueAxisDivision = _properties["valueAxisDivision"] # 4, 1 - 500, number of h-grid = valueAxisDivision - 1
+            _gridColor = _properties["gridColor"] # hex string
+            _timeAxisLabelColor = _properties["scaleColor"] # hex string
+            _timeAxisLabelPosition = _properties["scaleDateTimePosition"] # int, 0 (default, below time axis) | 1 (above time axis)
+           
+            # bg section (format is wrong)
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
+            _bg_radius = _properties["radius"] # default 0
+            _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "trend":{
+                    "timeAxisRange":_timeAxisRange,
+                    "legendColor":_legendColor,
+                    "gridEnabled":_gridEnabled,
+                    "timeAxisInterval":_timeAxisInterval,
+                    "valueAxisDivision":_valueAxisDivision,
+                    "gridColor":_gridColor,
+                    "timeAxisLabelColor ":_timeAxisLabelColor ,
+                    "timeAxisLabelPosition":_timeAxisLabelPosition
+                },
+                "background":{
+                    "color":_bg_color,
+                    "radius":_bg_radius,
+                    "border":_bg_border
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get TrendDisplay View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get TrendDisplay View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
+    # TBD
+    @classmethod
+    def get_data_display_view(cls, object_json:dict) -> dict:
+        """DataDisplay
+        - fill & border 是 RGBA → 應為 hex string
+        - border 裡面是 alpha string instead of int
+        """
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "DataDisplay":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+           
+            # display section
+            _showHeader= _properties["showHeader"] # true (default) | false 
+            _showHeader = 0 if _showHeader else 0
+            _sortOrder = _properties["sortOrder"] # int, 1 (time decending) | 0 (time acending)
+            
+            # appearance section
+            _style = _properties["style"] # int, 1,  0 (Default) | 1 (Crystal) | 2 (Flat)
+            _interiorColor = _properties["styleColor"] # hex string, affect facecolor of the table (including header)
+            _headerTextColor= _properties["headerTextColor"] # hex string
+            _stretchLastColumnEnable = _properties["stretchLastColumn"] # false (default) | true
+            _stretchLastColumnEnable = 1 if _stretchLastColumnEnable else 0
+            
+            
+            # bg section (format is wrong)
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
+            _bg_radius = _properties["radius"] # default 0, 0 - 100
+            _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
+            
+            # label section
+            _fontSize = _properties["fontSize"] # default 16, 5 - 255
+            _fontBold = 1 if _properties["fontBold"] else 0 # default false
+            _fontItalic = 1 if _properties["fontItalic"] else 0 # default false
+            _fontColor = _properties["fontColor"] # default #000000            
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "display":{
+                    "showHeader":_showHeader,
+                    "sortOrder":_sortOrder
+                },
+                "appearance":{
+                    "style":_style,
+                    "interiorColor":_interiorColor,
+                    "headerTextColor":_headerTextColor,
+                    "stretchLastColumnEnable":_stretchLastColumnEnable
+                },
+                "background":{
+                    "color":_bg_color,
+                    "radius":_bg_radius,
+                    "border":_bg_border
+                },
+                "label":{
+                    "fontSize":_fontSize,
+                    "fontBold":_fontBold,
+                    "fontItalic":_fontItalic,
+                    "fontColor":_fontColor
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get DataDisplay View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get DataDisplay View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
     @staticmethod
@@ -1504,19 +1697,22 @@ class ScreenEncoder(ScreenDecoder):
             - for text: _properties["picture"] is "none" string. we don't let LLM to change it as well as its color => remove outline section
             - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
             """
-            if view_obj_type in ["Text"]:
-                # force them back to default
-                _properties["picture"] = "none"
-                _properties["pictureColor"] = "#00000000"
-            else:
-                galleryName = obj_view_json["outline"]["galleryName"]
-                index = obj_view_json["outline"]["index"]
-                
-                _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
-                _properties["picture"]["path"] = _path
-                _properties["picture"]["kind"] = "resource" # fixed at resource
-                
-                _properties["pictureColor"] = obj_view_json["outline"]["color"]
+            # force them back to default, using bg to control facecolor
+            _properties["picture"] = "none"
+            _properties["pictureColor"] = "#00000000"
+            
+            if view_obj_type not in ["Text"]:
+                # if outline section is "none" => no style, bg dominates
+                outline = obj_view_json["outline"]                
+                if outline != "none":
+                    galleryName = outline["galleryName"]
+                    index = outline["index"]
+                    _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
+                    _properties["picture"] = {
+                        "kind": "resource",  # fixed
+                        "path": _path
+                    }
+                    _properties["pictureColor"] = outline["color"]
         
         except ValueError as e:
             error_msg = f"[Override General Object Failed] {str(e)}"
@@ -1648,13 +1844,21 @@ class ScreenEncoder(ScreenDecoder):
             - for both Input: "v1|1|0|0:|30:System Input Box - Ribbon.flbx"
             - so far, only changing the gallery name wihtout changing `pictureIndex` is OK
             """
-            galleryName = obj_view_json["outline"]["galleryName"]
-            index = obj_view_json["outline"]["index"]
+            # if outline section is "none" => no style, bg dominates
+            outline = obj_view_json["outline"]
+            # default
+            _properties["picture"] = "none" 
+            _properties["pictureColor"] = "#00000000"
             
-            _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
-            _properties["picture"]["path"] = _path
-            _properties["picture"]["kind"] = "resource" # fixed at resource
-            _properties["pictureColor"] = obj_view_json["outline"]["color"]
+            if outline != "none":
+                galleryName = outline["galleryName"]
+                index = outline["index"]
+                _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
+                _properties["picture"] = {
+                    "kind": "resource",  # fixed
+                    "path": _path
+                }
+                _properties["pictureColor"] = outline["color"]
             
             # bg section
             obj_bg_color = obj_view_json["background"]["color"]
@@ -1973,7 +2177,63 @@ class ScreenEncoder(ScreenDecoder):
         except Exception as e:
             error_msg = f"[Override Arc Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
             raise Exception(error_msg)
-     
+    
+    @classmethod
+    def override_picture_widget(cls, obj_json:dict, obj_view_json:dict):
+        """Picture"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "Picture":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not supported.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]
+            
+            # outline section
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - default is "none"
+            """
+            # if outline section is "none" => no style, bg dominates
+            outline = obj_view_json["outline"]
+            # default
+            _properties["picture"] = "none" 
+            _properties["pictureColor"] = "#00000000"
+            
+            if outline != "none":
+                galleryName = outline["galleryName"]
+                index = outline["index"]
+                _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
+                _properties["picture"] = {
+                    "kind": "resource",  # fixed
+                    "path": _path
+                }
+                _properties["pictureColor"] = outline["color"]
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Picture Object Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Picture Object Failed] {str(e)} for name:{name} and view_obj_type:{view_obj_type}"
+            raise Exception(error_msg)    
+    
     @classmethod
     def override_scale_widget(cls, obj_json:dict, obj_view_json:dict):
         """DrawingScale"""
@@ -2134,7 +2394,7 @@ class ScreenEncoder(ScreenDecoder):
             view_obj_type = obj_view_json["objectType"]
             objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
             if objectTypeName:
-                obj_json["objectTypeName"] = objectTypeName # e.g. Picture → objectPicture
+                obj_json["objectTypeName"] = objectTypeName
             else:
                 obj_json["objectTypeName"] = view_obj_type # e.g. objectDrawingArbitraryLine → objectDrawingArbitraryLine
             
@@ -2172,6 +2432,8 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_link_line_widget(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingArc":
             cls.override_arc_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "Picture":
+            cls.override_picture_widget(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingScale":
             cls.override_scale_widget(obj_json, obj_view_json)
         elif _obj_view_type == "EmbeddedWindow":
@@ -2179,7 +2441,7 @@ class ScreenEncoder(ScreenDecoder):
         elif _obj_view_type == "2DBarcode":
             cls.override_2d_barcode(obj_json, obj_view_json)
         else:
-            cls.override_other_object(obj_json, obj_view_json)
+            cls.override_other_object(obj_json, obj_view_json) # Picture
     
     @classmethod
     def override_layerIndex(cls, obj_json:dict, new_idx:int):

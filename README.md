@@ -110,17 +110,23 @@ You: Create 4 buttons closer to the bottom of screen `<YOUR_SCREEN_NAME>` from p
 
 ```
 User prompt (natural language)
-        ↓
-   Claude + SystemPrompt
-        ↓
-   [Tool Calls]
-   ├── GetScreenLayout      →  EBXJsonProcess decodes Project.json → view format
-   ├── ReadImageByteData    →  Load reference images for analysis
-   └── OverrideRes2Proj     →  EBXJsonProcess encodes view format → Project.json
-        ↓
-   Beautified JSON saved to ./temp/llm-output-<timestamp>.json
-        ↓
-   Project.json updated  (original backed up to ./backup/)
+	↓
+Claude + SystemPrompt
+	↓
+[Tool Calls]
+├── GetScreenLayout      →  EBXJsonProcess decodes Project (.json | .ebxprj ext) → view format
+└── ReadImageByteData    →  Load reference images for analysis
+	↓
+Beautified JSON saved to ./temp/llm-output-<timestamp>.json
+	↓
+[Tool Calls]
+├── UpsertWidgets        →  EBXJsonProcess insert or update a portion widgets on a screen
+└── OverrideRes2Proj     →  EBXJsonProcess encodes a complete view format → Project (.json | .ebxprj)
+	↓
+Project updated  (original backed up to ./backup/)
+	↓
+[Tool Calls]
+└── ReadScreenShot       →  LLM verifies results visually
 ```
 
 The core engine (`EBXJsonProcess.py`) handles bidirectional transformation between the native EBX JSON format and a simplified "view" format that Claude can reason about effectively.
@@ -131,7 +137,7 @@ The core engine (`EBXJsonProcess.py`) handles bidirectional transformation betwe
 |---|---|
 | `GetScreenLayout` | Extracts and simplifies the current screen from `Project.json` |
 | `ReadImageByteData` | Reads an image file and passes it to Claude for visual analysis |
-| `OverrideRes2Proj` | Writes Claude's improved layout back to `Project.json` (creates backup first) |
+| `OverrideRes2Proj` | Writes Claude's improved layout back to `Project.json` (creates backup first, extension of `.ebxprj` is allowed) |
 | `UpsertWidgets` | Inserts or updates individual widgets without replacing the whole screen |
 | `ReadScreenShot` | Read and Pass a screenshot image to Claude to verify result |
 

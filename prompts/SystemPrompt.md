@@ -71,7 +71,8 @@ Almost objects have same definition of attributes in their JSON as follows
     16. DrawingScale
     17. EmbeddedWindow
     18. 2DBarcode
-    19. Others (not in this document, do nothing but just change their profile)
+    19. CompositeWidget (do nothing but just change its profile)
+    20. Others (not defined in this document, do nothing but just change their profile)
 
 - In `label` Section: 
     - `text`: string, text string shown on the widget
@@ -138,6 +139,8 @@ Almost objects have same definition of attributes in their JSON as follows
             - 0 : default, no border width
             - 1 - 8 (thin → thick)
             - it does not matter when style=5 (so `width` can be any value 0-8)
+    - Note that the bg will act as `interior` | `facecolor` color controlling only when you provide "none" for `outline` section. That is `outline` = "none".
+
 
 
 - You may see some color formated as `"#00000000"`, it means transparent setting:
@@ -337,6 +340,8 @@ Almost objects have same definition of attributes in their JSON as follows
     - `color`: hex string, facecolor of the widget, default at "#80ddff"
         - Note that `System Lamp - Standard.flbx` does not support it, so do not choose `Standard.flbx` shape in general. Use Crystal | Flat to replace it instead.
 
+- if `outline` = "none", it means no style and `background` section will dominate the facecolor
+
 ---
 
 ## Switch widget
@@ -408,6 +413,8 @@ Almost objects have same definition of attributes in their JSON as follows
         - facecolor of switch, default at "#80ddff"
         - Note that `Flat.flbx` can support any color, but other galleryNames only support 12 colors. Thus, always use `Flat.flbx` to adjust facecolor
 
+- if `outline` = "none", it means no style and `background` section will dominate the facecolor
+
 ---
 
 ## Button widget
@@ -474,6 +481,8 @@ Almost objects have same definition of attributes in their JSON as follows
     - `color`: hex string, facecolor of the widget
         - when you select `System Button - Ribbon.flbx`, "#00000000" is default
         - For other galleryNames, the default value will be "#80ddff"
+
+- if `outline` = "none", it means no style and `background` section will dominate the facecolor
 
 ---
 
@@ -642,6 +651,8 @@ Almost objects have same definition of attributes in their JSON as follows
         - When select `System Input Box - Ribbon.flbx`, "#00000000" is default
         - For other galleryNames, the default value will be "#80ddff"
 
+- if `outline` = "none", it means no style and `background` section will dominate the facecolor
+
 ---
 
 ## Text Input widget
@@ -706,6 +717,8 @@ Almost objects have same definition of attributes in their JSON as follows
     - `color`: hex string, facecolor of Text Input widget
         - When select `System Input Box - Ribbon.flbx`, "#00000000" is default
         - For other galleryNames, the default value will be "#80ddff"
+
+- if `outline` = "none", it means no style and `background` section will dominate the facecolor
 
 ---
 
@@ -1145,10 +1158,10 @@ The text object is different from text input object
 
 ### properties descr
 
-- Usually, we only change `label` and `profile` only.
+- Usually, we only change `label`, `profile` and `background` only.
+    - Note that `background` section dominates the facecolor of the widget.
 - In `label` section:
-    - `text`: string, any text you want to display
-    - for this widget, `background` section is not important.
+    - `text`: string, any text you want to display.
      
 ---
 
@@ -1177,7 +1190,8 @@ Picture widget is one of the group `Draw` in EBX. User can import external pictu
 
 - In `outline` section:
     - default is a "none" string which means no external picture is imported
-    - compared to Lamp/Button/NumericInput/TextInput, only `Picture` widget can accept "none" value for `outline`
+    - Similar to Lamp/Button/NumericInput/TextInput, setting "none" value for `outline` section means no style 
+        - However, there is no bg section to control facecolor like `Lamp`
     - example to set value of `outline` for this widget:
         ```json
         {
@@ -1186,10 +1200,9 @@ Picture widget is one of the group `Draw` in EBX. User can import external pictu
             "color": "#80ddff"
         }
         ```
-        - Similar to Lamp | Button, one can use system `galleryName` and corresponding `index` to show system image.
-        - Using `Flat.flbx` is recommended as well
-        - If you cannot recognize the `galleryName` and its `index`, please do not modify them.
-    - `color`: hex string, facecolor of the widget, default at "#80ddff"
+        - Take Lamp picture for example, one can use system `galleryName` and corresponding `index` to show system image. Using `Flat.flbx` is recommended as well
+        - If you cannot recognize the `galleryName` and its `index` of a `Picture`, please do not modify them.
+        - `color`: hex string, facecolor of the widget, default at "#80ddff"
 
 ---
 
@@ -1323,6 +1336,7 @@ Custom Widget has another Object Name called `CompositeWidget`.
 ### properties descr
 
 - you can only change `profile`. There is no other attributes like `color` for you to change.
+- Currently, what widgets grouped in `CompositeWidget` is not visible and listed.
 
 ---
 
@@ -1448,7 +1462,9 @@ The layer order is controlled ONLY by the order of items in the `objects` array.
 
 - `name` acts as object ID which is unique in the screen.
 - every type of widget has its own `objectType`, don't invent it.
-- For some widgets, always consider using `Flat.flbx` because the galleryName must provide changeable facecolor. It's easy to set `index` without errors.
+- For some widgets, always consider using `Flat.flbx` because the galleryName must provide changeable facecolor. Also, It's easy to set `index` without errors.
+    - In other words, choosing `Flat.flbx` of a widget can make sure `outline` → `color` changeable.
+    - Alternatively, you can adjust `background` (if available) to control facecolor by setting "none" for `outline`.
 - For Object Type that you cannot recognize (out of definition), just change their `profile`.
 
 # Layout Examples to beautify a JSON screen in EBX
