@@ -1,0 +1,109 @@
+{
+    "name": "Bar Graph",
+    "objectTypeName": "objectBarGraph",
+    "layer": "root",
+    "properties": {
+        "widgetType": 26466,
+        "comment": "",
+        "readValue": 50.0,
+        "valueRange": {
+        "high": "100"
+        },
+        "dataFormat": 14,
+        "type": 0,
+        "style": 0,
+        "originPosition": 0,
+        "customOriginValue": 30.0,
+        "direction": 0,
+        "barWidthRatio": 100,
+        "angleSetting": {
+        "spanAngle": "360"
+        },
+        "circularHoleRatio": 40,
+        "barFill": {
+        "pattern": 0,
+        "subjectColor": "#000080",
+        "patternColor": "#000080"
+        },
+        "barColor": "#000080",
+        "targetValueEnabled": false,
+        "targetValue": 0.0,
+        "targetTolerance": 0.0,
+        "targetColor": "#00ff00",
+        "highAlarmValueEnabled": false,
+        "highAlarmValue": 0.0,
+        "highAlarmColor": "#ff0000",
+        "lowAlarmValueEnabled": false,
+        "lowAlarmValue": 0.0,
+        "lowAlarmColor": "#ffff00",
+        "barBackgroundColor": "#a0a0a4",
+        "barFrameColor": "#00000000",
+        "picture": {
+        "kind": "resource",
+        "path": "v1|1|1|0:|30:System Bar Graph - Ribbon.flbx"
+        },
+        "pictureColor": "#00000000",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "fill": {
+        "pattern": 255,
+        "subjectColor": "#ffffff",
+        "patternColor": "#000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 201,
+        "y": 109,
+        "width": 150,
+        "height": 254,
+        "lockAspectRatio": false,
+        "rotation": 0,
+        "pictureStyle": "Fixed"
+    },
+    "events": [
+        {
+        "id": "normalLeft",
+        "statements": []
+        },
+        {
+        "id": "normalEntered",
+        "statements": []
+        },
+        {
+        "id": "targetLeft",
+        "statements": []
+        },
+        {
+        "id": "targetEntered",
+        "statements": []
+        },
+        {
+        "id": "lowLeft",
+        "statements": []
+        },
+        {
+        "id": "lowEntered",
+        "statements": []
+        },
+        {
+        "id": "highLeft",
+        "statements": []
+        },
+        {
+        "id": "highEntered",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

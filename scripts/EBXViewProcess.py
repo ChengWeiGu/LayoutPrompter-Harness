@@ -21,14 +21,14 @@ ObjectMap_ebx2view = {
     "objectDrawingPolygon":"DrawingPolygon",
     "objectDrawingLinkLine":"DrawingLinkLine",
     "objectDrawingScale":"DrawingScale",
-    "objectBarGraph":"BarGraph", # TBD, color 控制複雜, color 沒統一
+    "objectBarGraph":"BarGraph", # barFill.subjectColor 不能變 -> EBX 轉換問題
     "objectEmbeddedWindow":"EmbeddedWindow",
     "objectMatrixBarcode":"2DBarcode",
-    "objectPdfReader":"PdfReader", # TBD, border 不存在, color 沒統一
-    "objectTrendDisplay":"TrendDisplay", # TBD, color 沒統一, border 有 alpha str
-    "objectDataDisplay":"DataDisplay", # TBD, color 沒統一, border 有 alpha str
-    "objectAlarmBar":"AlarmBar", # TBD, color 沒統一, border 有 alpha str
-    "objectAlarmDisplay":"AlarmDisplay", # TBD, color 沒統一, border 有 alpha str
+    "objectPdfReader":"PdfReader", # bg color 不能變 -> EBX 轉換問題
+    "objectTrendDisplay":"TrendDisplay", # bg color 不能變 -> EBX 轉換問題
+    "objectDataDisplay":"DataDisplay", # bg color 不能變 -> EBX 轉換問題
+    "objectAlarmBar":"AlarmBar", # standard picture + index = 3 無法設 pictureColor
+    "objectAlarmDisplay":"AlarmDisplay", # bg color 不能變 -> EBX 轉換問題
     "objectRecipeView":"RecipeView", # TBD, color 沒統一, border 有 alpha str
     "objectComposite":"CompositeWidget"
 }
@@ -64,6 +64,7 @@ class ScreenDecoder:
     supported_input_objects = ["NumericInput", "TextInput"]
     supported_general_objects = ["Lamp", "Switch","Button","Text"]
     supported_draw_objects = ["DrawingRectangle", "DrawingEllipse", "DrawingPolygon"]
+    supported_table_objects = ["DataDisplay","AlarmDisplay","RecipeView"]
     
     @staticmethod
     def load_json_file(project_path:str) -> dict:
@@ -255,10 +256,25 @@ class ScreenDecoder:
                 # default
                 galleryName = "System Input Box - Ribbon.flbx"
                 galleryNo=30
+                
         elif objectType == "BarGraph":
             # fixed, only `Ribbon` available
             galleryName = "System Bar Graph - Ribbon.flbx"
             galleryNo=30
+            
+        elif objectType == "AlarmBar":
+            if galleryName == "System Background - Ribbon.flbx":
+                galleryNo=31
+            elif galleryName == "System Background - Crystal.flbx":
+                galleryNo=32
+            elif galleryName == "System Background - Flat.flbx":
+                galleryNo=29
+            elif galleryName == "System Background - Standard.flbx":
+                galleryNo=33
+            else:
+                # default is crystal
+                galleryName = "System Background - Crystal.flbx"
+                galleryNo=32
         else:
             raise Exception(f"[Get Token Failed] Type of object:`{objectType}` is not supported.")
         
@@ -308,7 +324,7 @@ class ScreenDecoder:
             
             # label section
             _text = _properties["text"] # default ""
-            _fontStyle = _properties["font"] # default "Calibri"
+            _fontStyle = _properties["font"] # default "Noto Sans"
             _fontSize = _properties["fontSize"] # default 16
             _fontBold = 1 if _properties["fontBold"] else 0 # default false => 0
             _fontItalic = 1 if _properties["fontItalic"] else 0 # default false => 0
@@ -411,7 +427,7 @@ class ScreenDecoder:
             _selectionColor = _properties["selectionColor"] # "#57bfff", 只有影響已被選擇的 item 底色
     
             # label section
-            _fontStyle = _properties["font"] # default "Calibri"
+            _fontStyle = _properties["font"] # default "Noto Sans"
             _fontSize = _properties["fontSize"] # default 16
             _fontBold = 1 if _properties["fontBold"] else 0 # default false => 0
             _fontItalic = 1 if _properties["fontItalic"] else 0 # default false => 0
@@ -545,7 +561,7 @@ class ScreenDecoder:
             _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
             
             # label section
-            _fontStyle = _properties["font"] # default "Calibri"
+            _fontStyle = _properties["font"] # default "Noto Sans"
             _fontSize = _properties["fontSize"] # default 16
             _fontBold = 1 if _properties["fontBold"] else 0 # default false => 0
             _fontColor = _properties["fontColor"] # default #000000
@@ -1007,7 +1023,7 @@ class ScreenDecoder:
             _showScaleLabel = _properties["showScaleLabel"] # Default : False
             _showScaleLabel = 1 if _showScaleLabel else 0
             
-            _fontStyle = _properties["font"] # default "Calibri"
+            _fontStyle = _properties["font"] # default "Noto Sans"
             _fontSize = _properties["fontSize"] # default 12
             _fontColor = _properties["fontColor"] # default #000000
             _rightDecimalPt = _properties["rightDecimalPt"] # default 0
@@ -1069,12 +1085,11 @@ class ScreenDecoder:
             error_msg = f"[Get Scale Object View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
-    # TBD
     @classmethod
     def get_bar_graph_view(cls, object_json:dict) -> dict:
         """BarGraph
         - Picture does not matter for beautification task
-        - BarColor 有問題
+        - Ignore `picture` setting coz only `Ribbon` is available
         """
         try:
             _name = object_json["name"]
@@ -1087,19 +1102,28 @@ class ScreenDecoder:
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
 
             # outline section - 1
-            _type =  _properties["type"] # default 0, 0 (Straight) | 1 (Circle)
-            _style = _properties["style"] # default 0, 0 (Default) | 1 (Crystal) | 2 (Flat)
+            _type =  _properties["type"] # int, 0 (Straight, default) | 1 (Circle)
+            _style = _properties["style"] # int, 0 (Default) | 1 (Crystal) | 2 (Flat)
             _direction = _properties["direction"] # default 0, 0-3 (Up/Down/Left/Right)
             _angleSetting = _properties["angleSetting"] # default {"spanAngle": "360"}; example {"clockwise": "1","spanAngle": "270","startAngle": "45"}
-            _circularHoleRatio = _properties["circularHoleRatio"] # 40, 0 - 90
+            _barWidthRatio = _properties["barWidthRatio"] # int, 100, 1 - 100
+            _circularHoleRatio = _properties["circularHoleRatio"] # int, 40, 0 - 90%
             _barBackgroundColor= _properties["barBackgroundColor"] # "#a0a0a4", chageable for circular only
             _barFrameColor = _properties["barFrameColor"] # "#00000000", changeable for circular, Default Style for Straight        
                 
-            # when using `Default` style, barColor should come from barFill
-            _barColor = _properties["barColor"]
-            if _style == 0:
+            """
+            For Straight
+                - if style = Flat | Crystal, barColor comes from barColor
+                - if style = Default, barColor comes from barFill.subjectColor
+            For Circle, barColor only comes from barFill.subjectColor
+            """
+            _barColor = _properties["barFill"]["subjectColor"] # default at ""#000080"
+            _bar_pattern = _properties["barFill"]["pattern"] # default 0 which means `fill`
+            if _bar_pattern == 255:
+                _barColor = "#00000000"
+            # special case: straight for Crystal and Flat
+            if (_type == 0) and (_style in [1 , 2]):
                 _barColor = _properties["barColor"]
-            
             
             # bg section
             _bg_pattern = _properties["fill"]["pattern"]
@@ -1124,6 +1148,8 @@ class ScreenDecoder:
                     "style":_style,
                     "direction":_direction,
                     "angleSetting":_angleSetting,
+                    "barWidthRatio":_barWidthRatio,
+                    "barColor":_barColor,
                     "circularHoleRatio":_circularHoleRatio,
                     "barBackgroundColor":_barBackgroundColor,
                     "barFrameColor":_barFrameColor
@@ -1269,13 +1295,62 @@ class ScreenDecoder:
             error_msg = f"[Get 2DBarcode View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
-    # TBD
+    @classmethod
+    def get_pdf_reader_view(cls, object_json:dict) -> dict:
+        """PdfReader
+        - 在 EBX 上 bg 沒有 border & radius 相關設定
+        """
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "PdfReader":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+            # bg section
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "background":{
+                    "color":_bg_color
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get PdfReader View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get PdfReader View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
     @classmethod
     def get_trend_display_view(cls, object_json:dict) -> dict:
-        """TrendDisplay
-        - fill & border 是 RGBA → 應為 hex string
-        - border 裡面是 alpha string instead of int
-        """
+        """TrendDisplay"""
         try:
             _name = object_json["name"]
             _objectTypeName = object_json["objectTypeName"]
@@ -1295,7 +1370,7 @@ class ScreenDecoder:
             _gridEnabled = 1 if _gridEnabled else 0
             
             _timeAxisInterval = _properties["timeAxisInterval"] # 4, 1 - 100, number of v-grid = timeAxisRange / timeAxisInterval
-            _valueAxisDivision = _properties["valueAxisDivision"] # 4, 1 - 500, number of h-grid = valueAxisDivision - 1
+            _valueAxisDivision = _properties["valueAxisDivision"] # 4, 1 - 500, number of h-grid = valueAxisDivision
             _gridColor = _properties["gridColor"] # hex string
             _timeAxisLabelColor = _properties["scaleColor"] # hex string
             _timeAxisLabelPosition = _properties["scaleDateTimePosition"] # int, 0 (default, below time axis) | 1 (above time axis)
@@ -1308,12 +1383,11 @@ class ScreenDecoder:
             _bg_radius = _properties["radius"] # default 0
             _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
             
-            # profile section
+            # profile section (no rotation feature)
             _x = _properties["x"]
             _y = _properties["y"]
             _width = _properties["width"]
             _height = _properties["height"]
-            _rotation = _properties["rotation"]
             
             _view = {
                 "objectType": _view_object_type,
@@ -1337,8 +1411,7 @@ class ScreenDecoder:
                     "x":_x,
                     "y":_y,
                     "width":_width,
-                    "height":_height,
-                    "rotation":_rotation
+                    "height":_height
                 }
             }
             
@@ -1352,13 +1425,9 @@ class ScreenDecoder:
             error_msg = f"[Get TrendDisplay View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
-    # TBD
     @classmethod
-    def get_data_display_view(cls, object_json:dict) -> dict:
-        """DataDisplay
-        - fill & border 是 RGBA → 應為 hex string
-        - border 裡面是 alpha string instead of int
-        """
+    def get_table_view(cls, object_json:dict) -> dict:
+        """DataDisplay | AlarmDisplay | RecipeView (Table-like object)"""
         try:
             _name = object_json["name"]
             _objectTypeName = object_json["objectTypeName"]
@@ -1366,22 +1435,26 @@ class ScreenDecoder:
             
             # use view object type name
             _view_object_type = cls.get_object_type(object_json)
-            if _view_object_type != "DataDisplay":
+            if _view_object_type not in cls.supported_table_objects:
                 raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
 
-           
             # display section
             _showHeader= _properties["showHeader"] # true (default) | false 
-            _showHeader = 0 if _showHeader else 0
-            _sortOrder = _properties["sortOrder"] # int, 1 (time decending) | 0 (time acending)
+            _showHeader = 1 if _showHeader else 0
+            
+            _showGrid = _properties["showGrid"] # true (default) | false , Default style can use
+            _showGrid = 1 if _showGrid else 0
             
             # appearance section
             _style = _properties["style"] # int, 1,  0 (Default) | 1 (Crystal) | 2 (Flat)
             _interiorColor = _properties["styleColor"] # hex string, affect facecolor of the table (including header)
             _headerTextColor= _properties["headerTextColor"] # hex string
+            _headerBackgroundColor = _properties["headerBackgroundColor"] # Default style can use
+            _rowBackgroundColor = _properties["rowBackgroundColor"] # Default style can use
+            _gridColor = _properties["gridColor"] # Default style can use
+            
             _stretchLastColumnEnable = _properties["stretchLastColumn"] # false (default) | true
             _stretchLastColumnEnable = 1 if _stretchLastColumnEnable else 0
-            
             
             # bg section (format is wrong)
             _bg_pattern = _properties["fill"]["pattern"]
@@ -1392,10 +1465,10 @@ class ScreenDecoder:
             _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
             
             # label section
+            _fontStyle = _properties["font"] # default "Noto Sans"
             _fontSize = _properties["fontSize"] # default 16, 5 - 255
             _fontBold = 1 if _properties["fontBold"] else 0 # default false
             _fontItalic = 1 if _properties["fontItalic"] else 0 # default false
-            _fontColor = _properties["fontColor"] # default #000000            
             
             # profile section
             _x = _properties["x"]
@@ -1409,12 +1482,15 @@ class ScreenDecoder:
                 "name":_name,
                 "display":{
                     "showHeader":_showHeader,
-                    "sortOrder":_sortOrder
+                    "showGrid":_showGrid
                 },
                 "appearance":{
                     "style":_style,
                     "interiorColor":_interiorColor,
                     "headerTextColor":_headerTextColor,
+                    "headerBackgroundColor":_headerBackgroundColor,
+                    "rowBackgroundColor":_rowBackgroundColor,
+                    "gridColor":_gridColor,
                     "stretchLastColumnEnable":_stretchLastColumnEnable
                 },
                 "background":{
@@ -1423,10 +1499,146 @@ class ScreenDecoder:
                     "border":_bg_border
                 },
                 "label":{
+                    "fontStyle":_fontStyle,
                     "fontSize":_fontSize,
                     "fontBold":_fontBold,
-                    "fontItalic":_fontItalic,
-                    "fontColor":_fontColor
+                    "fontItalic":_fontItalic
+                },
+                "profile":{
+                    "x":_x,
+                    "y":_y,
+                    "width":_width,
+                    "height":_height,
+                    "rotation":_rotation
+                }
+            }
+            
+            # Don't adjust sorting of RecipeView
+            if _view_object_type in ["DataDisplay","AlarmDisplay"]:
+                _sortOrder = _properties["sortOrder"] # int, 1 (time decending) | 0 (time acending)
+                _view["display"]["sortOrder"] = _sortOrder
+                
+            
+            """AlarmDisplay 
+            - Both Crystal & Flat styles provide caption section
+            """
+            if _view_object_type == "AlarmDisplay":
+                # add showCaption in display section
+                _view["display"]["showCaption"] = 1 if _properties["showCaption"] else 0
+                # get caption values
+                _captionFontSize = _properties["captionFontSize"]
+                _captionTextColor = _properties["captionTextColor"]
+                _captionBackgroundColor = _properties["captionBackgroundColor"]
+                _captionText = _properties["captionText"]
+                # create caption section
+                _view["caption"] = {
+                    "captionFontSize":_captionFontSize,
+                    "captionTextColor":_captionTextColor,
+                    "captionBackgroundColor":_captionBackgroundColor,
+                    "captionText":_captionText
+                }
+            
+            """DataDisplay & RecipeView
+            - In label section, there is an additional attr 
+                - fontColor
+            """
+            if _view_object_type in ["DataDisplay", "RecipeView"]:
+                _view["label"]["fontColor"] = _properties["fontColor"] # default #000000  
+            
+            """AlarmDisplay & RecipeView
+            - In appearance section, there are two additional attrs in Default Style:
+                - selectionTextColor
+                - selectionBackgroundColor
+            """
+            if _view_object_type in ["AlarmDisplay","RecipeView"]:
+                # add additional attrs in appearance section
+                _view["appearance"]["selectionTextColor"] = _properties["selectionTextColor"]
+                _view["appearance"]["selectionBackgroundColor"] = _properties["selectionBackgroundColor"]
+            
+            return _view
+        
+        except ValueError as e:
+            error_msg = f"[Get Table-like View Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Get Table-like View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            raise Exception(error_msg)
+    
+    @classmethod
+    def get_alarm_bar_view(cls, object_json:dict) -> dict:
+        """AlarmBar"""
+        try:
+            _name = object_json["name"]
+            _objectTypeName = object_json["objectTypeName"]
+            _properties = object_json["properties"]
+            
+            # use view object type name
+            _view_object_type = cls.get_object_type(object_json)
+            if _view_object_type != "AlarmBar":
+                raise ValueError(f"Type of object:`{_objectTypeName}` is not supported.")
+
+           
+            # display section            
+            _sortOrder = _properties["sortOrder"] # int, 1 (time decending) | 0 (time acending)
+            
+            # bg section (format is wrong)
+            _bg_pattern = _properties["fill"]["pattern"]
+            _bg_color = _properties["fill"]["subjectColor"] # default #00000000 => 八碼代表透明, 另外 fill 中的 `pattern` = 0 代表要填色 = 255 代表全透明
+            if _bg_pattern == 255:
+                _bg_color = "#00000000" # if pattern = 255, then force bg_color is #00000000
+            _bg_radius = _properties["radius"] # default 0, 0 - 100
+            _bg_border = _properties["border"] # default {"style": 5,"color": "#000000","width": 1}
+            
+            
+            # outline section
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>
+            - for alarm bar: "v1|1|0|0:|32:System Background - Crystal.flbx"
+            - if _properties["picture"] is "none" string: no picture and bg color dominates facecolor
+            """
+            _outline = "none"
+            _picture = _properties["picture"] # dict | "none"
+            if _picture != "none":
+                _picture_path = _picture["path"]  
+                _galleryName = _picture_path.split(":")[-1]
+                _index = cls.get_picture_index(_picture_path)
+                _pictureColor = _properties["pictureColor"] # default at "#80ddff"
+                _outline = {
+                        "galleryName":_galleryName,
+                        "index":_index,
+                        "color":_pictureColor
+                    }
+            
+            # label section (no fontColor)
+            _fontStyle = _properties["font"] # default "Noto Sans"
+            _fontSize = _properties["fontSize"] # default 16, 5 - 255
+            _fontBold = 1 if _properties["fontBold"] else 0 # default false
+            _fontItalic = 1 if _properties["fontItalic"] else 0 # default false 
+            
+            # profile section
+            _x = _properties["x"]
+            _y = _properties["y"]
+            _width = _properties["width"]
+            _height = _properties["height"]
+            _rotation = _properties["rotation"]
+            
+            _view = {
+                "objectType": _view_object_type,
+                "name":_name,
+                "display":{
+                    "sortOrder":_sortOrder
+                },
+                "background":{
+                    "color":_bg_color,
+                    "radius":_bg_radius,
+                    "border":_bg_border
+                },
+                "outline": _outline,
+                "label":{
+                    "fontStyle":_fontStyle,
+                    "fontSize":_fontSize,
+                    "fontBold":_fontBold,
+                    "fontItalic":_fontItalic
                 },
                 "profile":{
                     "x":_x,
@@ -1440,11 +1652,11 @@ class ScreenDecoder:
             return _view
         
         except ValueError as e:
-            error_msg = f"[Get DataDisplay View Failed] {str(e)}"
+            error_msg = f"[Get AlarmBar View Failed] {str(e)}"
             raise Exception(error_msg)
         
         except Exception as e:
-            error_msg = f"[Get DataDisplay View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
+            error_msg = f"[Get AlarmBar View Failed] {str(e)} for name: `{_name}` and type: `{_objectTypeName}`"
             raise Exception(error_msg)
     
     @staticmethod
@@ -1510,10 +1722,20 @@ class ScreenDecoder:
             _obj_view = cls.get_picture_view(object_json)
         elif _obj_type == "DrawingScale":
             _obj_view = cls.get_scale_view(object_json)
+        elif _obj_type == "BarGraph":
+            _obj_view = cls.get_bar_graph_view(object_json)
         elif _obj_type == "EmbeddedWindow":
             _obj_view = cls.get_embed_window_view(object_json)
         elif _obj_type == "2DBarcode":
             _obj_view = cls.get_2d_barcode_view(object_json)
+        elif _obj_type == "PdfReader":
+            _obj_view = cls.get_pdf_reader_view(object_json)
+        elif _obj_type == "TrendDisplay":
+            _obj_view = cls.get_trend_display_view(object_json)
+        elif _obj_type in cls.supported_table_objects:
+            _obj_view = cls.get_table_view(object_json)
+        elif _obj_type == "AlarmBar":
+            _obj_view = cls.get_alarm_bar_view(object_json)
         else:
             _obj_view = cls.get_other_object_view(object_json) # CompositeWidget
         
@@ -2298,7 +2520,82 @@ class ScreenEncoder(ScreenDecoder):
         except Exception as e:
             error_msg = f"[Override Scale Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
             raise Exception(error_msg) 
+    
+    @classmethod
+    def override_bar_graph_widget(cls, obj_json:dict, obj_view_json:dict):
+        """BarGraph"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "BarGraph":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Bar Graph`.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # outline section
+            Type = obj_view_json["outline"]["type"]
+            Style = obj_view_json["outline"]["style"]
+            _properties["type"] = Type
+            _properties["style"] = Style
+            _properties["direction"] = obj_view_json["outline"]["direction"]
+            _properties["angleSetting"] = obj_view_json["outline"]["angleSetting"]
+            _properties["barWidthRatio"] = obj_view_json["outline"]["barWidthRatio"]
+            _properties["circularHoleRatio"] = obj_view_json["outline"]["circularHoleRatio"]
+            _properties["barBackgroundColor"] = obj_view_json["outline"]["barBackgroundColor"]
+            _properties["barFrameColor"] = obj_view_json["outline"]["barFrameColor"]
+            
+            """
+            For Straight
+                - if style = Flat | Crystal, barColor comes from barColor
+                - if style = Default, barColor comes from barFill.subjectColor
+            For Circle, barColor only comes from barFill.subjectColor
+            """
+            barColor = obj_view_json["outline"]["barColor"]
+            if (Type == 0) and (Style in [1 , 2]):
+                # special case: straight for Crystal and Flat
+                _properties["barColor"] = barColor
+            else:
+                # general case
+                _properties["barFill"]["subjectColor"] = barColor
+                _properties["barFill"]["pattern"] = 0 # 0 => has color
+                if barColor == "#00000000":
+                    _properties["barFill"]["pattern"] = 255
+            
+            # bg section
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+            
+            _properties["radius"] = obj_view_json["background"]["radius"]
+            _properties["border"] = obj_view_json["background"]["border"]
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
         
+        except ValueError as e:
+            error_msg = f"[Override BarGraph Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override BarGraph Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+     
     @classmethod
     def override_embed_window(cls, obj_json:dict, obj_view_json:dict):
         """EmbeddedWindow"""
@@ -2388,6 +2685,262 @@ class ScreenEncoder(ScreenDecoder):
             raise Exception(error_msg) 
     
     @classmethod
+    def override_pdf_reader(cls, obj_json:dict, obj_view_json:dict):
+        """PdfReader"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "PdfReader":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `PDF Reader` Object.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # bg section
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255          
+
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override PdfReader Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override PdfReader Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
+    def override_trend_display(cls, obj_json:dict, obj_view_json:dict):
+        """TrendDisplay"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "TrendDisplay":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Trend Display` Object.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # trend section
+            _properties["timeAxisRange"] = obj_view_json["trend"]["timeAxisRange"]
+            _properties["samplingDateTimeColor"] = obj_view_json["trend"]["legendColor"]
+            
+            gridEnabled = obj_view_json["trend"]["gridEnabled"]
+            _properties["gridEnabled"] = True if gridEnabled else False
+            
+            _properties["timeAxisInterval"] = obj_view_json["trend"]["timeAxisInterval"]
+            _properties["valueAxisDivision"] = obj_view_json["trend"]["valueAxisDivision"]
+            _properties["gridColor"] = obj_view_json["trend"]["gridColor"]
+            _properties["scaleColor"] = obj_view_json["trend"]["timeAxisLabelColor"]
+            _properties["scaleDateTimePosition"] = obj_view_json["trend"]["timeAxisLabelPosition"]            
+            
+            # bg section
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+            
+            _properties["radius"] = obj_view_json["background"]["radius"]
+            _properties["border"] = obj_view_json["background"]["border"]         
+
+            # profile section (no rotation feature)
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+        
+        except ValueError as e:
+            error_msg = f"[Override TrendDisplay Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override TrendDisplay Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
+    def override_table_widget(cls, obj_json:dict, obj_view_json:dict):
+        """DataDisplay | AlarmDisplay | RecipeView"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type not in cls.supported_table_objects:
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Data` | `Alarm` Display.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # display section
+            _properties["showHeader"] = True if obj_view_json["display"]["showHeader"] else False
+            _properties["showGrid"] = True if obj_view_json["display"]["showGrid"] else False
+            if view_obj_type in ["DataDisplay","AlarmDisplay"]:
+                _properties["sortOrder"] = obj_view_json["display"]["sortOrder"]
+            
+            # appearance section
+            _properties["style"] = obj_view_json["appearance"]["style"] 
+            _properties["styleColor"] = obj_view_json["appearance"]["interiorColor"] 
+            _properties["headerTextColor"] = obj_view_json["appearance"]["headerTextColor"] 
+            _properties["headerBackgroundColor"] = obj_view_json["appearance"]["headerBackgroundColor"] 
+            _properties["rowBackgroundColor"] = obj_view_json["appearance"]["rowBackgroundColor"] 
+            _properties["gridColor"] = obj_view_json["appearance"]["gridColor"] 
+            _properties["stretchLastColumn"] = True if obj_view_json["appearance"]["stretchLastColumnEnable"] else False
+            if view_obj_type in ["AlarmDisplay","RecipeView"]:
+                # additional appearance section
+                _properties["selectionTextColor"] = obj_view_json["appearance"]["selectionTextColor"]
+                _properties["selectionBackgroundColor"] = obj_view_json["appearance"]["selectionBackgroundColor"]
+
+            if view_obj_type == "AlarmDisplay":
+                # display section
+                _properties["showCaption"] = True if obj_view_json["display"]["showCaption"] else False
+                # override caption section
+                _properties["captionFontSize"] = obj_view_json["caption"]["captionFontSize"]
+                _properties["captionTextColor"] = obj_view_json["caption"]["captionTextColor"]
+                _properties["captionBackgroundColor"] = obj_view_json["caption"]["captionBackgroundColor"]
+                _properties["captionText"] = obj_view_json["caption"]["captionText"]
+            
+            # bg section
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+            
+            _properties["radius"] = obj_view_json["background"]["radius"]
+            _properties["border"] = obj_view_json["background"]["border"]        
+
+            # label section
+            _properties["font"] = obj_view_json["label"]["fontStyle"]
+            _properties["fontSize"] = obj_view_json["label"]["fontSize"]
+            _properties["fontBold"] = True if obj_view_json["label"]["fontBold"] else False
+            _properties["fontItalic"] = True if obj_view_json["label"]["fontItalic"] else False
+            if view_obj_type in ["DataDisplay", "RecipeView"]:
+                _properties["fontColor"] = obj_view_json["label"]["fontColor"]          
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override Table-like Widget Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override Table-like Widget Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
+    def override_alarm_bar(cls, obj_json:dict, obj_view_json:dict):
+        """AlarmBar"""
+        try:
+            name = obj_view_json["name"]
+            obj_json["name"] = name
+            
+            # filter
+            view_obj_type = obj_view_json["objectType"]
+            if view_obj_type != "AlarmBar":
+                raise ValueError(f"View Type of object:`{view_obj_type}` is not a `Alarm Bar` Object.")
+            
+            # type mapping
+            objectTypeName = ObjectMap_view2ebx.get(view_obj_type, None)
+            if not objectTypeName:
+                objectTypeName = view_obj_type
+            # type    
+            obj_json["objectTypeName"] = objectTypeName
+            
+            _properties = obj_json["properties"]      
+            
+            # display section
+            _properties["sortOrder"] = obj_view_json["display"]["sortOrder"]
+            
+            # bg section
+            obj_bg_color = obj_view_json["background"]["color"]
+            _properties["fill"]["subjectColor"] = obj_bg_color
+            _properties["fill"]["pattern"] = 0 # 0 => has color
+            if obj_bg_color == "#00000000":
+                _properties["fill"]["pattern"] = 255 
+            
+            _properties["radius"] = obj_view_json["background"]["radius"]
+            _properties["border"] = obj_view_json["background"]["border"]        
+
+            # outline section
+            """v1|1|<index>|0:|<galleryNo>:<galleryName>"""
+            # if outline section is "none" => no style, bg dominates
+            outline = obj_view_json["outline"]
+            # default
+            _properties["picture"] = "none" 
+            _properties["pictureColor"] = "#00000000"
+            
+            if outline != "none":
+                galleryName = outline["galleryName"]
+                index = outline["index"]
+                _path = cls.get_picture_path(objectType=view_obj_type, galleryName=galleryName, index=index)
+                _properties["picture"] = {
+                    "kind": "resource",  # fixed
+                    "path": _path
+                }
+                _properties["pictureColor"] = outline["color"]            
+            
+            # label section
+            _properties["font"] = obj_view_json["label"]["fontStyle"]
+            _properties["fontSize"] = obj_view_json["label"]["fontSize"]
+            _properties["fontBold"] = True if obj_view_json["label"]["fontBold"] else False
+            _properties["fontItalic"] = True if obj_view_json["label"]["fontItalic"] else False
+            
+            # profile section
+            _properties["x"] = obj_view_json["profile"]["x"]
+            _properties["y"] = obj_view_json["profile"]["y"]
+            _properties["width"] = obj_view_json["profile"]["width"]
+            _properties["height"] = obj_view_json["profile"]["height"]
+            _properties["rotation"] = obj_view_json["profile"]["rotation"]
+        
+        except ValueError as e:
+            error_msg = f"[Override AlarmBar Failed] {str(e)}"
+            raise Exception(error_msg)
+        
+        except Exception as e:
+            error_msg = f"[Override AlarmBar Failed] {str(e)} for name: `{name}` and view_obj_type: `{view_obj_type}`"
+            raise Exception(error_msg) 
+    
+    @classmethod
     def override_other_object(cls, obj_json:dict, obj_view_json:dict):
         """Picture"""
         try:
@@ -2439,10 +2992,20 @@ class ScreenEncoder(ScreenDecoder):
             cls.override_picture_widget(obj_json, obj_view_json)
         elif _obj_view_type == "DrawingScale":
             cls.override_scale_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "BarGraph":
+            cls.override_bar_graph_widget(obj_json, obj_view_json)
         elif _obj_view_type == "EmbeddedWindow":
             cls.override_embed_window(obj_json, obj_view_json)
         elif _obj_view_type == "2DBarcode":
             cls.override_2d_barcode(obj_json, obj_view_json)
+        elif _obj_view_type == "PdfReader":
+            cls.override_pdf_reader(obj_json, obj_view_json)
+        elif _obj_view_type == "TrendDisplay":
+            cls.override_trend_display(obj_json, obj_view_json)
+        elif _obj_view_type in cls.supported_table_objects:
+            cls.override_table_widget(obj_json, obj_view_json)
+        elif _obj_view_type == "AlarmBar":
+            cls.override_alarm_bar(obj_json, obj_view_json)
         else:
             cls.override_other_object(obj_json, obj_view_json) # CompositeWidget
     

@@ -1,0 +1,43 @@
+{
+    "name": "PDF Reader",
+    "objectTypeName": "objectPdfReader",
+    "layer": "root",
+    "properties": {
+        "widgetType": 21072,
+        "comment": "",
+        "filePath": "",
+        "storageLocation": 1,
+        "currentPage": 1,
+        "pageCount": 0,
+        "zoomFactor": 1.0,
+        "visible": true,
+        "enabled": true,
+        "fill": {
+        "pattern": 255,
+        "subjectColor": "#ffffff",
+        "patternColor": "#ffffff"
+        },
+        "pinned": false,
+        "x": 182,
+        "y": 127,
+        "width": 550,
+        "height": 360,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [
+        {
+        "id": "fileOpened",
+        "statements": []
+        },
+        {
+        "id": "fileClosed",
+        "statements": []
+        },
+        {
+        "id": "currentPageChanged",
+        "statements": []
+        }
+    ],
+    "methods": []
+}

@@ -56,22 +56,22 @@ def ReadImageByteData(image_path:str):
 
 Args:
 - screen_name: screen name
-- filename: project 檔案名稱 (.json | .ebxprj)
+- project_path: project 檔案名稱 (.json | .ebxprj)
 """
-def GetScreenLayout(screen_name:str, filename:str):
+def GetScreenLayout(screen_name:str, project_path:str):
     try:
-        ext = filename.split(".")[-1]
+        ext = project_path.split(".")[-1]
         if ext.lower() == "json":
-            sc_view = sc_decoder.get_screen_view_from_file(filename, screen_name)
+            sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
         elif ext.lower() == "ebxprj":
-            sc_view = sc_encoder.get_screen_view_by_socket_export(filename, screen_name)
+            sc_view = sc_encoder.get_screen_view_by_socket_export(project_path, screen_name)
         else:
-            raise ValueError(f"Incorrect Extension Format: `{filename}`")
+            raise ValueError(f"Incorrect Extension Format: `{project_path}`")
         return sc_view
     
     except Exception as e:
         error_msg = str(e)
-        return f"[Get Screen Layout Failed]{error_msg} for file: `{filename}` and screen name :`{screen_name}`. Please STOP and tell user to check"
+        return f"[Get Screen Layout Failed]{error_msg} for file: `{project_path}` and screen name :`{screen_name}`. Please STOP and tell user to check"
 
 
 """LLM使用的工具3 - JSON-to-JSON
@@ -80,32 +80,32 @@ def GetScreenLayout(screen_name:str, filename:str):
 - 必須先將LLM的美化結果先輸出一個檔案例如 llm-output.json
 
 Args:
-- source_filename: 來源檔案名稱 (View JSON Path)
-- target_filename: 目標專案檔案名稱 (Project Path .json | .ebxprj)
+- source_view_path: 來源檔案名稱 (View JSON Path)
+- target_project_path: 目標專案檔案名稱 (Project Path .json | .ebxprj)
 """
-def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
+def OverrideRes2Proj(source_view_path:str, target_project_path:str) -> str:
     try:
-        trg_ext = target_filename.split(".")[-1]
+        trg_ext = target_project_path.split(".")[-1]
         
         # 先備份 target 以免被改壞掉
-        src_file = Path(target_filename)   # 原始檔案路徑
+        src_file = Path(target_project_path)   # 原始檔案路徑
         dst_dir = Path("backup")           # 目標資料夾
         dst_dir.mkdir(parents=True, exist_ok=True)    # 若資料夾不存在就建立
         # 只複製檔案內容與權限
         shutil.copy(src_file, dst_dir)
         # start override
         if trg_ext.lower() == "json":
-            sc_encoder.override_project_from_view(source_filename, target_filename)
+            sc_encoder.override_project_from_view(source_view_path, target_project_path)
         elif trg_ext.lower() == "ebxprj":
-            sc_encoder.import_project_from_view_by_socket(source_filename, target_filename)
+            sc_encoder.import_project_from_view_by_socket(source_view_path, target_project_path)
         else:
-            raise ValueError(f"Incorrect Extension Format of project: `{target_filename}`")
+            raise ValueError(f"Incorrect Extension Format of project: `{target_project_path}`")
         
-        return f"[Override Success] From `{source_filename}` to `{target_filename}`"
+        return f"[Override Success] From `{source_view_path}` to `{target_project_path}`"
     
     except Exception as e:
         error_msg = str(e)
-        return f"[Override Failed]{error_msg} from `{source_filename}` to `{target_filename}`. Please STOP and tell user to check"
+        return f"[Override Failed]{error_msg} from `{source_view_path}` to `{target_project_path}`. Please STOP and tell user to check"
     
 
 """LLM使用工具4
@@ -115,42 +115,42 @@ def OverrideRes2Proj(source_filename:str, target_filename:str) -> str:
 Args:
 - widget_list: LLM 生成的 pseudo json list, 可以是部分物件
 - screen_name: Target Screen Name
-- target_filename: project 檔案名稱 ( .json | .ebxprj)
+- target_project_path: project 檔案名稱 ( .json | .ebxprj)
 - screen_properties: 生成的 screen properties json, 預設空 {}
 """
-def UpsertWidgets(widget_list:list ,screen_name:str, target_filename:str, screen_properties:dict={}) -> str:
+def UpsertWidgets(widget_list:list ,screen_name:str, target_project_path:str, screen_properties:dict={}) -> str:
     try:
-        ext = target_filename.split(".")[-1]
+        ext = target_project_path.split(".")[-1]
         if ext.lower() == "json":
-            out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_filename, screen_properties)
+            out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_project_path, screen_properties)
         elif ext.lower() == "ebxprj":
-            out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_filename, screen_properties)
+            out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_project_path, screen_properties)
         else:
-            raise ValueError(f"Incorrect Extension Format of project: `{target_filename}`")
+            raise ValueError(f"Incorrect Extension Format of project: `{target_project_path}`")
         return out_msg
       
     except Exception as e:
         error_msg = str(e)
-        return f"[Upsert Widgets Failed]{error_msg} for file: `{target_filename}` and screen: `{screen_name}`. Please STOP and tell user to check"
+        return f"[Upsert Widgets Failed]{error_msg} for file: `{target_project_path}` and screen: `{screen_name}`. Please STOP and tell user to check"
 
 
 """LLM使用工具5
 
 Args:
-- project_filename: project 檔案名稱 (.ebxprj)
+- project_path: project 檔案名稱 (.ebxprj)
 """
-def ReadScreenShot(project_filename:str, screen_name:str):
+def ReadScreenShot(project_path:str, screen_name:str):
     try:
         # check ext
-        ext = project_filename.split(".")[-1]
+        ext = project_path.split(".")[-1]
         if ext.lower() != "ebxprj":
             out_msg = f"[Get Screen Shot Failed] only support extension of project for `.ebxprj` instead of `{ext}`, please check"
-        screenshot_path = EBXImportExport.get_screen_snapshot(project_filename, screen_name)
+        screenshot_path = EBXImportExport.get_screen_snapshot(project_path, screen_name)
         return ReadImageByteData(screenshot_path)
     
     except Exception as e:
         error_msg = str(e)
-        return f"[Get Screen Shot Failed]{error_msg} for file: `{project_filename}` and screen: `{screen_name}`. Please STOP and tell user to check"
+        return f"[Get Screen Shot Failed]{error_msg} for file: `{project_path}` and screen: `{screen_name}`. Please STOP and tell user to check"
 
 
 
@@ -181,11 +181,11 @@ def catch_tool_execute(text:str) -> dict:
         if tool_name == "GetScreenLayout":
             # args
             screen_name = kwargs["screen_name"]
-            filename = kwargs["filename"]
+            project_path = kwargs["project_path"]
             # check file exists
-            _is_exist = os.path.exists(filename)
+            _is_exist = os.path.exists(project_path)
             if not _is_exist:
-                return ClaudeFunc.build_user_message(f"[Fail] `{filename}` does not exist. please tell user to check")
+                return ClaudeFunc.build_user_message(f"[Fail] `{project_path}` does not exist. please tell user to check")
             # call func
             screen = GetScreenLayout(**kwargs)
             # error message
@@ -197,26 +197,26 @@ def catch_tool_execute(text:str) -> dict:
         
         elif tool_name == "OverrideRes2Proj":
             # args
-            source_filename = kwargs["source_filename"]
-            target_filename = kwargs["target_filename"]
+            source_view_path = kwargs["source_view_path"]
+            target_project_path = kwargs["target_project_path"]
             # check file exists
-            _is_src_exist = os.path.exists(source_filename)
-            _is_trg_exist = os.path.exists(target_filename)
+            _is_src_exist = os.path.exists(source_view_path)
+            _is_trg_exist = os.path.exists(target_project_path)
             if not _is_src_exist:
-                return ClaudeFunc.build_user_message(f"[Fail] `{source_filename}` does not exist. please tell user to check")
+                return ClaudeFunc.build_user_message(f"[Fail] `{source_view_path}` does not exist. please tell user to check")
             if not _is_trg_exist:
-                return ClaudeFunc.build_user_message(f"[Fail] `{target_filename}` does not exist. please tell user to check")
+                return ClaudeFunc.build_user_message(f"[Fail] `{target_project_path}` does not exist. please tell user to check")
             # call func
             result = OverrideRes2Proj(**kwargs)
             return ClaudeFunc.build_user_message(result)
         
         elif tool_name == "UpsertWidgets":
             # args
-            target_filename = kwargs["target_filename"]
+            target_project_path = kwargs["target_project_path"]
             # check file exists
-            _is_trg_exist = os.path.exists(target_filename)
+            _is_trg_exist = os.path.exists(target_project_path)
             if not _is_trg_exist:
-                return ClaudeFunc.build_user_message(f"[Fail] {target_filename} does not exist. please tell user to check")
+                return ClaudeFunc.build_user_message(f"[Fail] {target_project_path} does not exist. please tell user to check")
             # call func
             result = UpsertWidgets(**kwargs)
             return ClaudeFunc.build_user_message(result)
@@ -237,7 +237,7 @@ def catch_tool_execute(text:str) -> dict:
             return result
         
         elif tool_name == "ReadScreenShot":
-            project_path = kwargs["project_filename"]
+            project_path = kwargs["project_path"]
             # check project file exists
             _is_file_exist = os.path.exists(project_path)
             if not _is_file_exist:
@@ -280,6 +280,11 @@ def catch_json_output(text:str) -> tuple:
 
 """檢查LLM生成格式"""
 def _isViewFormat(sc_view_json:dict) -> bool:
+    
+    # color
+    BEGIN_COLOR = "\033[92m"
+    RESET = "\033[0m"
+    
     standard_format = {
         "screen_name": "test1",
         "screen_size": {
@@ -298,7 +303,7 @@ def _isViewFormat(sc_view_json:dict) -> bool:
     }
     
     if not isinstance(sc_view_json, dict):
-        print("[Fail] screen json is not a dict")
+        print(BEGIN_COLOR+"[Warning] screen json is not a dict"+RESET)
         return False
     
     """檢查第一層 Keys"""
@@ -309,16 +314,16 @@ def _isViewFormat(sc_view_json:dict) -> bool:
         extra_keys = input_keys - standard_keys
 
         if missing_keys:
-            print(f"[Fail] missing keys: {missing_keys}")
+            print(BEGIN_COLOR+f"[Warning] missing keys: {missing_keys}"+RESET)
 
         if extra_keys:
-            print(f"[Fail] extra keys: {extra_keys}")
+            print(BEGIN_COLOR+f"[Warning] extra keys: {extra_keys}"+RESET)
 
         return False
     
     """檢查 objects 是否為list"""
     if not isinstance(sc_view_json["objects"], list):
-        print("[Fail] objects is not a list")
+        print(BEGIN_COLOR+"[Warning] objects is not a list"+RESET)
         return False
     
     return True

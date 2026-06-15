@@ -31,8 +31,15 @@ LayoutPrompter-Harness lets you describe UI improvements in plain English. Claud
 | Text | Static text label |
 | Picture | External / System Picture |
 | DrawingScale | Circular gauge / Linear Scale  |
+| BarGraph | Circular / Straight bar  |
 | EmbeddedWindow | Embedded / Pop-up Window  |
 | 2DBarcode | Matrix Barcode  |
+| PDFReader | Read PDF file from USB |
+| TrendDisplay | Line Chart  |
+| DataDisplay | Data Table  |
+| AlarmBar | Single Alarm Bar  |
+| AlarmDisplay | Alarm Table  |
+| RecipeView | Recipe Data Table  |
 | CompositeWidget | Complex grouped widget |
 
 ## Project Structure
@@ -95,6 +102,8 @@ The harness opens an interactive terminal loop. Type your request in natural lan
 You: Read image <IMAGE_PATH> which is a HMI design pattern, then optimize and redesign it on screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>`.
 You: Read the current screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>` and relayout objects uniformly.
 You: Create 4 buttons closer to the bottom of screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>`. Their texts are "Home", "Page1", "Page2", "Page3" respectively.
+You: Read screen `demo6` from proj `Project_OthersWidgets.ebxprj` and create two differet styles of recipe views.
+You: Create a motor monitor dashboard in bright modern style on screen `MyScreen` from project `MyProject.ebxprj`.
 ```
 
 **Available commands:**

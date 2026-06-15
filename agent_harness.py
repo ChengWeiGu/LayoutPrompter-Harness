@@ -51,8 +51,8 @@ def main():
                     "Immediately after that, if the original project file has not been updated yet, please override it to user's project with:\n"
                     "```tool_call\n"
                     "OverrideRes2Proj:{"
-                    f"\"source_filename\":\"{save_file_name}\","
-                    "\"target_filename\":\"<target_filename>\""
+                    f"\"source_view_path\":\"{save_file_name}\","
+                    "\"target_project_path\":\"<target_filename>\""
                     "}\n"
                     "```"
                 )

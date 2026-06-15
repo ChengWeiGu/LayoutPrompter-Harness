@@ -17,7 +17,7 @@ class ToolCallStreamFilter:
         根據 tool_call 內容回傳 terminal 要顯示的簡短提示。
         不顯示 tool_call 細節。
         """
-        if "ReadImageFromFile" in tool_call_text or "ReadImageByteData" in tool_call_text:
+        if "ReadImageByteData" in tool_call_text:
             return BEGIN_COLOR + "\nLLM is reading an image...\n" + RESET
 
         if "GetScreenLayout" in tool_call_text:

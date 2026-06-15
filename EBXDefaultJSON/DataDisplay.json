@@ -1,0 +1,59 @@
+{
+    "name": "Data Display",
+    "objectTypeName": "objectDataDisplay",
+    "layer": "root",
+    "properties": {
+        "widgetType": 25700,
+        "comment": "",
+        "showHeader": true,
+        "showGrid": true,
+        "columnSettings": [],
+        "sequenceNumberDisplayFormat": "0",
+        "datetimeDisplayFormat": "HH:mm:ss",
+        "sortOrder": 1,
+        "showOptionsButton": true,
+        "style": 1,
+        "styleColor": "#87ceeb",
+        "headerTextColor": "#0000ff",
+        "headerBackgroundColor": "#add8e6",
+        "rowBackgroundColor": "#f3f4f6",
+        "gridColor": "#000000",
+        "horizontalPadding": 2,
+        "stretchLastColumn": false,
+        "fill": {
+        "pattern": 255,
+        "subjectColor": "#ffffff",
+        "patternColor": "#000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "picture": "none",
+        "pictureColor": "#ffffff",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "font": "Noto Sans",
+        "fontSize": 16,
+        "fontBold": false,
+        "fontItalic": false,
+        "fontColor": "#000000",
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 177,
+        "y": 142,
+        "width": 320,
+        "height": 240,
+        "lockAspectRatio": false,
+        "rotation": 0
+    },
+    "events": [],
+    "methods": []
+}

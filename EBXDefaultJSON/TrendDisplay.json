@@ -1,0 +1,79 @@
+{
+    "name": "Trend Display",
+    "objectTypeName": "objectTrendDisplay",
+    "layer": "root",
+    "properties": {
+        "widgetType": 25716,
+        "comment": "",
+        "channelSetting": {},
+        "dataSourceIndex": 0,
+        "dataSourceRangeMode": 0,
+        "dataSourceRange": 0,
+        "watchLineEnabled": false,
+        "watchLineColor": "#ffffff",
+        "watchLineFadeOutEnabled": false,
+        "watchLineElapsedTime": 1,
+        "timestampOutputEnabled": false,
+        "timestampOutputDateEnabled": false,
+        "font": "Noto Sans",
+        "timeAxisRange": 100,
+        "timeAxisMode": 0,
+        "samplingDateTimeFormat": "HH:mm:ss",
+        "samplingDateTimeColor": "#ff0000",
+        "gridEnabled": false,
+        "timeAxisInterval": 4,
+        "valueAxisDivision": 4,
+        "gridColor": "#ff0000",
+        "scaleColor": "#000000",
+        "scaleDateTimeFormat": "HH:mm:ss",
+        "scaleDateTimePosition": 0,
+        "channelValueScaleVisibleWhileChannelInvisible": true,
+        "scaleValueAlignment": 0,
+        "showOptionsButton": true,
+        "optionChannelVisibilityVisible": true,
+        "optionValueScaleVisible": true,
+        "optionValueAxisScrollingVisible": true,
+        "touchValueAxisScrollingEnabled": true,
+        "zoomButtonVisible": true,
+        "touchTimeAxisZoomingEnabled": true,
+        "touchValueAxisZoomingEnabled": true,
+        "picture": "none",
+        "pictureColor": "#ffffff",
+        "pictureIndex": {
+        "row": 0,
+        "column": 0
+        },
+        "pictureHorizontalFlipped": false,
+        "pictureVerticalFlipped": false,
+        "fill": {
+        "pattern": 255,
+        "subjectColor": "#ffffff",
+        "patternColor": "#000000"
+        },
+        "radius": 0,
+        "border": {
+        "style": 5,
+        "color": "#000000",
+        "width": 1
+        },
+        "visible": true,
+        "enabled": true,
+        "pinned": false,
+        "x": 164,
+        "y": 85,
+        "width": 499,
+        "height": 386,
+        "lockAspectRatio": false
+    },
+    "events": [
+        {
+        "id": "watchLineSet",
+        "statements": []
+        },
+        {
+        "id": "dataSampled",
+        "statements": []
+        }
+    ],
+    "methods": []
+}
