@@ -64,7 +64,7 @@ LayoutPrompter-Harness/
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.11+
 - AWS account with Bedrock access (Claude Sonnet model enabled)
 - AWS credentials with `bedrock-runtime` permissions
 
@@ -88,6 +88,7 @@ aws_secret_access_key = <YOUR_SECRET_KEY>
 
 [PROMPT]
 system_prompt_file = ./prompts/SystemPrompt.md
+skills_folder=./skills
 ```
 
 ## Usage
@@ -104,12 +105,14 @@ You: Read the current screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PA
 You: Create 4 buttons closer to the bottom of screen `<YOUR_SCREEN_NAME>` from project `<YOUR_PROJECT_PATH>`. Their texts are "Home", "Page1", "Page2", "Page3" respectively.
 You: Read screen `demo6` from proj `Project_OthersWidgets.ebxprj` and create two differet styles of recipe views.
 You: Create a motor monitor dashboard in bright modern style on screen `MyScreen` from project `MyProject.ebxprj`.
+You: Read skills `design-color-systems.md` and use it to generate a dashboard on my screen `Screen` from proj `Project.ebxprj`. you must consider alarm, bar , line chart and recipe...etc.
 ```
 
 **Available commands:**
 
 | Command | Description |
 |---|---|
+| `/skills` | Enable LLM to read skills |
 | `/help` | Show available commands |
 | `/clear` | Clear terminal output |
 | `/reset` | Reset conversation history |
@@ -149,6 +152,8 @@ The core engine (`EBXViewProcess.py`) handles bidirectional transformation betwe
 | `OverrideRes2Proj` | Writes Claude's improved layout back to `Project.json` (creates backup first, extension of `.ebxprj` is allowed) |
 | `UpsertWidgets` | Inserts or updates individual widgets without replacing the whole screen |
 | `ReadScreenShot` | Read and Pass a screenshot image to Claude to verify result |
+| `ReadTextFile` | Read a text file especially for Skill file |
+| `ReadSkills` | Read header of all skill files |
 
 ## Output
 

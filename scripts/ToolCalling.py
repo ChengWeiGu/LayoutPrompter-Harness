@@ -4,7 +4,7 @@ import sys
 import json
 import copy
 import shutil
-from . import ClaudeFunc, EBXImportExport, EBXViewProcess
+from . import ClaudeFunc, EBXImportExport, EBXViewProcess, ConfigReader
 from pathlib import Path
 
 
@@ -19,18 +19,20 @@ sc_encoder = EBXViewProcess.ScreenEncoder()
 """
 def ReadImageByteData(image_path:str):
     try:
-        ext = image_path.split(".")[-1].lower()
-        if ext not in ["png", "jpeg"]:
+        _, ext = os.path.splitext(image_path)
+        if ext not in [".png", ".jpeg"]:
             return {
                     "role": "user", 
                     "content":[
                             {
-                                "text": f"System only accept image file with extenstion of png/jpeg. got {ext}"
+                                "text": f"System only accept image file with extenstion of png/jpeg. got `{ext}`"
                             }
                         ]
                     }
 
         with open(image_path, "rb") as f:
+            # delete "." inside ".md"
+            ext = ext.strip(".").lower()
             image_bytes = f.read()
             return {
                     "role": "user", 
@@ -60,10 +62,10 @@ Args:
 """
 def GetScreenLayout(screen_name:str, project_path:str):
     try:
-        ext = project_path.split(".")[-1]
-        if ext.lower() == "json":
+        _, ext = os.path.splitext(project_path)
+        if ext.lower() == ".json":
             sc_view = sc_decoder.get_screen_view_from_file(project_path, screen_name)
-        elif ext.lower() == "ebxprj":
+        elif ext.lower() == ".ebxprj":
             sc_view = sc_encoder.get_screen_view_by_socket_export(project_path, screen_name)
         else:
             raise ValueError(f"Incorrect Extension Format: `{project_path}`")
@@ -85,8 +87,7 @@ Args:
 """
 def OverrideRes2Proj(source_view_path:str, target_project_path:str) -> str:
     try:
-        trg_ext = target_project_path.split(".")[-1]
-        
+        _, trg_ext = os.path.splitext(target_project_path)
         # 先備份 target 以免被改壞掉
         src_file = Path(target_project_path)   # 原始檔案路徑
         dst_dir = Path("backup")           # 目標資料夾
@@ -94,9 +95,9 @@ def OverrideRes2Proj(source_view_path:str, target_project_path:str) -> str:
         # 只複製檔案內容與權限
         shutil.copy(src_file, dst_dir)
         # start override
-        if trg_ext.lower() == "json":
+        if trg_ext.lower() == ".json":
             sc_encoder.override_project_from_view(source_view_path, target_project_path)
-        elif trg_ext.lower() == "ebxprj":
+        elif trg_ext.lower() == ".ebxprj":
             sc_encoder.import_project_from_view_by_socket(source_view_path, target_project_path)
         else:
             raise ValueError(f"Incorrect Extension Format of project: `{target_project_path}`")
@@ -120,10 +121,10 @@ Args:
 """
 def UpsertWidgets(widget_list:list ,screen_name:str, target_project_path:str, screen_properties:dict={}) -> str:
     try:
-        ext = target_project_path.split(".")[-1]
-        if ext.lower() == "json":
+        _, ext = os.path.splitext(target_project_path)
+        if ext.lower() == ".json":
             out_msg = sc_encoder.upsert_objects2screen(widget_list, screen_name, target_project_path, screen_properties)
-        elif ext.lower() == "ebxprj":
+        elif ext.lower() == ".ebxprj":
             out_msg = sc_encoder.upsert_objects2screen_by_socket(widget_list, screen_name, target_project_path, screen_properties)
         else:
             raise ValueError(f"Incorrect Extension Format of project: `{target_project_path}`")
@@ -142,8 +143,8 @@ Args:
 def ReadScreenShot(project_path:str, screen_name:str):
     try:
         # check ext
-        ext = project_path.split(".")[-1]
-        if ext.lower() != "ebxprj":
+        _, ext = os.path.splitext(project_path)
+        if ext.lower() != ".ebxprj":
             out_msg = f"[Get Screen Shot Failed] only support extension of project for `.ebxprj` instead of `{ext}`, please check"
         screenshot_path = EBXImportExport.get_screen_snapshot(project_path, screen_name)
         return ReadImageByteData(screenshot_path)
@@ -152,6 +153,28 @@ def ReadScreenShot(project_path:str, screen_name:str):
         error_msg = str(e)
         return f"[Get Screen Shot Failed]{error_msg} for file: `{project_path}` and screen: `{screen_name}`. Please STOP and tell user to check"
 
+
+"""LLM使用工具6
+
+Args:
+- file_path: text file 檔案名稱
+- so far, only support txt | md
+"""
+def ReadTextFile(file_path:str) -> str:
+    try:
+        _, ext = os.path.splitext(file_path)
+        if ext.lower() not in [".txt", ".md"]:
+            return f"[Read Text File Error] Cannot support file with extension of `{ext}`. Only support .txt | .md"
+        
+        context = ""
+        with open(file_path, "r", encoding="utf-8") as f:
+            context = f.read()
+        return context
+
+    except Exception as e:
+        error_msg = str(e)
+        return f"[Read Text File Error]{error_msg} for file: `{file_path}`. Please STOP and tell user to check"
+        
 
 
 """工具檢測
@@ -249,6 +272,22 @@ def catch_tool_execute(text:str) -> dict:
                 return ClaudeFunc.build_user_message(result)
             # image dict
             return result
+        
+        elif tool_name == "ReadTextFile":
+            # args
+            file_path = kwargs["file_path"]
+            # check file exists
+            _is_file_exist = os.path.exists(file_path)
+            if not _is_file_exist:
+                return ClaudeFunc.build_user_message(f"[Fail] `{file_path}` does not exist. please tell user to check")
+            # call func
+            result = ReadTextFile(**kwargs)
+            return ClaudeFunc.build_user_message(result)
+        
+        elif tool_name == "ReadSkills":
+            # call func
+            result = ConfigReader.read_skill_headers()
+            return ClaudeFunc.build_user_message(result)
         
         else:
             return ClaudeFunc.build_user_message(f"[Fail] This tool `{tool_name}` cannot be found, please check you called a right tool.")

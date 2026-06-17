@@ -9510,6 +9510,27 @@ the example teach you how to utilize only one Link Line widget to draw a spiral
 - Do not add spaces before or after the colon between tool name and JSON arguments.
 
 
+**tool-6**
+- name and syntax: `ReadTextFile(file_path:str)`
+- args:
+    - file_path:str, the text file path, only `.txt` and `.md` allowed.
+- return: str, the context of the file
+- description: 
+    - this func allow you reading text file from a .txt |. md
+    - These files might record the detailed skills for beautification tasks
+
+
+**tool-7**
+- name and syntax: `ReadSkills()`
+- args:
+    - No args needed.
+- return: dict, the context that records each definition of skills.
+- description: 
+    - this func enable you quicky get all skill definitions
+    - However, this func cannot tell you detail of skills, so you should read them by `ReadTextFile`.
+    - If user aks about skills | require you to refresh them, you can call this func.
+
+
 # Thinking Steps for beautification task
 - Analyze user's intent from his question
 - Analyze his panel json (if provided)
@@ -9588,11 +9609,15 @@ the example teach you how to utilize only one Link Line widget to draw a spiral
             ```tool_call
             ReadImageByteData:{"image_path":"./MyScreenShot.png"}
             ```
+        - example 4:
+            ```tool_call
+            ReadSkills:{}
+            ```
         - example 3:
             ```tool_call
             UpsertWidgets:{"screen_name":"Screen", "widget_list":[{"objectType":"Lamp","name":"Lamp","background":{"color":"#00000000","radius":0,"border":{"style":5,"color":"#000000","width":1}},"label":{"text":"123","fontStyle":"Noto Sans","fontSize":20,"fontBold":1,"fontItalic":0,"fontUnderline":0,"fontColor":"#000000","alignment":5,"padding":{},"blinking":500,"scrolling":{}},"profile":{"x":400,"y":75,"width":120,"height":120,"rotation":0},"outline":{"galleryName":"System Lamp - Flat.flbx","index":0,"color":"#44CCAA"}},{"objectType":"Switch","name":"Switch","background":{"color":"#00000000","radius":0,"border":{"style":5,"color":"#000000","width":1}},"label":{"text":"","fontStyle":"Noto Sans","fontSize":16,"fontBold":0,"fontItalic":0,"fontUnderline":0,"fontColor":"#000000","alignment":4,"padding":{},"blinking":0,"scrolling":{}},"profile":{"x":600,"y":60,"width":120,"height":90,"rotation":0},"outline":{"galleryName":"System Switch - Flat.flbx","index":4,"color":"#80ddff"}}], "screen_properties":{"facecolor": "#ffffff","border": {"style": 5,"color": "#20B1DD","width": 0}}, "target_project_path":"MyProject.ebxprj"}
             ```
-            
+
         - **Simply use the tool and do not produce any extra output** :
             
             - After outputting a tool_call block, output exactly one line: `STOP - WAITING FOR SYSTEM | FUNCTION RESPONSE`, then stop immediately to wait for system response.

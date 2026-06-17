@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 import scripts.ClaudeFunc as cf_layer
 import scripts.ToolCalling as tc_layer
+import scripts.ConfigReader as cfg_reader
 
 
 def clear_terminal():
@@ -23,9 +24,9 @@ def main():
     RESET = "\033[0m"
     
     try:
-        cfg = cf_layer.load_config()
-        client = cf_layer.create_bedrock_client(cfg)
-        model_id = cfg["chat_model_id"]
+        llm_cfg = cfg_reader.load_bedrock_config()
+        client = cf_layer.create_bedrock_client(llm_cfg)
+        model_id = llm_cfg["chat_model_id"]
 
         messages = []
 
@@ -68,6 +69,7 @@ def main():
                 print(
                     YELLOW
                     + "Available commands:\n"
+                    + "  /skills  See all skills\n"
                     + "  /clear  Clear message history\n"
                     + "  /reset  Clear message history\n"
                     + "  /help    Show commands\n"
@@ -94,6 +96,13 @@ def main():
                 print("-" * 60)
                 continue
             
+            if command in {"/skills"}:
+                skill_headers = cfg_reader.read_skill_headers()
+                _context = (
+                    "I've read all skills as follows:\n"
+                    f"{skill_headers}"
+                )
+                messages.append(cf_layer.build_user_message(_context))
             
             t_start = time.time()
             messages.append(cf_layer.build_user_message(user_input))
