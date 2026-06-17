@@ -53,8 +53,10 @@ LayoutPrompter-Harness/
 │   └── SystemPrompt.md     # System prompt with full EBX schema documentation
 ├── scripts/
 │   ├── ClaudeFunc.py       # Bedrock client setup and streaming
+│   ├── ConfigReader.py     # Config Process like a singleton
 │   ├── ToolCalling.py      # Tool definitions and execution
 │   ├── StreamFilter.py     # Filters tool call details from terminal output
+│   ├── SkillFunc.py        # Skill file process like Claude-Code Skill
 │   ├── EBXImportExport.py  # Socket tool for user to operate EBX Server
 │   └── EBXViewProcess.py   # Core JSON transformation engine (EBX ↔ view format)
 ├── EBXDefaultJSON/         # Default JSON templates for each widget type
