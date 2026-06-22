@@ -1399,7 +1399,7 @@ class ScreenDecoder:
                     "timeAxisInterval":_timeAxisInterval,
                     "valueAxisDivision":_valueAxisDivision,
                     "gridColor":_gridColor,
-                    "timeAxisLabelColor ":_timeAxisLabelColor ,
+                    "timeAxisLabelColor":_timeAxisLabelColor ,
                     "timeAxisLabelPosition":_timeAxisLabelPosition
                 },
                 "background":{
@@ -1747,16 +1747,18 @@ class ScreenDecoder:
     def get_screen_view_by_socket_export(self, project_path:str, screen_name:str, **kwargs) -> dict:
         """transform whole screen json to the view that LLM understands
             Args:
-            - project_path: EBX export 檔案路徑 (.ebxprj)
+            - project_path: EBX export 檔案路徑 (.ebxprj) => 將轉為 project_name
             - screen_name: 待美化的 screen 名稱
         """
         try:
+            # project_path is actually a project_name
+            project_name = os.path.basename(project_path)
             # get project json by socket
-            _proj_json = EBXImportExport.export_project(project_path, screen_name)   
+            _proj_json = EBXImportExport.export_project(project_name, screen_name)   
             # find screen         
             _idx, _sc_json = self.get_screen_from_project(_proj_json, screen_name)
             if _idx < 0 or not _sc_json:
-                raise Exception(f"[Get Screen View Failed] screen name :`{screen_name}` not found in project file: `{project_path}`.")
+                raise Exception(f"[Get Screen View Failed] screen name :`{screen_name}` not found in project name: `{project_name}`.")
             
             _sc_size = self.get_screen_size(_sc_json)
             _sc_properties = self.get_screen_properties(_sc_json)
@@ -3050,19 +3052,21 @@ class ScreenEncoder(ScreenDecoder):
         """override generated screen view to ebx screen json by socket import
             Args:
             - view_path: LLM 產生的 json view 路徑
-            - project_path: EBX export 檔案路徑 (.ebxprj)
+            - project_path: EBX export 檔案路徑 (.ebxprj) => project_name
         """
         try:
             sc_view = self.load_json_file(view_path)
             sc_name = sc_view["screen_name"]
             
+            # get project_name 
+            project_name = os.path.basename(project_path)
             # get project json by socket
-            _ebx_proj = EBXImportExport.export_project(project_path, sc_name)              
+            _ebx_proj = EBXImportExport.export_project(project_name, sc_name)              
             # find the sc
             _idx, _sc_json = self.get_screen_from_project(_ebx_proj, sc_name)
             if _idx < 0 or not _sc_json:
                 """後續變成安插新的screen (暫時忽略)"""
-                raise Exception(f"[Override Screen Failed] screen name :{sc_name} not found in EBX project: {project_path}.")
+                raise Exception(f"[Override Screen Failed] screen name :{sc_name} not found in EBX project: {project_name}.")
             
             # override bg
             self.override_screen_background(_sc_json, sc_view)
@@ -3099,7 +3103,7 @@ class ScreenEncoder(ScreenDecoder):
             _sc_json["objects"] = _objects_reorder
             
             # call socket to override org project file
-            EBXImportExport.import_project(_ebx_proj, project_path)
+            EBXImportExport.import_project(_ebx_proj, project_name)
         
         except:
             raise    
@@ -3109,15 +3113,17 @@ class ScreenEncoder(ScreenDecoder):
             Args:
             - widget_list: widgets to update | insert
             - screen_name: user's specified screen
-            - project_path: EBX export 檔案路徑 (.ebxprj)
+            - project_path: EBX export 檔案路徑 (.ebxprj) => project_name
         """
         try:
+            # get project_name 
+            project_name = os.path.basename(project_path)
             # get project json by socket
-            _ebx_proj = EBXImportExport.export_project(project_path, screen_name)
+            _ebx_proj = EBXImportExport.export_project(project_name, screen_name)
             _idx, _sc_json = self.get_screen_from_project(_ebx_proj, screen_name)
             if _idx < 0 or not _sc_json:
                 """後續變成安插新的screen (暫時忽略)"""
-                raise Exception(f"[Upsert Failed] screen name :{screen_name} not found in EBX project: {project_path}.")        
+                raise Exception(f"[Upsert Failed] screen name :{screen_name} not found in EBX project: {project_name}.")        
             
             _objects = _sc_json["objects"]
             _obj_names = self.get_screen_object_names(_objects)
@@ -3155,7 +3161,7 @@ class ScreenEncoder(ScreenDecoder):
                             break
             
             # call socket to override org project file
-            EBXImportExport.import_project(_ebx_proj, project_path)
+            EBXImportExport.import_project(_ebx_proj, project_name)
         
             return out_msg
         
@@ -3163,7 +3169,7 @@ class ScreenEncoder(ScreenDecoder):
             raise     
     
     def override_project_from_view(self, view_path:str, project_path:str, **kwargs) -> str:
-        """override generated screen view to ebx screen json
+        """JSON-to-JSON override generated screen view to ebx screen json
             Args:
             - view_path: LLM 產生的 json view 路徑
             - project_path: EBX export 檔案路徑
@@ -3221,7 +3227,7 @@ class ScreenEncoder(ScreenDecoder):
             raise
             
     def upsert_objects2screen(self, widget_list:list, screen_name:str, project_path:str, screen_properties:dict={}, **kwargs) -> str:
-        """update | insert obj to a view and save it to proj
+        """JSON-to-JSON update | insert obj to a view and save it to proj
             Args:
             - widget_list: widgets to update | insert
             - screen_name: user's specified screen

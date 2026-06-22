@@ -99,7 +99,7 @@ def main():
             if command in {"/skills"}:
                 skill_headers = cfg_reader.read_skill_headers()
                 _context = (
-                    "I've read all skills as follows:\n"
+                    "I've read all skill headers as follows:\n"
                     f"{skill_headers}"
                 )
                 messages.append(cf_layer.build_user_message(_context))

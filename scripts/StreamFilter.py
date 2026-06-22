@@ -35,8 +35,8 @@ class ToolCallStreamFilter:
         if "ReadTextFile" in tool_call_text:
             return BEGIN_COLOR + "\nLLM is reading a text file...\n" + RESET
         
-        if "ReadSkills" in tool_call_text:
-            return BEGIN_COLOR + "\nLLM is reading all skills...\n" + RESET
+        if "ReadSkillHeaders" in tool_call_text:
+            return BEGIN_COLOR + "\nLLM is reading all skill headers...\n" + RESET
         
         return BEGIN_COLOR + "\nLLM is using a tool...\n" + RESET
 

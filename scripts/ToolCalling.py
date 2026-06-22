@@ -145,7 +145,7 @@ def ReadScreenShot(project_path:str, screen_name:str):
         # check ext
         _, ext = os.path.splitext(project_path)
         if ext.lower() != ".ebxprj":
-            out_msg = f"[Get Screen Shot Failed] only support extension of project for `.ebxprj` instead of `{ext}`, please check"
+            return f"[Get Screen Shot Failed] only support extension of project for `.ebxprj` instead of `{ext}`, please check"
         screenshot_path = EBXImportExport.get_screen_snapshot(project_path, screen_name)
         return ReadImageByteData(screenshot_path)
     
@@ -284,9 +284,13 @@ def catch_tool_execute(text:str) -> dict:
             result = ReadTextFile(**kwargs)
             return ClaudeFunc.build_user_message(result)
         
-        elif tool_name == "ReadSkills":
+        elif tool_name == "ReadSkillHeaders":
             # call func
-            result = ConfigReader.read_skill_headers()
+            skill_headers = ConfigReader.read_skill_headers()
+            result = (
+                    "I've read all skill headers as follows:\n"
+                    f"{skill_headers}"
+                )
             return ClaudeFunc.build_user_message(result)
         
         else:

@@ -270,7 +270,7 @@ def import_project(archive:dict, target_project:str):
 def get_screen_snapshot(project_path:str, screen_name:str) -> str:
     """
     Args:
-        project_path (str): EBXPRJ File
+        project_path (str): EBXPRJ File => project_name
         screen_name (str): screen name
     """
     try:
@@ -278,7 +278,10 @@ def get_screen_snapshot(project_path:str, screen_name:str) -> str:
         if not instances:
             raise Exception(f"[EBV7 Socket Error] 沒有偵測到任何存活的 EBV7 實例")
         
-        dst = pick(instances, project_path)
+        # use project name to get snapshot
+        project_name = os.path.basename(project_path)
+        
+        dst = pick(instances, project_name)
         
         snap = call(*dst, "getSnapshot", {"screen_name": screen_name})        
         
